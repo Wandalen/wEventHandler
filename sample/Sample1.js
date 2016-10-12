@@ -23,7 +23,7 @@ var Self = function Sample( o )
 }
 
 // --
-// inter
+// methods
 // --
 
 var init = function()
@@ -50,6 +50,7 @@ var Proto =
 {
 
   init : init,
+  event1 : event1,
   constructor : Self,
 
 };

@@ -2,11 +2,18 @@
 
 'use strict';
 
-var _ = wTools;
-var _hasOwnProperty = Object.hasOwnProperty;
-
 if( typeof module !== 'undefined' )
 {
+
+  if( typeof wBase === 'undefined' )
+  try
+  {
+    require( '../wTools.s' );
+  }
+  catch( err )
+  {
+    require( 'wTools' );
+  }
 
   if( typeof wTools === 'undefined' || !wTools.mixin )
   try
@@ -19,6 +26,9 @@ if( typeof module !== 'undefined' )
   }
 
 }
+
+var _ = wTools;
+var _hasOwnProperty = Object.hasOwnProperty;
 
 //
 

@@ -78,7 +78,12 @@ sample.on( 'event2',function( e ) {
   console.log( e )
 });
 
+sample.on( 'finit',function( e ) {
+  console.log( e )
+});
+
 sample.event1();
 sample.eventHandle( 'event2' );
+sample.finit();
 
 })();

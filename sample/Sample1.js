@@ -30,6 +30,8 @@ var init = function()
 {
   var self = this;
 
+  console.log( 'init' );
+
 }
 
 //

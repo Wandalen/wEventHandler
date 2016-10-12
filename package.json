@@ -1,0 +1,44 @@
+{
+  "name": "wEventHandler",
+  "version": "0.3.1",
+  "description": "",
+  "author": "Kostiantyn Wandalen <wtory.net@domainsbyproxy.com>",
+  "contributors": [
+    {
+      "name": "Kostiantyn Wandalen",
+      "email": "wtory.net@domainsbyproxy.com>"
+    }
+  ],
+  "license": "MIT",
+  "main": "staging/abase/mixin/EventHandler.s",
+  "files": [
+    "staging/abase",
+    "production"
+  ],
+  "directories": {
+    "doc": "doc",
+    "main": "staging/abase/mixin/EventHandler.s"
+  },
+  "scripts": {
+    "test": "node ./staging/amid/z.test/Test.s",
+    "make_doc": "./doc.sh"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Wandalen/wEventHandler.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Wandalen/wEventHandler/issues"
+  },
+  "dependencies": {
+    "wTools": "",
+    "wProto": ""
+  },
+  "devDependencies": {
+    "wTesting": ""
+  },
+  "keywords": [
+    "wTools",
+    "Events"
+  ]
+}

@@ -68,6 +68,7 @@ _global_.Sample = Self;
 
 // make an instance
 
+debugger;
 var sample = new Sample;
 
 sample.on( 'event1',function( e ) {

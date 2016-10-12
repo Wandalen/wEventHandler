@@ -1,6 +1,6 @@
 {
   "name": "wEventHandler",
-  "version": "0.3.5",
+  "version": "0.3.6",
   "description": "Module in JavaScript that provides an easy way to manage events between objects.",
   "author": "Kostiantyn Wandalen <wtory.net@domainsbyproxy.com>",
   "contributors": [

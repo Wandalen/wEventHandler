@@ -15,7 +15,7 @@ if( typeof module !== 'undefined' )
     require( 'wTools' );
   }
 
-  if( typeof wTools === 'undefined' || !wTools.mixin )
+  if( !wTools.mixin )
   try
   {
     require( '../component/Proto.s' );

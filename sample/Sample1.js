@@ -68,7 +68,7 @@ _global_.Sample = Self;
 
 // make an instance
 
-sample = new Sample;
+var sample = new Sample;
 
 sample.on( 'event1',function( e ) {
   console.log( e )

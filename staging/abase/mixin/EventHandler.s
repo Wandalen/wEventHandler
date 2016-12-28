@@ -87,7 +87,7 @@ var init = function( original )
 
     var result = original.apply( self,arguments );
 
-    self.eventHandle( 'init' );
+    self.eventGive( 'init' );
 
     return result;
   }
@@ -119,7 +119,7 @@ var finit = function( original )
   {
     var self = this;
 
-    self.eventHandle( 'finit' );
+    self.eventGive( 'finit' );
 
     if( original )
     var result = original.apply( self,arguments );
@@ -301,12 +301,14 @@ var _eventHandlerRegister = function _eventHandlerRegister( o )
   var handlers = self._eventHandlerDescriptorsByKind( o.kind );
 
   if( _.arrayIs( o.kind ) )
-  for( var k = 0 ; k < o.kind.length ; k++ )
   {
-    var d = _.mapExtend( {},o );
-    d.kind = o.kind[ k ];
-    self._eventHandlerRegister( d );
-    return;
+    for( var k = 0 ; k < o.kind.length ; k++ )
+    {
+      var d = _.mapExtend( {},o );
+      d.kind = o.kind[ k ];
+      self._eventHandlerRegister( d );
+    }
+    return self;
   }
 
   // verification
@@ -653,7 +655,7 @@ var eventHandlerUnregisterByKindAndOwner = function( kind, owner )
 // handle
 // --
 
-var eventHandle = function( event )
+var eventGive = function eventGive( event )
 {
   var self = this;
 
@@ -663,7 +665,7 @@ var eventHandle = function( event )
   if( _.strIs( event ) )
   event = { kind : event };
 
-  return self._eventHandle( event,{} );
+  return self._eventGive( event,{} );
 }
 
 //
@@ -677,7 +679,7 @@ var eventHandleUntil = function( event,value )
   if( _.strIs( event ) )
   event = { kind : event };
 
-  return self._eventHandle( event,{ until : value } );
+  return self._eventGive( event,{ until : value } );
 }
 
 //
@@ -691,12 +693,12 @@ var eventHandleSingle = function( event )
   if( _.strIs( event ) )
   event = { kind : event };
 
-  return self._eventHandle( event,{ single : 1 } );
+  return self._eventGive( event,{ single : 1 } );
 }
 
 //
 
-var _eventHandle = function( event,o )
+var _eventGive = function( event,o )
 {
   var self = this;
   var result = o.result = o.result || [];
@@ -715,8 +717,8 @@ var _eventHandle = function( event,o )
   if( self.usingEventLogging )
   logger.log( 'fired event', self.nickName + '.' + event.kind );
 
-  if( !self._eventHandler )
-  debugger;
+  // if( !self._eventHandler )
+  // debugger;
 
   var handlers = self._eventHandler.descriptors;
   if( handlers === undefined )
@@ -902,7 +904,7 @@ var eventProxyTo = function( dst,rename )
     return self;
   }
 
-  _.assert( _.routineIs( dst.eventHandle ) );
+  _.assert( _.routineIs( dst.eventGive ) );
 
   if( _.strIs( rename ) )
   {
@@ -926,7 +928,7 @@ var eventProxyTo = function( dst,rename )
           event = _.mapExtend( {},event );
           event.kind = rename[ name ];
         }
-        return dst._eventHandle( event,o );
+        return dst._eventGive( event,o );
       },
       proxy : 1,
       appending : 1,
@@ -999,7 +1001,6 @@ var Supplement =
 
   _eventHandlerRegister: _eventHandlerRegister,
 
-
   eventForbid : eventForbid,
 
 
@@ -1014,12 +1015,12 @@ var Supplement =
 
   // handle
 
-  dispatchEvent : eventHandle,
-  emit : eventHandle,
-  eventHandle : eventHandle,
+  dispatchEvent : eventGive,
+  emit : eventGive,
+  eventGive : eventGive,
   eventHandleUntil : eventHandleUntil,
   eventHandleSingle : eventHandleSingle,
-  _eventHandle : _eventHandle,
+  _eventGive : _eventGive,
 
 
   // get

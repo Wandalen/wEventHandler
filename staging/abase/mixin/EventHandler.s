@@ -8,22 +8,15 @@ if( typeof module !== 'undefined' )
   if( typeof wBase === 'undefined' )
   try
   {
-    require( '../wTools.s' );
+    require( '../../abase/wTools.s' );
   }
   catch( err )
   {
     require( 'wTools' );
   }
 
-  if( !wTools.mixin )
-  try
-  {
-    require( '../component/Proto.s' );
-  }
-  catch( err )
-  {
-    require( 'wProto' );
-  }
+  wTools.include( 'wProto' );
+
 
 }
 
@@ -39,7 +32,7 @@ var _hasOwnProperty = Object.hasOwnProperty;
  * @memberof wEventHandler#
  */
 
-var mixin = function( constructor )
+function mixin( constructor )
 {
 
   var dst = constructor.prototype;
@@ -74,7 +67,7 @@ var mixin = function( constructor )
  * @memberof wEventHandler#
  */
 
-var init = function( original )
+function init( original )
 {
 
   return function initEventHandler()
@@ -103,7 +96,7 @@ var init = function( original )
  * @memberof wEventHandler#
  */
 
-var finit = function( original )
+function finit( original )
 {
 
 /*
@@ -135,7 +128,7 @@ var finit = function( original )
 // register
 // --
 
-var _eventHandlerInit = function()
+function _eventHandlerInit()
 {
   var self = this;
 
@@ -151,7 +144,7 @@ var _eventHandlerInit = function()
 
 //
 
-var eventHandlerPrepend = function( kind, onHandle )
+function eventHandlerPrepend( kind, onHandle )
 {
   var self = this;
   var owner;
@@ -179,7 +172,7 @@ var eventHandlerPrepend = function( kind, onHandle )
 
 //
 
-var eventHandlerAppend = function( kind, onHandle )
+function eventHandlerAppend( kind, onHandle )
 {
   var self = this;
   var owner;
@@ -207,7 +200,7 @@ var eventHandlerAppend = function( kind, onHandle )
 
 //
 
-var eventHandlerRegisterProvisional = function( kind, onHandle )
+function eventHandlerRegisterProvisional( kind, onHandle )
 {
   var self = this;
   var owner;
@@ -237,7 +230,7 @@ var eventHandlerRegisterProvisional = function( kind, onHandle )
 
 //
 
-var eventHandlerRegisterOneTime = function( kind, onHandle )
+function eventHandlerRegisterOneTime( kind, onHandle )
 {
   var self = this;
   var owner;
@@ -266,7 +259,7 @@ var eventHandlerRegisterOneTime = function( kind, onHandle )
 
 //
 
-var eventHandlerRegisterEclipse = function( kind, onHandle )
+function eventHandlerRegisterEclipse( kind, onHandle )
 {
   var self = this;
   var owner;
@@ -424,7 +417,7 @@ _eventHandlerRegister.defaults =
 
 //
 
-var eventForbid = function( kinds )
+function eventForbid( kinds )
 {
   var self = this;
   var owner;
@@ -434,7 +427,7 @@ var eventForbid = function( kinds )
 
   var kinds = _.arrayAs( kinds );
 
-  var onHandle = function()
+  function onHandle()
   {
     throw _.err( kinds.join( ' ' ),'event is forbidden in',self.nickName );
   }
@@ -463,7 +456,7 @@ var eventForbid = function( kinds )
 // unregister
 // --
 
-var eventHandlerUnregister = function( kind, onHandle )
+function eventHandlerUnregister( kind, onHandle )
 {
   var self = this;
 
@@ -524,7 +517,7 @@ var eventHandlerUnregister = function( kind, onHandle )
 
 //
 
-var _eventHandlerUnregister = function( o )
+function _eventHandlerUnregister( o )
 {
   var self = this;
 
@@ -570,7 +563,7 @@ var _eventHandlerUnregister = function( o )
   else
   {
 
-    var equalizer = function( a,b )
+    function equalizer( a,b )
     {
 
       if( o.kind !== undefined )
@@ -622,7 +615,7 @@ _eventHandlerUnregister.defaults =
 
 //
 
-var eventHandlerUnregisterByKindAndOwner = function( kind, owner )
+function eventHandlerUnregisterByKindAndOwner( kind, owner )
 {
   var self = this;
 
@@ -670,7 +663,7 @@ var eventGive = function eventGive( event )
 
 //
 
-var eventHandleUntil = function( event,value )
+function eventHandleUntil( event,value )
 {
   var self = this;
 
@@ -684,7 +677,7 @@ var eventHandleUntil = function( event,value )
 
 //
 
-var eventHandleSingle = function( event )
+function eventHandleSingle( event )
 {
   var self = this;
 
@@ -698,7 +691,7 @@ var eventHandleSingle = function( event )
 
 //
 
-var _eventGive = function( event,o )
+function _eventGive( event,o )
 {
   var self = this;
   var result = o.result = o.result || [];
@@ -789,7 +782,7 @@ var _eventGive = function( event,o )
 // get
 // --
 
-var _eventHandlerDescriptorByKindAndOwner = function( kind,owner )
+function _eventHandlerDescriptorByKindAndOwner( kind,owner )
 {
   var self = this;
 
@@ -803,7 +796,7 @@ var _eventHandlerDescriptorByKindAndOwner = function( kind,owner )
 
   _.assert( arguments.length === 2 );
 
-  var eq = function( a,b ){ return a.kind === b.kind && a.owner === b.owner; };
+  function eq( a,b ){ return a.kind === b.kind && a.owner === b.owner; };
   var element = { kind : kind, owner : owner };
   var index = _.arrayLeftIndexOf( handlers,element,eq );
 
@@ -818,7 +811,7 @@ var _eventHandlerDescriptorByKindAndOwner = function( kind,owner )
 
 //
 
-var _eventHandlerDescriptorByKindAndHandler = function( kind,onHandle )
+function _eventHandlerDescriptorByKindAndHandler( kind,onHandle )
 {
   var self = this;
 
@@ -832,7 +825,7 @@ var _eventHandlerDescriptorByKindAndHandler = function( kind,onHandle )
 
   _.assert( arguments.length === 2 );
 
-  var eq = function( a,b ){ return a.kind === b.kind && a.onHandle === b.onHandle; };
+  function eq( a,b ){ return a.kind === b.kind && a.onHandle === b.onHandle; };
   var element = { kind : kind, onHandle : onHandle };
   var index = _.arrayLeftIndexOf( handlers,element,eq );
 
@@ -847,7 +840,7 @@ var _eventHandlerDescriptorByKindAndHandler = function( kind,onHandle )
 
 //
 
-var _eventHandlerDescriptorByHandler = function( onHandle )
+function _eventHandlerDescriptorByHandler( onHandle )
 {
   var self = this;
 
@@ -875,7 +868,7 @@ var _eventHandlerDescriptorByHandler = function( onHandle )
 
 //
 
-var _eventHandlerDescriptorsByKind = function( kind )
+function _eventHandlerDescriptorsByKind( kind )
 {
   var self = this;
 
@@ -889,7 +882,7 @@ var _eventHandlerDescriptorsByKind = function( kind )
 // proxy
 // --
 
-var eventProxyTo = function( dst,rename )
+function eventProxyTo( dst,rename )
 {
   var self = this;
 
@@ -942,7 +935,7 @@ var eventProxyTo = function( dst,rename )
 
 //
 
-var eventProxyFrom = function( src,rename )
+function eventProxyFrom( src,rename )
 {
   var self = this;
 

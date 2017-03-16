@@ -15,8 +15,9 @@ if( typeof module !== 'undefined' )
     require( 'wTools' );
   }
 
-  wTools.include( 'wProto' );
+  var _ = wTools;
 
+  _.include( 'wProto' );
 
 }
 
@@ -288,7 +289,7 @@ function eventHandlerRegisterEclipse( kind, onHandle )
 
 //
 
-var _eventHandlerRegister = function _eventHandlerRegister( o )
+function _eventHandlerRegister( o )
 {
   var self = this;
   var handlers = self._eventHandlerDescriptorsByKind( o.kind );
@@ -648,12 +649,12 @@ function eventHandlerUnregisterByKindAndOwner( kind, owner )
 // handle
 // --
 
-var eventGive = function eventGive( event )
+function eventGive( event )
 {
   var self = this;
 
   _.assert( arguments.length === 1 );
-  _.assert( self instanceof self.constructor );
+  // _.assert( self instanceof self.constructor );
 
   if( _.strIs( event ) )
   event = { kind : event };
@@ -1056,7 +1057,8 @@ var Self =
   Supplement : Supplement,
 
   mixin : mixin,
-  name : 'EventHandler',
+  name : 'wEventHandler',
+  nameShort : 'EventHandler',
 
 }
 

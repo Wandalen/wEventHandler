@@ -748,6 +748,11 @@ function _eventGive( event,o )
     }
     else
     {
+
+      if( event.raw === 'deck.convert' )
+      // if( event.kind === 'line' )
+      debugger;
+
       result.push( handler.onHandleEffective.call( self, event ) );
       if( o.until !== undefined )
       {

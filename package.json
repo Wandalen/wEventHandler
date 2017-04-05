@@ -20,7 +20,7 @@
     "main": "staging/abase/mixin/EventHandler.s"
   },
   "scripts": {
-    "test": "node ./staging/amid/z.test/Test.s",
+    "test": "wtest staging",
     "make_doc": "./doc.sh"
   },
   "repository": {

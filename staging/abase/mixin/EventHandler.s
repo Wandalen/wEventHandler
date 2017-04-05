@@ -1067,7 +1067,7 @@ var Self =
 
 }
 
-_global_.wEventHandler = wTools.EventHandler = Self;
+_global_[ Self.name ] = wTools[ Self.nameShort ] = Self;
 
 return Self;
 

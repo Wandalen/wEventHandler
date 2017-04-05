@@ -23,7 +23,6 @@ if( typeof module !== 'undefined' )
 }
 
 var _ = wTools;
-var sourceFilePath = _.diagnosticLocation().full; // typeof module !== 'undefined' ? __filename : document.scripts[ document.scripts.length-1 ].src;
 
 // --
 // test
@@ -39,11 +38,13 @@ function basic( test )
 
   //
 
-  var entity1 = {};
-  wEventHandler.mixin( entity1 );
+  function Entity1(){};
+  wEventHandler.mixin( Entity1 );
+  var entity1 = new Entity1();
 
-  var entity2 = {};
-  wEventHandler.mixin( entity2 );
+  function Entity2(){};
+  wEventHandler.mixin( Entity2 );
+  var entity2 = new Entity2();
 
   //
 
@@ -52,6 +53,8 @@ function basic( test )
   function onEvent1( e ){ return entity1[ e.kind ] = ( entity1[ e.kind ] || 0 ) + 1; };
   function onEvent2( e ){ return entity1[ e.kind ] = ( entity1[ e.kind ] || 0 ) + 1; };
   function onEvent3( e ){ return entity1[ e.kind ] = ( entity1[ e.kind ] || 0 ) + 1; };
+
+  debugger;
 
   entity1.on( 'event1',onEvent1 );
   entity1.eventHandlerAppend( 'event2',onEvent2 );
@@ -223,7 +226,6 @@ var Self =
 {
 
   name : 'EventHandler',
-  sourceFilePath : sourceFilePath,
 
   tests :
   {
@@ -235,8 +237,7 @@ var Self =
 };
 
 Self = wTestSuite( Self );
-
-if( typeof module !== 'undefined' && !module.parent )
+// if( typeof module !== 'undefined' && !module.parent )
 _.Testing.test( Self.name );
 
 } )( );

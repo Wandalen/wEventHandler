@@ -1,4 +1,4 @@
-( function( ) {
+( function _EventHandler_test_( ) {
 
 'use strict';
 
@@ -105,23 +105,23 @@ function basic( test )
 
   //
 
-  test.description = 'eventHandlerUnregister';
+  test.description = 'eventHandlerRemove';
 
-  entity1.eventHandlerUnregister( 'until',onUntil0 );
+  entity1.eventHandlerRemove( 'until',onUntil0 );
   test.identical( entity1.eventHandleUntil( 'until',0 ),undefined );
   test.identical( entity1[ 'until' ], 9 );
 
-  entity1.eventHandlerUnregister( onUntil1 );
+  entity1.eventHandlerRemove( onUntil1 );
   test.identical( entity1.eventHandleUntil( 'until',1 ),undefined );
   test.identical( entity1[ 'until' ], 11 );
 
-  entity1.eventHandlerUnregister( 'until' );
+  entity1.eventHandlerRemove( 'until' );
   test.identical( entity1.eventHandleUntil( 'until',1 ),undefined );
   test.identical( entity1[ 'until' ], 11 );
 
   test.identical( entity1.eventGive( 'event3' ),[ 3 ] );
   test.identical( entity1[ 'event3' ], 3 );
-  entity1._eventHandlerUnregister({ owner : 'owner' });
+  entity1._eventHandlerRemove({ owner : 'owner' });
   test.identical( entity1.eventHandleUntil( 'until',1 ),undefined );
   test.identical( entity1.eventGive( 'event3' ),[] );
   test.identical( entity1[ 'event3' ], 3 );
@@ -172,13 +172,13 @@ function basic( test )
 
   //
 
-  test.description = 'eventHandlerUnregisterByKindAndOwner';
+  test.description = 'eventHandlerRemoveByKindAndOwner';
 
   test.identical( entity1.eventGive( 'event1' ),[ 5,6 ] );
   test.identical( entity1[ 'event1' ], 6 );
   try
   {
-    entity1.eventHandlerUnregister( onEvent1 );
+    entity1.eventHandlerRemove( onEvent1 );
     test.identical( 'error had to be throwen because no such handler',false );
   }
   catch( err )
@@ -188,13 +188,13 @@ function basic( test )
 
   test.identical( entity1.eventGive( 'event1' ),[ 7,8 ] );
   test.identical( entity1[ 'event1' ], 8 );
-  entity1.eventHandlerUnregisterByKindAndOwner( 'event1','owner' );
+  entity1.eventHandlerRemoveByKindAndOwner( 'event1','owner' );
   test.identical( entity1.eventGive( 'event1' ),[ 9 ] );
   test.identical( entity1[ 'event1' ], 9 );
 
   test.identical( entity1.eventGive( 'event33' ),[ 5,6 ] );
   test.identical( entity1[ 'event33' ], 6 );
-  entity1.eventHandlerUnregister();
+  entity1.eventHandlerRemove();
   test.identical( entity1.eventGive( 'event33' ),[] );
   test.identical( entity1[ 'event33' ], 6 );
   test.identical( entity1.eventGive( 'event1' ),[] );
@@ -237,7 +237,7 @@ var Self =
 };
 
 Self = wTestSuite( Self );
-// if( typeof module !== 'undefined' && !module.parent )
+if( typeof module !== 'undefined' && !module.parent )
 _.Testing.test( Self.name );
 
 } )( );

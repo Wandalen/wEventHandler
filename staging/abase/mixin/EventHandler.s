@@ -2,6 +2,14 @@
 
 'use strict';
 
+/*
+
+- implement tracking of event kinds !!!
+- remove deprecated features !!!
+- refactor !!!
+
+*/
+
 if( typeof module !== 'undefined' )
 {
 
@@ -28,32 +36,32 @@ var _hasOwnProperty = Object.hasOwnProperty;
 
 /**
  * Mixin this methods into prototype of another object.
- * @param {object} dst - prototype of another object.
+ * @param {object} dstProto - prototype of another object.
  * @method copy
  * @memberof wEventHandler#
  */
 
-function mixin( constructor )
+function _mixin( cls )
 {
 
-  var dst = constructor.prototype;
+  var dstProto = cls.prototype;
 
-  _.mixin
+  _.mixinApply
   ({
-    dst : dst,
-    mixin : Self,
+    dstProto : dstProto,
+    descriptor : Self,
   });
 
-  _.accessorForbid( dst,
+  _.accessorForbid( dstProto,
   {
     _eventHandlers : '_eventHandlers',
     _eventHandlerOwners : '_eventHandlerOwners',
     _eventHandlerDescriptors : '_eventHandlerDescriptors',
   });
 
-  _.assert( dst.Restricts._eventHandler );
+  _.assert( dstProto.Restricts._eventHandler );
   _.assert( arguments.length === 1 );
-  _.assert( _.routineIs( constructor ) );
+  _.assert( _.routineIs( cls ) );
 
 }
 
@@ -113,12 +121,15 @@ function finit( original )
   {
     var self = this;
 
+    // if( self.nickName === 'eGeometry( #in-1 )' )
+    // debugger;
+
     self.eventGive( 'finit' );
 
     if( original )
     var result = original.apply( self,arguments );
 
-    self.eventHandlerUnregister();
+    self.eventHandlerRemove();
 
     return result;
   }
@@ -135,11 +146,10 @@ function _eventHandlerInit()
 
   _.assert( self instanceof self.constructor );
 
-  //if( _global_.wVisualiser && self instanceof _global_.wVisualiser )
-  //debugger;
-
-  self._eventHandler = {};
-  self._eventHandler.descriptors = {};
+  if( !self._eventHandler )
+  self._eventHandler = Object.create( null );
+  if( !self._eventHandler.descriptors )
+  self._eventHandler.descriptors = Object.create( null );
 
 }
 
@@ -289,135 +299,6 @@ function eventHandlerRegisterEclipse( kind, onHandle )
 
 //
 
-function _eventHandlerRegister( o )
-{
-  var self = this;
-  var handlers = self._eventHandlerDescriptorsByKind( o.kind );
-
-  if( _.arrayIs( o.kind ) )
-  {
-    for( var k = 0 ; k < o.kind.length ; k++ )
-    {
-      var d = _.mapExtend( {},o );
-      d.kind = o.kind[ k ];
-      self._eventHandlerRegister( d );
-    }
-    return self;
-  }
-
-  // verification
-
-  _.assert( _.strIs( o.kind ) );
-  _.assert( _.routineIs( o.onHandle ) );
-  _.assertMapHasOnly( o,_eventHandlerRegister.defaults );
-  _.assert( arguments.length === 1 );
-  _.assert( !( o.provisional && o.once ) );
-
-  if( o.forbidden )
-  console.warn( 'REMINDER : forbidden event is not implemented!' );
-
-  if( self._eventKinds && self._eventKinds.indexOf( kind ) === -1 )
-  throw _.err( 'eventHandlerAppend:','Object does not support such kind of events:',kind,self );
-
-  //
-
-  o.onHandleEffective = o.onHandle;
-
-  // eclipse
-
-  if( o.eclipse )
-  o.onHandleEffective = function handleEclipse()
-  {
-    var result = o.onHandle.apply( this,arguments );
-
-    self._eventHandlerUnregister
-    ({
-      kind : o.kind,
-      onHandle : o.onHandle,
-      strict : 0,
-    });
-
-    return result;
-  }
-
-  // once
-
-  if( o.once )
-  if( self._eventHandlerDescriptorByKindAndHandler( o.kind,o.onHandle ) )
-  return self;
-
-  if( o.once )
-  o.onHandleEffective = function handleOnce()
-  {
-    var result = o.onHandle.apply( this,arguments );
-
-    self._eventHandlerUnregister
-    ({
-      kind : o.kind,
-      onHandle : o.onHandle,
-      strict : 0,
-    });
-
-    return result;
-  }
-
-  // provisional
-
-  if( o.provisional )
-  o.onHandleEffective = function handleProvisional()
-  {
-    var result = o.onHandle.apply( this,arguments );
-
-    debugger;
-    if( result === false )
-    self._eventHandlerUnregister
-    ({
-      kind : o.kind,
-      onHandle : o.onHandle,
-      strict : 0,
-    });
-
-    return result;
-  }
-
-  // owner
-
-  if( o.owner !== undefined && o.owner !== null )
-  self.eventHandlerUnregisterByKindAndOwner( o.kind,o.owner );
-
-  //
-
-  if( o.appending )
-  handlers.push( o );
-  else
-  handlers.unshift( o );
-
-  // kinds
-
-  if( self._eventKinds )
-  {
-    _.arrayAppendOnce( self._eventKinds,kind );
-    debugger;
-  }
-
-  return self;
-}
-
-_eventHandlerRegister.defaults =
-{
-  kind : null,
-  onHandle : null,
-  owner : null,
-  proxy : 0,
-  once : 0,
-  eclipse : 0,
-  provisional : 0,
-  forbidden : 0,
-  appending : 1,
-}
-
-//
-
 function eventForbid( kinds )
 {
   var self = this;
@@ -453,11 +334,140 @@ function eventForbid( kinds )
   return self;
 }
 
+//
+
+function _eventHandlerRegister( o )
+{
+  var self = this;
+  var handlers = self._eventHandlerDescriptorsByKind( o.kind );
+
+  if( _.arrayIs( o.kind ) )
+  {
+    for( var k = 0 ; k < o.kind.length ; k++ )
+    {
+      var d = _.mapExtend( null,o );
+      d.kind = o.kind[ k ];
+      self._eventHandlerRegister( d );
+    }
+    return self;
+  }
+
+  /* verification */
+
+  _.assert( _.strIs( o.kind ) );
+  _.assert( _.routineIs( o.onHandle ),'expects routine ( onHandle ), but got',_.strTypeOf( o.oHandle ) );
+  _.assertMapHasOnly( o,_eventHandlerRegister.defaults );
+  _.assert( arguments.length === 1 );
+  _.assert( !( o.provisional && o.once ) );
+
+  if( o.forbidden )
+  console.warn( 'REMINDER : forbidden event is not implemented!' );
+
+  if( self._eventKinds && self._eventKinds.indexOf( kind ) === -1 )
+  throw _.err( 'eventHandlerAppend:','Object does not support such kind of events:',kind,self );
+
+  /* */
+
+  o.onHandleEffective = o.onHandle;
+
+  /* eclipse */
+
+  if( o.eclipse )
+  o.onHandleEffective = function handleEclipse()
+  {
+    var result = o.onHandle.apply( this,arguments );
+
+    self._eventHandlerRemove
+    ({
+      kind : o.kind,
+      onHandle : o.onHandle,
+      strict : 0,
+    });
+
+    return result;
+  }
+
+  /* once */
+
+  if( o.once )
+  if( self._eventHandlerDescriptorByKindAndHandler( o.kind,o.onHandle ) )
+  return self;
+
+  if( o.once )
+  o.onHandleEffective = function handleOnce()
+  {
+    var result = o.onHandle.apply( this,arguments );
+
+    self._eventHandlerRemove
+    ({
+      kind : o.kind,
+      onHandle : o.onHandle,
+      strict : 0,
+    });
+
+    return result;
+  }
+
+  /* provisional */
+
+  if( o.provisional )
+  o.onHandleEffective = function handleProvisional()
+  {
+    var result = o.onHandle.apply( this,arguments );
+
+    debugger;
+    if( result === false )
+    self._eventHandlerRemove
+    ({
+      kind : o.kind,
+      onHandle : o.onHandle,
+      strict : 0,
+    });
+
+    return result;
+  }
+
+  /* owner */
+
+  if( o.owner !== undefined && o.owner !== null )
+  self.eventHandlerRemoveByKindAndOwner( o.kind,o.owner );
+
+  /* */
+
+  if( o.appending )
+  handlers.push( o );
+  else
+  handlers.unshift( o );
+
+  /* kinds */
+
+  if( self._eventKinds )
+  {
+    _._arrayAppendOnce( self._eventKinds,kind );
+    debugger;
+  }
+
+  return self;
+}
+
+_eventHandlerRegister.defaults =
+{
+  kind : null,
+  onHandle : null,
+  owner : null,
+  proxy : 0,
+  once : 0,
+  eclipse : 0,
+  provisional : 0,
+  forbidden : 0,
+  appending : 1,
+}
+
 // --
 // unregister
 // --
 
-function eventHandlerUnregister( kind, onHandle )
+function eventHandlerRemove( kind, onHandle )
 {
   var self = this;
 
@@ -467,7 +477,7 @@ function eventHandlerUnregister( kind, onHandle )
   if( arguments.length === 0 )
   {
 
-    self._eventHandlerUnregister({});
+    self._eventHandlerRemove( Object.create( null ) );
 
   }
   else if( arguments.length === 1 )
@@ -476,7 +486,7 @@ function eventHandlerUnregister( kind, onHandle )
     if( _.strIs( arguments[ 0 ] ) )
     {
 
-      self._eventHandlerUnregister
+      self._eventHandlerRemove
       ({
         kind : arguments[ 0 ],
       });
@@ -485,7 +495,7 @@ function eventHandlerUnregister( kind, onHandle )
     else if( _.routineIs( arguments[ 0 ] ) )
     {
 
-      self._eventHandlerUnregister
+      self._eventHandlerRemove
       ({
         onHandle : arguments[ 0 ],
       });
@@ -497,17 +507,17 @@ function eventHandlerUnregister( kind, onHandle )
   else if( arguments.length === 2 )
   {
 
-    if( _.strIs( onHandle ) )
-    self._eventHandlerUnregister
-    ({
-      kind : kind,
-      owner : onHandle,
-    });
-    else
-    self._eventHandlerUnregister
+    if( _.routineIs( onHandle ) )
+    self._eventHandlerRemove
     ({
       kind : kind,
       onHandle : onHandle,
+    });
+    else
+    self._eventHandlerRemove
+    ({
+      kind : kind,
+      owner : onHandle,
     });
 
   }
@@ -518,17 +528,12 @@ function eventHandlerUnregister( kind, onHandle )
 
 //
 
-function _eventHandlerUnregister( o )
+function _eventHandlerRemove( o )
 {
   var self = this;
 
-/*
-  if( self.name === 'cells cloud' )
-  debugger;
-*/
-
   _.assert( arguments.length === 1 );
-  _.assertMapHasOnly( o,_eventHandlerUnregister.defaults );
+  _.assertMapHasOnly( o,_eventHandlerRemove.defaults );
   if( Object.keys( o ).length && o.strict === undefined )
   o.strict = 1;
 
@@ -539,10 +544,10 @@ function _eventHandlerUnregister( o )
   var length = Object.keys( o ).length;
 
   if( o.kind !== undefined )
-  _.assert( _.strIs( o.kind ),'eventHandlerUnregister:','expects "kind" as string' );
+  _.assert( _.strIs( o.kind ),'expects "kind" as string' );
 
   if( o.onHandle !== undefined )
-  _.assert( _.routineIs( o.onHandle ),'eventHandlerUnregister:','expects "onHandle" as routine' );
+  _.assert( _.routineIs( o.onHandle ),'expects "onHandle" as routine' );
 
   if( length === 0 )
   {
@@ -599,14 +604,14 @@ function _eventHandlerUnregister( o )
     }
 
     if( !removed && o.onHandle && o.strict )
-    throw _.err( 'eventHandlerUnregister :','handler was not registered to unregister it' );
+    throw _.err( 'eventHandlerRemove :','handler was not registered to unregister it' );
 
   }
 
   return self;
 }
 
-_eventHandlerUnregister.defaults =
+_eventHandlerRemove.defaults =
 {
   kind : null,
   onHandle : null,
@@ -616,11 +621,11 @@ _eventHandlerUnregister.defaults =
 
 //
 
-function eventHandlerUnregisterByKindAndOwner( kind, owner )
+function eventHandlerRemoveByKindAndOwner( kind, owner )
 {
   var self = this;
 
-  _.assert( arguments.length === 2 && owner,'eventHandlerUnregister:','expects "kind" and "owner" as arguments' );
+  _.assert( arguments.length === 2 && owner,'eventHandlerRemove:','expects "kind" and "owner" as arguments' );
 
   var handlers = self._eventHandler.descriptors;
   if( !handlers )
@@ -654,12 +659,11 @@ function eventGive( event )
   var self = this;
 
   _.assert( arguments.length === 1 );
-  // _.assert( self instanceof self.constructor );
 
   if( _.strIs( event ) )
   event = { kind : event };
 
-  return self._eventGive( event,{} );
+  return self._eventGive( event,Object.create( null ) );
 }
 
 //
@@ -698,11 +702,6 @@ function _eventGive( event,o )
   var result = o.result = o.result || [];
   var untilFound = 0;
 
-/*
-  if( event.kind === 'finit' )
-  debugger;
-*/
-
   _.assert( arguments.length === 2 );
 
   if( event.type !== undefined || event.kind === undefined )
@@ -710,6 +709,8 @@ function _eventGive( event,o )
 
   if( self.usingEventLogging )
   logger.log( 'fired event', self.nickName + '.' + event.kind );
+
+  /* pre */
 
   // if( !self._eventHandler )
   // debugger;
@@ -732,7 +733,7 @@ function _eventGive( event,o )
   if( o.single )
   _.assert( handlerArray.length <= 1,'expects single handler, but has ' + handlerArray.length );
 
-  //
+  /* iterate */
 
   for( var i = 0, il = handlerArray.length; i < il; i ++ )
   {
@@ -749,10 +750,6 @@ function _eventGive( event,o )
     else
     {
 
-      if( event.raw === 'deck.convert' )
-      // if( event.kind === 'line' )
-      debugger;
-
       result.push( handler.onHandleEffective.call( self, event ) );
       if( o.until !== undefined )
       {
@@ -763,6 +760,7 @@ function _eventGive( event,o )
           break;
         }
       }
+
     }
 
     if( handler.eclipse )
@@ -770,7 +768,7 @@ function _eventGive( event,o )
 
   }
 
-  //
+  /* post */
 
   if( self.usingEventLogging )
   logger.down();
@@ -782,6 +780,32 @@ function _eventGive( event,o )
   result = undefined;
 
   return result;
+}
+
+//
+
+function eventWaitFor( kind )
+{
+  var self = this;
+  var con = new wConsequence();
+
+  _.assert( arguments.length === 1 );
+  _.assert( _.strIs( kind ) );
+
+  var descriptor =
+  {
+    kind : kind,
+    onHandle : function( e,o )
+    {
+      _.timeOut( 0,() => con.give( e ) );
+    },
+    eclipse : 1,
+    appending : 1,
+  }
+
+  self._eventHandlerRegister( descriptor );
+
+  return con;
 }
 
 // --
@@ -878,41 +902,93 @@ function _eventHandlerDescriptorsByKind( kind )
 {
   var self = this;
 
+  if( !self._eventHandler.descriptors )
+  debugger;
+
   var handlers = self._eventHandler.descriptors;
   var handlers = handlers[ kind ] = handlers[ kind ] || [];
 
   return handlers;
 }
 
+//
+
+function _eventHandlerDescriptorsAll()
+{
+  var self = this;
+  var result = [];
+
+  debugger;
+
+  for( var d in self._eventHandler.descriptors )
+  {
+    var descriptor = self._eventHandler.descriptors[ d ];
+
+    debugger;
+    result.push( descriptor );
+
+  }
+
+  return result;
+}
+
+//
+
+function eventHandlerDescriptorsFilter( filter )
+{
+  var self = this;
+  var handlers = filter.kind ? self._eventHandlerDescriptorsByKind( filter.kind ) : self._eventHandlerDescriptorsAll( filter.kind );
+
+  if( _.objectIs( filter ) )
+  _.assertMapHasOnly( filter,eventHandlerDescriptorsFilter.defaults );
+
+  debugger;
+
+  var result = _.entityFilter( handlers, filter );
+
+  debugger;
+}
+
+eventHandlerDescriptorsFilter.defaults =
+{
+  kind : null,
+  onHandle : null,
+  owner : null,
+}
+
 // --
 // proxy
 // --
 
-function eventProxyTo( dst,rename )
+function eventProxyTo( dstProto,rename )
 {
   var self = this;
 
   _.assert( arguments.length === 2 );
-  _.assert( _.objectIs( dst ) || _.arrayIs( dst ) );
+  _.assert( _.objectIs( dstProto ) || _.arrayIs( dstProto ) );
   _.assert( _.mapIs( rename ) || _.strIs( rename ) );
 
-  if( _.arrayIs( dst ) )
+  if( _.arrayIs( dstProto ) )
   {
-    for( var d = 0 ; d < dst.length ; d++ )
-    self.eventProxyTo( dst[ d ],rename );
+    for( var d = 0 ; d < dstProto.length ; d++ )
+    self.eventProxyTo( dstProto[ d ],rename );
     return self;
   }
 
-  _.assert( _.routineIs( dst.eventGive ) );
+  /* */
+
+  _.assert( _.routineIs( dstProto.eventGive ) );
 
   if( _.strIs( rename ) )
   {
-    var r = {};
+    var r = Object.create( null );
     r[ rename ] = rename;
     rename = r;
   }
 
-  for( var r in rename ) (function()
+  /* */
+
+  for( var r in rename ) ( function()
   {
     var name = r;
     _.assert( rename[ r ] && _.strIs( rename[ r ] ),'eventProxyTo :','expects name as string' );
@@ -924,14 +1000,15 @@ function eventProxyTo( dst,rename )
       {
         if( name !== rename[ name ] )
         {
-          event = _.mapExtend( {},event );
+          event = _.mapExtend( null,event );
           event.kind = rename[ name ];
         }
-        return dst._eventGive( event,o );
+        return dstProto._eventGive( event,o );
       },
       proxy : 1,
       appending : 1,
     }
+
     self._eventHandlerRegister( descriptor );
 
   })();
@@ -969,7 +1046,7 @@ var Restricts =
 {
 
   usingEventLogging : 0,
-  _eventHandler : {},
+  _eventHandler : Object.create( null ),
 
 }
 
@@ -998,18 +1075,18 @@ var Supplement =
   eventHandlerRegisterEclipse : eventHandlerRegisterEclipse,
   eclipse : eventHandlerRegisterEclipse,
 
-  _eventHandlerRegister: _eventHandlerRegister,
-
   eventForbid : eventForbid,
+
+  _eventHandlerRegister: _eventHandlerRegister,
 
 
   // unregister
 
-  removeListener : eventHandlerUnregister,
-  removeEventListener : eventHandlerUnregister,
-  eventHandlerUnregister : eventHandlerUnregister,
-  _eventHandlerUnregister : _eventHandlerUnregister,
-  eventHandlerUnregisterByKindAndOwner: eventHandlerUnregisterByKindAndOwner,
+  removeListener : eventHandlerRemove,
+  removeEventListener : eventHandlerRemove,
+  eventHandlerRemove : eventHandlerRemove,
+  _eventHandlerRemove : _eventHandlerRemove,
+  eventHandlerRemoveByKindAndOwner : eventHandlerRemoveByKindAndOwner,
 
 
   // handle
@@ -1021,6 +1098,8 @@ var Supplement =
   eventHandleSingle : eventHandleSingle,
   _eventGive : _eventGive,
 
+  eventWaitFor : eventWaitFor,
+
 
   // get
 
@@ -1028,6 +1107,8 @@ var Supplement =
   _eventHandlerDescriptorByKindAndHandler : _eventHandlerDescriptorByKindAndHandler,
   _eventHandlerDescriptorByHandler : _eventHandlerDescriptorByHandler,
   _eventHandlerDescriptorsByKind : _eventHandlerDescriptorsByKind,
+  _eventHandlerDescriptorsAll : _eventHandlerDescriptorsAll,
+  eventHandlerDescriptorsFilter : eventHandlerDescriptorsFilter,
 
 
   // proxy
@@ -1058,17 +1139,19 @@ var Functor =
 var Self =
 {
 
-  Functor : Functor,
-  Supplement : Supplement,
+  functor : Functor,
+  supplement : Supplement,
 
-  mixin : mixin,
+  _mixin : _mixin,
   name : 'wEventHandler',
   nameShort : 'EventHandler',
 
 }
 
-_global_[ Self.name ] = wTools[ Self.nameShort ] = Self;
+//
 
-return Self;
+if( typeof module !== 'undefined' )
+module[ 'exports' ] = Self;
+_global_[ Self.name ] = wTools[ Self.nameShort ] = _.mixinMake( Self );
 
 })();

@@ -443,7 +443,7 @@ function _eventHandlerRegister( o )
 
   if( self._eventKinds )
   {
-    _._arrayAppendOnce( self._eventKinds,kind );
+    _.__arrayAppendOnce( self._eventKinds,kind );
     debugger;
   }
 
@@ -587,24 +587,26 @@ function _eventHandlerRemove( o )
       return true;
     }
 
+    // console.error( 'REMINDER','fix me' ); debugger; xxx
+    // return;
+
     var removed = 0;
     if( o.kind )
     {
 
       var handlers = handlers[ o.kind ];
       if( handlers )
-      removed = _.arrayRemovedAll( handlers,o,equalizer );
+      removed = _.__arrayRemovedAll( handlers,o,equalizer );
 
     }
     else for( var h in handlers )
     {
 
-      removed += _.arrayRemovedAll( handlers[ h ],o,equalizer );
+      removed += _.__arrayRemovedAll( handlers[ h ],o,equalizer );
 
     }
 
-    if( !removed && o.onHandle && o.strict )
-    throw _.err( 'eventHandlerRemove :','handler was not registered to unregister it' );
+    _.assert( removed || !o.onHandle || !o.strict, 'handler was not registered to unregister it' );
 
   }
 
@@ -641,7 +643,7 @@ function eventHandlerRemoveByKindAndOwner( kind, owner )
     var descriptor = self._eventHandlerDescriptorByKindAndOwner( kind,owner );
 
     if( descriptor )
-    _.arrayRemoveOnce( handlers,descriptor );
+    _.__arrayRemoveOnce( handlers,descriptor );
 
   }
   while( descriptor );

@@ -52,6 +52,12 @@ function _mixin( cls )
     descriptor : Self,
   });
 
+  _.mapExtend( dstProto.Events,
+  {
+    init : 'init',
+    finit : 'finit',
+  });
+
   _.accessorForbid( dstProto,
   {
     _eventHandlers : '_eventHandlers',
@@ -62,6 +68,7 @@ function _mixin( cls )
   _.assert( dstProto.Restricts._eventHandler );
   _.assert( arguments.length === 1 );
   _.assert( _.routineIs( cls ) );
+  _.assert( dstProto.Events );
 
 }
 
@@ -359,6 +366,8 @@ function _eventHandlerRegister( o )
   _.assertMapHasOnly( o,_eventHandlerRegister.defaults );
   _.assert( arguments.length === 1 );
   _.assert( !( o.provisional && o.once ) );
+  _.assert( self.constructor.prototype.Events || ( !self.constructor.prototype.strictEventHandling && self.constructor.prototype.strictEventHandling !== undefined ), 'expects static Events' );
+  _.assert( o.forbidden || !self.strictEventHandling || self.Events[ o.kind ], self.constructor.name,'is not aware about event',o.kind )
 
   if( o.forbidden )
   console.warn( 'REMINDER : forbidden event is not implemented!' );
@@ -467,7 +476,7 @@ _eventHandlerRegister.defaults =
 // unregister
 // --
 
-function eventHandlerRemove( kind, onHandle )
+function eventHandlerRemove()
 {
   var self = this;
 
@@ -507,21 +516,21 @@ function eventHandlerRemove( kind, onHandle )
   else if( arguments.length === 2 )
   {
 
-    if( _.routineIs( onHandle ) )
+    if( _.routineIs( arguments[ 1 ] ) )
     self._eventHandlerRemove
     ({
-      kind : kind,
-      onHandle : onHandle,
+      kind : arguments[ 0 ],
+      onHandle : arguments[ 1 ],
     });
     else
     self._eventHandlerRemove
     ({
-      kind : kind,
-      owner : onHandle,
+      kind : arguments[ 0 ],
+      owner : arguments[ 1 ],
     });
 
   }
-  else throw _.err( 'unexpected' );
+  else _.assert( 0, 'unexpected' );
 
   return self;
 }
@@ -705,17 +714,14 @@ function _eventGive( event,o )
   var untilFound = 0;
 
   _.assert( arguments.length === 2 );
+  _.assert( event.type === undefined || event.kind !== undefined, 'event should have "kind" field, no "type" field' );
+  _.assert( self.constructor.prototype.Events || ( !self.constructor.prototype.strictEventHandling && self.constructor.prototype.strictEventHandling !== undefined ), 'expects static Events' );
+  _.assert( !self.strictEventHandling || self.Events[ event.kind ], self.constructor.name,'is not aware about event',event.kind )
 
-  if( event.type !== undefined || event.kind === undefined )
-  throw _.err( 'event should have "kind" field, no "type" field' );
-
-  if( self.usingEventLogging )
+  if( self.eventVerbosity )
   logger.log( 'fired event', self.nickName + '.' + event.kind );
 
   /* pre */
-
-  // if( !self._eventHandler )
-  // debugger;
 
   var handlers = self._eventHandler.descriptors;
   if( handlers === undefined )
@@ -729,7 +735,7 @@ function _eventGive( event,o )
 
   event.target = self;
 
-  if( self.usingEventLogging )
+  if( self.eventVerbosity )
   logger.up();
 
   if( o.single )
@@ -742,7 +748,7 @@ function _eventGive( event,o )
 
     var handler = handlerArray[ i ];
 
-    if( self.usingEventLogging )
+    if( self.eventVerbosity )
     logger.log( event.kind,'caught by',handler.onHandle.name );
 
     if( handler.proxy )
@@ -772,7 +778,7 @@ function _eventGive( event,o )
 
   /* post */
 
-  if( self.usingEventLogging )
+  if( self.eventVerbosity )
   logger.down();
 
   if( o.single )
@@ -1047,8 +1053,15 @@ var Composes =
 var Restricts =
 {
 
-  usingEventLogging : 0,
+  eventVerbosity : 0,
   _eventHandler : Object.create( null ),
+
+}
+
+var Statics =
+{
+
+  strictEventHandling : 1,
 
 }
 
@@ -1086,8 +1099,10 @@ var Supplement =
 
   removeListener : eventHandlerRemove,
   removeEventListener : eventHandlerRemove,
+  off : eventHandlerRemove,
   eventHandlerRemove : eventHandlerRemove,
   _eventHandlerRemove : _eventHandlerRemove,
+
   eventHandlerRemoveByKindAndOwner : eventHandlerRemoveByKindAndOwner,
 
 
@@ -1098,6 +1113,7 @@ var Supplement =
   eventGive : eventGive,
   eventHandleUntil : eventHandleUntil,
   eventHandleSingle : eventHandleSingle,
+
   _eventGive : _eventGive,
 
   eventWaitFor : eventWaitFor,
@@ -1123,6 +1139,7 @@ var Supplement =
 
   Composes : Composes,
   Restricts : Restricts,
+  Statics : Statics,
 
 }
 
@@ -1151,6 +1168,9 @@ var Self =
 }
 
 //
+
+_.assert( _.ClassFacility );
+_.ClassFacility.Events = 'Events';
 
 if( typeof module !== 'undefined' )
 module[ 'exports' ] = Self;

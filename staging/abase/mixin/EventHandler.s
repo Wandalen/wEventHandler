@@ -670,6 +670,7 @@ function eventGive( event )
   var self = this;
 
   _.assert( arguments.length === 1 );
+  _.assert( self._eventGive );
 
   if( _.strIs( event ) )
   event = { kind : event };

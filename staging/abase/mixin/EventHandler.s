@@ -452,7 +452,7 @@ function _eventHandlerRegister( o )
 
   if( self._eventKinds )
   {
-    _.__arrayAppendOnce( self._eventKinds,kind );
+    _.arrayAppendOnce( self._eventKinds,kind );
     debugger;
   }
 
@@ -605,13 +605,13 @@ function _eventHandlerRemove( o )
 
       var handlers = handlers[ o.kind ];
       if( handlers )
-      removed = _.__arrayRemovedAll( handlers,o,equalizer );
+      removed = _.arrayRemovedAll( handlers,o,equalizer );
 
     }
     else for( var h in handlers )
     {
 
-      removed += _.__arrayRemovedAll( handlers[ h ],o,equalizer );
+      removed += _.arrayRemovedAll( handlers[ h ],o,equalizer );
 
     }
 
@@ -652,7 +652,7 @@ function eventHandlerRemoveByKindAndOwner( kind, owner )
     var descriptor = self._eventHandlerDescriptorByKindAndOwner( kind,owner );
 
     if( descriptor )
-    _.__arrayRemoveOnce( handlers,descriptor );
+    _.arrayRemoveOnce( handlers,descriptor );
 
   }
   while( descriptor );
@@ -1170,8 +1170,8 @@ var Self =
 
 //
 
-_.assert( _.ClassFacility );
-_.ClassFacility.Events = 'Events';
+_.assert( _.ClassAllowedFacility );
+_.ClassAllowedFacility.Events = 'Events';
 
 if( typeof module !== 'undefined' )
 module[ 'exports' ] = Self;

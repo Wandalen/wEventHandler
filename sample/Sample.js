@@ -40,7 +40,7 @@ var event1 = function()
 {
   var self = this;
 
-  self.eventHandle( 'event1' );
+  self.eventGive( 'event1' );
 
 }
 
@@ -48,18 +48,26 @@ var event1 = function()
 // proto
 // --
 
+var Events =
+{
+  event1 : 'event1',
+  event2 : 'event2',
+}
+
 var Proto =
 {
 
   init : init,
   event1 : event1,
+
+  Events : Events,
   constructor : Self,
 
 };
 
 _.classMake
 ({
-  constructor : Self,
+  cls : Self,
   parent : Parent,
   extend : Proto,
 });
@@ -70,23 +78,34 @@ _global_.Sample = Self;
 
 // make an instance
 
-debugger;
-var sample = new Sample;
+var sample = new Self;
 
 sample.on( 'event1',function( e ) {
-  console.log( e )
+  console.log( e );
+/*
+{ kind: 'event1',
+  target: Sample { _eventHandler: { descriptors: [Object] } } }
+*/
 });
 
 sample.on( 'event2',function( e ) {
-  console.log( e )
+  console.log( e );
+/*
+{ kind: 'event2',
+  target: Sample { _eventHandler: { descriptors: [Object] } } }
+*/
 });
 
 sample.on( 'finit',function( e ) {
-  console.log( e )
+  console.log( e );
+/*
+{ kind: 'finit',
+  target: Sample { _eventHandler: { descriptors: [Object] } } }
+*/
 });
 
 sample.event1();
-sample.eventHandle( 'event2' );
+sample.eventGive( 'event2' );
 sample.finit();
 
 })();

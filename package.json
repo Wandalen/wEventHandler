@@ -11,14 +11,14 @@
     }
   ],
   "license": "MIT",
-  "main": "staging/abase/mixin/EventHandler.s",
+  "main": "staging/dwtools/abase/mixin/EventHandler.s",
   "files": [
-    "staging/abase",
+    "staging/dwtools/abase",
     "production"
   ],
   "directories": {
     "doc": "doc",
-    "main": "staging/abase/mixin/EventHandler.s"
+    "main": "staging/dwtools/abase/mixin/EventHandler.s"
   },
   "scripts": {
     "test": "wtest staging",

@@ -57,7 +57,7 @@ var Proto =
 
 };
 
-_.protoMake
+_.classMake
 ({
   constructor : Self,
   parent : Parent,

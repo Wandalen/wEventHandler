@@ -94,7 +94,7 @@ function init( original )
 
     self._eventHandlerInit();
 
-    var result = original.apply( self,arguments );
+    var result = original ? original.apply( self,arguments ) : undefined;
 
     self.eventGive( 'init' );
 
@@ -134,7 +134,7 @@ function finit( original )
     self.eventGive( 'finit' );
 
     if( original )
-    var result = original.apply( self,arguments );
+    var result = original ? original.apply( self,arguments ) : undefined;
 
     self.eventHandlerRemove();
 
@@ -155,6 +155,7 @@ function _eventHandlerInit()
 
   if( !self._eventHandler )
   self._eventHandler = Object.create( null );
+
   if( !self._eventHandler.descriptors )
   self._eventHandler.descriptors = Object.create( null );
 
@@ -367,7 +368,7 @@ function _eventHandlerRegister( o )
   _.assert( arguments.length === 1 );
   _.assert( !( o.provisional && o.once ) );
   _.assert( self.constructor.prototype.Events || ( !self.constructor.prototype.strictEventHandling && self.constructor.prototype.strictEventHandling !== undefined ), 'expects static Events' );
-  _.assert( o.forbidden || !self.strictEventHandling || self.Events[ o.kind ], self.constructor.name,'is not aware about event',o.kind )
+  _.assert( o.forbidden || !self.strictEventHandling || self.Events[ o.kind ], self.constructor.name,'is not aware about event',_.strQuote( o.kind ) )
 
   if( o.forbidden )
   console.warn( 'REMINDER : forbidden event is not implemented!' );
@@ -910,6 +911,8 @@ function _eventHandlerDescriptorByHandler( onHandle )
 function _eventHandlerDescriptorsByKind( kind )
 {
   var self = this;
+
+  _.assert( self._eventHandler );
 
   if( !self._eventHandler.descriptors )
   debugger;

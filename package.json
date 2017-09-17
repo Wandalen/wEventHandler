@@ -13,13 +13,9 @@
   "license": "MIT",
   "main": "staging/dwtools/abase/mixin/EventHandler.s",
   "files": [
-    "staging/dwtools/abase",
+    "staging/dwtools/abase/mixin",
     "production"
   ],
-  "directories": {
-    "doc": "doc",
-    "main": "staging/dwtools/abase/mixin/EventHandler.s"
-  },
   "scripts": {
     "test": "wtest staging",
     "make_doc": "./doc.sh"

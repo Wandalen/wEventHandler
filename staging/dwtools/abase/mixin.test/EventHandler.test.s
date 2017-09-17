@@ -5,7 +5,6 @@
 if( typeof module !== 'undefined' )
 {
 
-  //if( typeof wBase === 'undefined' )
   try
   {
     require( '../../Base.s' );
@@ -32,21 +31,38 @@ function basic( test )
 {
   var self = this;
 
-  var samples =
-  [
-  ];
+  /* */
 
-  //
-
-  function Entity1(){};
+  function Entity1(){ this.init() };
   wEventHandler.mixin( Entity1 );
-  var entity1 = new Entity1();
+  Entity1.prototype.Events =
+  {
+    init : 'init',
+    until : 'until',
+    event1 : 'event1',
+    event2 : 'event2',
+    event3 : 'event3',
+    event33 : 'event33',
+  };
 
-  function Entity2(){};
+  function Entity2(){ this.init() };
   wEventHandler.mixin( Entity2 );
+  Entity2.prototype.Events =
+  {
+    init : 'init',
+    until : 'until',
+    event1 : 'event1',
+    event2 : 'event2',
+    event3 : 'event3',
+    event33 : 'event33',
+  };
+
+  /* make two entities */
+
+  var entity1 = new Entity1();
   var entity2 = new Entity2();
 
-  //
+  /* */
 
   test.description = 'eventHandlerAppend';
 
@@ -55,8 +71,8 @@ function basic( test )
   function onEvent3( e ){ return entity1[ e.kind ] = ( entity1[ e.kind ] || 0 ) + 1; };
 
   debugger;
-
   entity1.on( 'event1',onEvent1 );
+  debugger;
   entity1.eventHandlerAppend( 'event2',onEvent2 );
   entity1.on( 'event3','owner',onEvent3 );
 
@@ -67,7 +83,7 @@ function basic( test )
   test.identical( entity1._eventHandlerDescriptorByKindAndOwner( 'event3','owner' ).owner,'owner' );
   test.identical( entity1._eventHandlerDescriptorByKindAndHandler( 'event3',onEvent3 ).owner,'owner' );
 
-  //
+  /* */
 
   test.identical( entity1.eventGive( 'event1' ),[ 1 ] );
   test.identical( entity1[ 'event1' ], 1 );
@@ -80,7 +96,7 @@ function basic( test )
   test.identical( entity1.eventGive( 'event3' ),[ 2 ] );
   test.identical( entity1[ 'event3' ], 2 );
 
-  //
+  /* */
 
   test.description = 'eventHandleUntil';
 
@@ -103,12 +119,12 @@ function basic( test )
   test.identical( entity1.eventHandleUntil( 'until',2 ),2 );
   test.identical( entity1[ 'until' ], 6 );
 
-  //
+  /* */
 
   test.description = 'eventHandlerRemove';
 
   entity1.eventHandlerRemove( 'until',onUntil0 );
-  test.identical( entity1.eventHandleUntil( 'until',0 ),undefined );
+  test.identical( entity1.eventHandleUntil( 'until',0 ),[ 1,2,3 ] );
   test.identical( entity1[ 'until' ], 9 );
 
   entity1.eventHandlerRemove( onUntil1 );
@@ -129,15 +145,18 @@ function basic( test )
   test.identical( entity1.eventGive( 'event1' ),[ 2 ] );
   test.identical( entity1[ 'event1' ], 2 );
 
-  //
+  /* */
 
   test.description = 'eventProxyTo';
 
-  var entity1 = {};
-  wEventHandler.mixin( entity1 );
+  var entity1 = new Entity1();
+  var entity2 = new Entity2();
 
-  var entity2 = {};
-  wEventHandler.mixin( entity2 );
+  // var entity1 = {};
+  // wEventHandler.mixin( entity1 );
+  //
+  // var entity2 = {};
+  // wEventHandler.mixin( entity2 );
 
   entity1.on( 'event1','owner',onEvent1 );
   entity1.on( 'event1','owner',onEvent1 );
@@ -170,7 +189,7 @@ function basic( test )
   test.identical( entity1[ 'event3' ], undefined );
   test.identical( entity1[ 'event33' ], 4 );
 
-  //
+  /* */
 
   test.description = 'eventHandlerRemoveByKindAndOwner';
 
@@ -200,7 +219,7 @@ function basic( test )
   test.identical( entity1.eventGive( 'event1' ),[] );
   test.identical( entity1[ 'event1' ], 9 );
 
-  //
+  /* */
 
   test.description = 'once';
 
@@ -235,7 +254,9 @@ var Self =
 
   },
 
-};
+}
+
+//
 
 Self = wTestSuite( Self );
 if( typeof module !== 'undefined' && !module.parent )

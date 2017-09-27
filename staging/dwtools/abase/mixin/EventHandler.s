@@ -371,7 +371,7 @@ function _eventHandlerRegister( o )
   _.assert( o.forbidden || !self.strictEventHandling || self.Events[ o.kind ], self.constructor.name,'is not aware about event',_.strQuote( o.kind ) )
 
   if( o.forbidden )
-  console.warn( 'REMINDER : forbidden event is not implemented!' );
+  console.debug( 'REMINDER : forbidden event is not implemented!' );
 
   if( self._eventKinds && self._eventKinds.indexOf( kind ) === -1 )
   throw _.err( 'eventHandlerAppend:','Object does not support such kind of events:',kind,self );

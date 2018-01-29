@@ -5,23 +5,31 @@
 if( typeof module !== 'undefined' )
 {
 
-  try
+  if( typeof _global_ === 'undefined' || !_global_.wBase )
   {
-    require( '../../Base.s' );
-  }
-  catch( err )
-  {
-    require( 'wTools' );
+    let toolsPath = '../../../dwtools/Base.s';
+    let toolsExternal = 0;
+    try
+    {
+      require.resolve( toolsPath )/*hhh*/;
+    }
+    catch( err )
+    {
+      toolsExternal = 1;
+      require( 'wTools' );
+    }
+    if( !toolsExternal )
+    require( toolsPath )/*hhh*/;
   }
 
-  var _ = wTools;
+var _ = _global_.wTools;
 
   _.include( 'wTesting' );
   require( '../mixin/EventHandler.s' );
 
 }
 
-var _ = wTools;
+var _ = _global_.wTools;
 
 // --
 // test
@@ -34,7 +42,7 @@ function basic( test )
   /* */
 
   function Entity1(){ this.init() };
-  wEventHandler.mixin( Entity1 );
+  _.EventHandler.mixin( Entity1 );
   Entity1.prototype.Events =
   {
     init : 'init',
@@ -46,7 +54,7 @@ function basic( test )
   };
 
   function Entity2(){ this.init() };
-  wEventHandler.mixin( Entity2 );
+  _.EventHandler.mixin( Entity2 );
   Entity2.prototype.Events =
   {
     init : 'init',
@@ -153,10 +161,10 @@ function basic( test )
   var entity2 = new Entity2();
 
   // var entity1 = {};
-  // wEventHandler.mixin( entity1 );
+  // _.EventHandler.mixin( entity1 );
   //
   // var entity2 = {};
-  // wEventHandler.mixin( entity2 );
+  // _.EventHandler.mixin( entity2 );
 
   entity1.on( 'event1','owner',onEvent1 );
   entity1.on( 'event1','owner',onEvent1 );

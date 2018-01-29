@@ -13,23 +13,30 @@
 if( typeof module !== 'undefined' )
 {
 
-  if( typeof wBase === 'undefined' )
-  try
+  if( typeof _global_ === 'undefined' || !_global_.wBase )
   {
-    require( '../../Base.s' );
-  }
-  catch( err )
-  {
-    require( 'wTools' );
+    let toolsPath = '../../../../dwtools/Base.s';
+    let toolsExternal = 0;
+    try
+    {
+      require.resolve( toolsPath )/*hhh*/;
+    }
+    catch( err )
+    {
+      toolsExternal = 1;
+      require( 'wTools' );
+    }
+    if( !toolsExternal )
+    require( toolsPath )/*hhh*/;
   }
 
-  var _ = wTools;
+var _ = _global_.wTools;
 
   _.include( 'wProto' );
 
 }
 
-var _ = wTools;
+var _ = _global_.wTools;
 var _hasOwnProperty = Object.hasOwnProperty;
 
 //
@@ -115,21 +122,9 @@ function init( original )
 function finit( original )
 {
 
-/*
-  if( !originalFinit )
-  {
-    debugger;
-    console.warn( 'finit is not defined' );
-    return;
-  }
-*/
-
   return function finitEventHandler()
   {
     var self = this;
-
-    // if( self.nickName === 'eGeometry( #in-1 )' )
-    // debugger;
 
     self.eventGive( 'finit' );
 
@@ -718,7 +713,7 @@ function _eventGive( event,o )
   _.assert( arguments.length === 2 );
   _.assert( event.type === undefined || event.kind !== undefined, 'event should have "kind" field, no "type" field' );
   _.assert( self.constructor.prototype.Events || ( !self.constructor.prototype.strictEventHandling && self.constructor.prototype.strictEventHandling !== undefined ), 'expects static Events' );
-  _.assert( !self.strictEventHandling || self.Events[ event.kind ], self.constructor.name,'is not aware about event',event.kind )
+  _.assert( !self.strictEventHandling || self.Events[ event.kind ], self.constructor.name,'is not aware about event',_.strQuote( event.kind ) );
 
   if( self.eventVerbosity )
   logger.log( 'fired event', self.nickName + '.' + event.kind );
@@ -797,7 +792,7 @@ function _eventGive( event,o )
 function eventWaitFor( kind )
 {
   var self = this;
-  var con = new wConsequence();
+  var con = new _.Consequence();
 
   _.assert( arguments.length === 1 );
   _.assert( _.strIs( kind ) );
@@ -1176,8 +1171,17 @@ var Self =
 _.assert( _.ClassAllowedFacility );
 _.ClassAllowedFacility.Events = 'Events';
 
+_global_[ Self.name ] = _[ Self.nameShort ] = _.mixinMake( Self );
+
+// --
+// export
+// --
+
 if( typeof module !== 'undefined' )
+if( _global_._UsingWtoolsPrivately_ )
+delete require.cache[ module.id ];
+
+if( typeof module !== 'undefined' && module !== null )
 module[ 'exports' ] = Self;
-_global_[ Self.name ] = wTools[ Self.nameShort ] = _.mixinMake( Self );
 
 })();

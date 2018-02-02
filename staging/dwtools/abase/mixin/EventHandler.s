@@ -1168,8 +1168,8 @@ var Self =
 
 //
 
-_.assert( _.ClassAllowedFacility );
-_.ClassAllowedFacility.Events = 'Events';
+_.assert( _.ClassSubfieldsGroups );
+_.ClassSubfieldsGroups.Events = 'Events';
 
 _global_[ Self.name ] = _[ Self.nameShort ] = _.mixinMake( Self );
 

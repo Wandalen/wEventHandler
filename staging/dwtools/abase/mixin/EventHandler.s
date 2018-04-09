@@ -714,6 +714,7 @@ function _eventGive( event,o )
   _.assert( event.type === undefined || event.kind !== undefined, 'event should have "kind" field, no "type" field' );
   _.assert( self.constructor.prototype.Events || ( !self.constructor.prototype.strictEventHandling && self.constructor.prototype.strictEventHandling !== undefined ), 'expects static Events' );
   _.assert( !self.strictEventHandling || self.Events[ event.kind ], self.constructor.name,'is not aware about event',_.strQuote( event.kind ) );
+  _.assert( self._eventHandler );
 
   if( self.eventVerbosity )
   logger.log( 'fired event', self.nickName + '.' + event.kind );

@@ -19,7 +19,7 @@ if( typeof module !== 'undefined' )
     let toolsExternal = 0;
     try
     {
-      require.resolve( toolsPath )/*hhh*/;
+      require.resolve( toolsPath );
     }
     catch( err )
     {
@@ -27,10 +27,10 @@ if( typeof module !== 'undefined' )
       require( 'wTools' );
     }
     if( !toolsExternal )
-    require( toolsPath )/*hhh*/;
+    require( toolsPath );
   }
 
-var _ = _global_.wTools;
+  var _ = _global_.wTools;
 
   _.include( 'wProto' );
 
@@ -50,7 +50,6 @@ var _hasOwnProperty = Object.hasOwnProperty;
 
 function _mixin( cls )
 {
-
   var dstProto = cls.prototype;
 
   _.mixinApply
@@ -59,23 +58,13 @@ function _mixin( cls )
     descriptor : Self,
   });
 
-  _.mapExtend( dstProto.Events,
-  {
-    init : 'init',
-    finit : 'finit',
-  });
-
-  _.accessorForbid( dstProto,
-  {
-    _eventHandlers : '_eventHandlers',
-    _eventHandlerOwners : '_eventHandlerOwners',
-    _eventHandlerDescriptors : '_eventHandlerDescriptors',
-  });
-
   _.assert( dstProto.Restricts._eventHandler );
   _.assert( arguments.length === 1 );
   _.assert( _.routineIs( cls ) );
   _.assert( dstProto.Events );
+  _.assert( dstProto.Events.init );
+  _.assert( dstProto.Events.finit );
+  _.assert( _.accessorForbidOwn( dstProto,'_eventHandlers' ) )
 
 }
 
@@ -96,8 +85,6 @@ function init( original )
   return function initEventHandler()
   {
     var self = this;
-
-    _.assert( !self._eventHandler,'EventHandler.init already done for ',self.nickName );
 
     self._eventHandlerInit();
 
@@ -127,11 +114,10 @@ function finit( original )
     var self = this;
 
     self.eventGive( 'finit' );
+    self._eventHandlerFinit();
 
     if( original )
     var result = original ? original.apply( self,arguments ) : undefined;
-
-    self.eventHandlerRemove();
 
     return result;
   }
@@ -146,6 +132,7 @@ function _eventHandlerInit()
 {
   var self = this;
 
+  _.assert( !self._eventHandler,'EventHandler.init already done for ',self.nickName );
   _.assert( self instanceof self.constructor );
 
   if( !self._eventHandler )
@@ -154,6 +141,67 @@ function _eventHandlerInit()
   if( !self._eventHandler.descriptors )
   self._eventHandler.descriptors = Object.create( null );
 
+}
+
+//
+
+function _eventHandlerFinit()
+{
+  var self = this;
+
+  if( Config.debug || !self.strictEventHandling )
+  {
+
+    var handlers = self._eventHandler.descriptors;
+    if( !handlers )
+    return;
+
+    for( var h in handlers )
+    {
+      if( !handlers[ h ] || handlers[ h ].length === 0 )
+      continue;
+      if( h === 'finit' )
+      continue;
+      var err = 'Finited instance has bound handler(s), but should not' + h + ':' + _.toStr( handlers[ h ],{ levels : 3 } );
+      console.error( err );
+      console.error( handlers[ h ][ 0 ].onHandle );
+      console.error( self.eventReport() );
+      debugger;
+      throw _.err( err );
+    }
+
+  }
+
+  self.eventHandlerRemove();
+}
+
+//
+
+function eventReport()
+{
+  var self = this;
+  var result = 'Event Map of ' + ( self.nickName || 'an instance' ) + ':\n';
+
+  var handlers = self._eventHandler.descriptors || {};
+  for( var h in handlers )
+  {
+    var handlerArray = handlers[ h ];
+    if( !handlerArray || handlerArray.length === 0 )
+    continue;
+    var onHandle = handlerArray.map( ( e ) => _.toStr( e.onHandle ) );
+    result += h + ' : ' + onHandle.join( ', ' ) + '\n';
+  }
+
+  for( var h in self.Events )
+  {
+    var handlerArray = handlers[ h ];
+    if( !handlerArray || handlerArray.length === 0 )
+    {
+      result += h + ' : ' + '-' + '\n';
+    }
+  }
+
+  return result;
 }
 
 //
@@ -805,7 +853,8 @@ function eventWaitFor( kind )
     {
       _.timeOut( 0,() => con.give( e ) );
     },
-    eclipse : 1,
+    eclipse : 0,
+    once : 1,
     appending : 1,
   }
 
@@ -986,6 +1035,7 @@ function eventProxyTo( dstProto,rename )
   /* */
 
   _.assert( _.routineIs( dstProto.eventGive ) );
+  _.assert( _.routineIs( dstProto._eventGive ) );
 
   if( _.strIs( rename ) )
   {
@@ -1065,6 +1115,19 @@ var Statics =
 
 }
 
+var Events =
+{
+  init : 'init',
+  finit : 'finit',
+}
+
+var Forbids =
+{
+  _eventHandlers : '_eventHandlers',
+  _eventHandlerOwners : '_eventHandlerOwners',
+  _eventHandlerDescriptors : '_eventHandlerDescriptors',
+}
+
 // --
 // proto
 // --
@@ -1075,6 +1138,9 @@ var Supplement =
   // register
 
   _eventHandlerInit : _eventHandlerInit,
+  _eventHandlerFinit : _eventHandlerFinit,
+
+  eventReport : eventReport,
 
   eventHandlerPrepend : eventHandlerPrepend,
   eventHandlerAppend : eventHandlerAppend,
@@ -1140,6 +1206,8 @@ var Supplement =
   Composes : Composes,
   Restricts : Restricts,
   Statics : Statics,
+  Events : Events,
+  Forbids : Forbids,
 
 }
 
@@ -1171,7 +1239,6 @@ var Self =
 
 _.assert( _.ClassSubfieldsGroups );
 _.ClassSubfieldsGroups.Events = 'Events';
-
 _global_[ Self.name ] = _[ Self.nameShort ] = _.mixinMake( Self );
 
 // --

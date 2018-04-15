@@ -114,10 +114,11 @@ function finit( original )
     var self = this;
 
     self.eventGive( 'finit' );
-    self._eventHandlerFinit();
 
     if( original )
     var result = original ? original.apply( self,arguments ) : undefined;
+
+    self._eventHandlerFinit();
 
     return result;
   }
@@ -162,7 +163,7 @@ function _eventHandlerFinit()
       continue;
       if( h === 'finit' )
       continue;
-      var err = 'Finited instance has bound handler(s), but should not' + h + ':' + _.toStr( handlers[ h ],{ levels : 3 } );
+      var err = 'Finited instance has bound handler(s), but should not' + h + ':\n' + _.toStr( handlers[ h ],{ levels : 2, } );
       console.error( err );
       console.error( handlers[ h ][ 0 ].onHandle );
       console.error( self.eventReport() );
@@ -482,8 +483,8 @@ function _eventHandlerRegister( o )
 
   /* owner */
 
-  if( o.owner !== undefined && o.owner !== null )
-  self.eventHandlerRemoveByKindAndOwner( o.kind,o.owner );
+  // if( o.owner !== undefined && o.owner !== null )
+  // self.eventHandlerRemoveByKindAndOwner( o.kind,o.owner );
 
   /* */
 
@@ -554,25 +555,44 @@ function eventHandlerRemove()
       });
 
     }
+    else if( _.arrayLike( arguments[ 0 ] ) )
+    {
+
+      for( var i = 0; i < arguments[ 0 ].length; i++ )
+      self.eventHandlerRemove( arguments[ 0 ][ i ] );
+
+    }
     else throw _.err( 'unexpected' );
 
   }
   else if( arguments.length === 2 )
   {
 
-    if( _.routineIs( arguments[ 1 ] ) )
-    self._eventHandlerRemove
-    ({
-      kind : arguments[ 0 ],
-      onHandle : arguments[ 1 ],
-    });
-    else
-    self._eventHandlerRemove
-    ({
-      kind : arguments[ 0 ],
-      owner : arguments[ 1 ],
-    });
+    if( _.arrayLike( arguments[ 0 ] ) )
+    {
 
+      for( var i = 0; i < arguments[ 0 ].length; i++ )
+      self.eventHandlerRemove( arguments[ 0 ][ i ], arguments[ 1 ] );
+
+    }
+    else if( _.routineIs( arguments[ 1 ] ) )
+    {
+
+      self._eventHandlerRemove
+      ({
+        kind : arguments[ 0 ],
+        onHandle : arguments[ 1 ],
+      });
+
+    }
+    else
+    {
+      self._eventHandlerRemove
+      ({
+        kind : arguments[ 0 ],
+        owner : arguments[ 1 ],
+      });
+    }
   }
   else _.assert( 0, 'unexpected' );
 
@@ -1063,6 +1083,7 @@ function eventProxyTo( dstProto,rename )
         }
         return dstProto._eventGive( event,o );
       },
+      owner : dstProto,
       proxy : 1,
       appending : 1,
     }

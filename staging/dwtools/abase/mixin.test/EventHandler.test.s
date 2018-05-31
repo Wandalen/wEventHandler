@@ -1,6 +1,6 @@
 ( function _EventHandler_test_( ) {
 
-'use strict';
+'use strict'; /* aaa */
 
 if( typeof module !== 'undefined' )
 {
@@ -11,7 +11,7 @@ if( typeof module !== 'undefined' )
     let toolsExternal = 0;
     try
     {
-      require.resolve( toolsPath )/*hhh*/;
+      require.resolve( toolsPath );
     }
     catch( err )
     {
@@ -19,12 +19,14 @@ if( typeof module !== 'undefined' )
       require( 'wTools' );
     }
     if( !toolsExternal )
-    require( toolsPath )/*hhh*/;
+    require( toolsPath );
   }
 
-var _ = _global_.wTools;
+  var _ = _global_.wTools;
 
   _.include( 'wTesting' );
+  _.include( 'wConsequence' );
+
   require( '../mixin/EventHandler.s' );
 
 }
@@ -65,6 +67,10 @@ function basic( test )
     event33 : 'event33',
   };
 
+  function onEvent1( e ){ return entity1[ e.kind ] = ( entity1[ e.kind ] || 0 ) + 1; };
+  function onEvent2( e ){ return entity1[ e.kind ] = ( entity1[ e.kind ] || 0 ) + 1; };
+  function onEvent3( e ){ return entity1[ e.kind ] = ( entity1[ e.kind ] || 0 ) + 1; };
+
   /* make two entities */
 
   var entity1 = new Entity1();
@@ -73,10 +79,6 @@ function basic( test )
   /* */
 
   test.description = 'eventHandlerAppend';
-
-  function onEvent1( e ){ return entity1[ e.kind ] = ( entity1[ e.kind ] || 0 ) + 1; };
-  function onEvent2( e ){ return entity1[ e.kind ] = ( entity1[ e.kind ] || 0 ) + 1; };
-  function onEvent3( e ){ return entity1[ e.kind ] = ( entity1[ e.kind ] || 0 ) + 1; };
 
   debugger;
   entity1.on( 'event1',onEvent1 );
@@ -160,12 +162,6 @@ function basic( test )
   var entity1 = new Entity1();
   var entity2 = new Entity2();
 
-  // var entity1 = {};
-  // _.EventHandler.mixin( entity1 );
-  //
-  // var entity2 = {};
-  // _.EventHandler.mixin( entity2 );
-
   entity1.on( 'event1','owner',onEvent1 );
   entity1.on( 'event1','owner',onEvent1 );
   entity1.on( 'event1','owner',onEvent1 );
@@ -245,6 +241,44 @@ function basic( test )
 
 }
 
+//
+
+function eventWaitFor( test )
+{
+  function Entity1(){ this.init() };
+  _.EventHandler.mixin( Entity1 );
+  Entity1.prototype.Events =
+  {
+    init : 'init',
+    event1 : 'event1',
+  };
+
+  test.description = 'several calls, returned consequence must give message only once,event given several times'
+
+  var entity1 = new Entity1();
+  var cons = [];
+
+  cons.push( entity1.eventWaitFor( 'event1' ) );
+  cons.push( entity1.eventWaitFor( 'event1' ) );
+  cons.push( entity1.eventWaitFor( 'event1' ) );
+
+  entity1.eventGive( 'event1' );
+  entity1.eventGive( 'event1' );
+  entity1.eventGive( 'event1' );
+
+  var con  = _.Consequence().give();
+  con.andThen( cons );
+  con.eitherThenSplit( _.timeOutError( 3000 ) );
+
+  con.ifNoErrorThen( () =>
+  {
+    for( var i = 0; i < cons.length; i++ )
+    test.shouldMessageOnlyOnce( cons[ i ] );
+  })
+
+  return con;
+}
+
 // --
 // proto
 // --
@@ -259,6 +293,7 @@ var Self =
   {
 
     basic : basic,
+    eventWaitFor : eventWaitFor,
 
   },
 

@@ -1,6 +1,6 @@
 ( function _EventHandler_s_() {
 
-'use strict';
+'use strict'; /*aaa*/
 
 /*
 
@@ -350,41 +350,41 @@ function eventHandlerRegisterEclipse( kind, onHandle )
 }
 
 //
-
-function eventForbid( kinds )
-{
-  var self = this;
-  var owner;
-
-  _.assert( arguments.length === 1 );
-  _.assert( _.strIs( kinds ) || _.arrayIs( kinds ) );
-
-  var kinds = _.arrayAs( kinds );
-
-  function onHandle()
-  {
-    throw _.err( kinds.join( ' ' ),'event is forbidden in',self.nickName );
-  }
-
-  for( var k = 0 ; k < kinds.length ; k++ )
-  {
-
-    var kind = kinds[ k ];
-
-    var descriptor =
-    {
-      kind : kind,
-      onHandle : onHandle,
-      forbidden : 1,
-      appending : 0,
-    }
-
-    self._eventHandlerRegister( descriptor );
-
-  }
-
-  return self;
-}
+//
+// function eventForbid( kinds )
+// {
+//   var self = this;
+//   var owner;
+//
+//   _.assert( arguments.length === 1 );
+//   _.assert( _.strIs( kinds ) || _.arrayIs( kinds ) );
+//
+//   var kinds = _.arrayAs( kinds );
+//
+//   function onHandle()
+//   {
+//     throw _.err( kinds.join( ' ' ),'event is forbidden in',self.nickName );
+//   }
+//
+//   for( var k = 0 ; k < kinds.length ; k++ )
+//   {
+//
+//     var kind = kinds[ k ];
+//
+//     var descriptor =
+//     {
+//       kind : kind,
+//       onHandle : onHandle,
+//       // forbidden : 1,
+//       appending : 0,
+//     }
+//
+//     self._eventHandlerRegister( descriptor );
+//
+//   }
+//
+//   return self;
+// }
 
 //
 
@@ -412,10 +412,10 @@ function _eventHandlerRegister( o )
   _.assert( arguments.length === 1 );
   _.assert( !( o.provisional && o.once ) );
   _.assert( self.constructor.prototype.Events || ( !self.constructor.prototype.strictEventHandling && self.constructor.prototype.strictEventHandling !== undefined ), 'expects static Events' );
-  _.assert( o.forbidden || !self.strictEventHandling || self.Events[ o.kind ], self.constructor.name,'is not aware about event',_.strQuote( o.kind ) )
+  _.assert( /*o.forbidden ||*/ !self.strictEventHandling || self.Events[ o.kind ], self.constructor.name,'is not aware about event',_.strQuote( o.kind ) )
 
-  if( o.forbidden )
-  console.debug( 'REMINDER : forbidden event is not implemented!' );
+  // if( o.forbidden )
+  // console.debug( 'REMINDER : forbidden event is not implemented!' );
 
   if( self._eventKinds && self._eventKinds.indexOf( kind ) === -1 )
   throw _.err( 'eventHandlerAppend:','Object does not support such kind of events:',kind,self );
@@ -483,8 +483,8 @@ function _eventHandlerRegister( o )
 
   /* owner */
 
-  // if( o.owner !== undefined && o.owner !== null )
-  // self.eventHandlerRemoveByKindAndOwner( o.kind,o.owner );
+  if( o.owner !== undefined && o.owner !== null )
+  self.eventHandlerRemoveByKindAndOwner( o.kind,o.owner );
 
   /* */
 
@@ -513,7 +513,7 @@ _eventHandlerRegister.defaults =
   once : 0,
   eclipse : 0,
   provisional : 0,
-  forbidden : 0,
+  // forbidden : 0,
   appending : 1,
 }
 
@@ -1177,8 +1177,6 @@ var Supplement =
   eventHandlerRegisterEclipse : eventHandlerRegisterEclipse,
   eclipse : eventHandlerRegisterEclipse,
 
-  eventForbid : eventForbid,
-
   _eventHandlerRegister: _eventHandlerRegister,
 
 
@@ -1260,11 +1258,12 @@ var Self =
 
 _.assert( _.ClassSubfieldsGroups );
 _.ClassSubfieldsGroups.Events = 'Events';
-_global_[ Self.name ] = _[ Self.nameShort ] = _.mixinMake( Self );
 
 // --
 // export
 // --
+
+_global_[ Self.name ] = _[ Self.nameShort ] = _.mixinMake( Self );
 
 if( typeof module !== 'undefined' )
 if( _global_._UsingWtoolsPrivately_ )

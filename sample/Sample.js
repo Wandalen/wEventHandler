@@ -25,7 +25,7 @@ var Self = function Sample( o )
 // methods
 // --
 
-var init = function()
+function init()
 {
   var self = this;
 
@@ -35,7 +35,7 @@ var init = function()
 
 //
 
-var event1 = function()
+function event1()
 {
   var self = this;
 
@@ -72,14 +72,14 @@ _.classMake
 });
 
 wEventHandler.mixin( Self );
-
 _global_.Sample = Self;
 
 // make an instance
 
 var sample = new Self;
 
-sample.on( 'event1',function( e ) {
+sample.on( 'event1',function( e )
+{
   console.log( e );
 /*
 { kind: 'event1',
@@ -87,7 +87,8 @@ sample.on( 'event1',function( e ) {
 */
 });
 
-sample.on( 'event2',function( e ) {
+sample.on( 'event2',function( e )
+{
   console.log( e );
 /*
 { kind: 'event2',
@@ -95,7 +96,8 @@ sample.on( 'event2',function( e ) {
 */
 });
 
-sample.on( 'finit',function( e ) {
+sample.on( 'finit',function( e )
+{
   console.log( e );
 /*
 { kind: 'finit',
@@ -105,6 +107,8 @@ sample.on( 'finit',function( e ) {
 
 sample.event1();
 sample.eventGive( 'event2' );
+sample.off( 'event1' );
+sample.off( 'event2' );
 sample.finit();
 
 })();

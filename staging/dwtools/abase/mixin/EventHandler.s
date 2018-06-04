@@ -385,7 +385,7 @@ function eventHandlerRegisterEclipse( kind, onHandle )
 //
 //   return self;
 // }
-
+//
 //
 
 function _eventHandlerRegister( o )
@@ -418,7 +418,7 @@ function _eventHandlerRegister( o )
   // console.debug( 'REMINDER : forbidden event is not implemented!' );
 
   if( self._eventKinds && self._eventKinds.indexOf( kind ) === -1 )
-  throw _.err( 'eventHandlerAppend:','Object does not support such kind of events:',kind,self );
+  throw _.err( 'eventHandlerAppend:','Object does not support such kind of events :',kind,self );
 
   /* */
 

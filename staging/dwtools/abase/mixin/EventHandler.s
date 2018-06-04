@@ -1,6 +1,6 @@
 ( function _EventHandler_s_() {
 
-'use strict'; /*aaa*/
+'use strict'; 
 
 /*
 

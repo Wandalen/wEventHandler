@@ -1,6 +1,6 @@
 ( function _EventHandler_test_( ) {
 
-'use strict'; /* aaa */
+'use strict';
 
 if( typeof module !== 'undefined' )
 {
@@ -22,7 +22,7 @@ if( typeof module !== 'undefined' )
     require( toolsPath );
   }
 
-  var _global = _global_; var _ = _global_.wTools;
+  var _ = _global_.wTools;
 
   _.include( 'wTesting' );
   _.include( 'wConsequence' );
@@ -286,7 +286,7 @@ function eventWaitFor( test )
 var Self =
 {
 
-  name : 'EventHandler',
+  name : 'Tools/base/EventHandlerMixin',
   silencing : 1,
 
   tests :

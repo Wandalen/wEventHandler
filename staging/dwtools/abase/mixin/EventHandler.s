@@ -59,7 +59,7 @@ function _mixin( cls )
   });
 
   _.assert( dstProto.Restricts._eventHandler );
-  _.assert( arguments.length === 1 );
+  _.assert( arguments.length === 1, 'expects single argument' );
   _.assert( _.routineIs( cls ) );
   _.assert( dstProto.Events );
   _.assert( dstProto.Events.init );
@@ -356,7 +356,7 @@ function eventHandlerRegisterEclipse( kind, onHandle )
 //   var self = this;
 //   var owner;
 //
-//   _.assert( arguments.length === 1 );
+//   _.assert( arguments.length === 1, 'expects single argument' );
 //   _.assert( _.strIs( kinds ) || _.arrayIs( kinds ) );
 //
 //   var kinds = _.arrayAs( kinds );
@@ -409,7 +409,7 @@ function _eventHandlerRegister( o )
   _.assert( _.strIs( o.kind ) );
   _.assert( _.routineIs( o.onHandle ),'expects routine ( onHandle ), but got',_.strTypeOf( o.oHandle ) );
   _.assertMapHasOnly( o,_eventHandlerRegister.defaults );
-  _.assert( arguments.length === 1 );
+  _.assert( arguments.length === 1, 'expects single argument' );
   _.assert( !( o.provisional && o.once ) );
   _.assert( self.constructor.prototype.Events || ( !self.constructor.prototype.strictEventHandling && self.constructor.prototype.strictEventHandling !== undefined ), 'expects static Events' );
   _.assert( /*o.forbidden ||*/ !self.strictEventHandling || self.Events[ o.kind ], self.constructor.name,'is not aware about event',_.strQuote( o.kind ) )
@@ -605,7 +605,7 @@ function _eventHandlerRemove( o )
 {
   var self = this;
 
-  _.assert( arguments.length === 1 );
+  _.assert( arguments.length === 1, 'expects single argument' );
   _.assertMapHasOnly( o,_eventHandlerRemove.defaults );
   if( Object.keys( o ).length && o.strict === undefined )
   o.strict = 1;
@@ -733,7 +733,7 @@ function eventGive( event )
 {
   var self = this;
 
-  _.assert( arguments.length === 1 );
+  _.assert( arguments.length === 1, 'expects single argument' );
   _.assert( self._eventGive );
 
   if( _.strIs( event ) )
@@ -748,7 +748,7 @@ function eventHandleUntil( event,value )
 {
   var self = this;
 
-  _.assert( arguments.length === 2 );
+  _.assert( arguments.length === 2, 'expects exactly two argument' );
 
   if( _.strIs( event ) )
   event = { kind : event };
@@ -762,7 +762,7 @@ function eventHandleSingle( event )
 {
   var self = this;
 
-  _.assert( arguments.length === 1 );
+  _.assert( arguments.length === 1, 'expects single argument' );
 
   if( _.strIs( event ) )
   event = { kind : event };
@@ -778,7 +778,7 @@ function _eventGive( event,o )
   var result = o.result = o.result || [];
   var untilFound = 0;
 
-  _.assert( arguments.length === 2 );
+  _.assert( arguments.length === 2, 'expects exactly two argument' );
   _.assert( event.type === undefined || event.kind !== undefined, 'event should have "kind" field, no "type" field' );
   _.assert( self.constructor.prototype.Events || ( !self.constructor.prototype.strictEventHandling && self.constructor.prototype.strictEventHandling !== undefined ), 'expects static Events' );
   _.assert( !self.strictEventHandling || self.Events[ event.kind ], self.constructor.name,'is not aware about event',_.strQuote( event.kind ) );
@@ -863,7 +863,7 @@ function eventWaitFor( kind )
   var self = this;
   var con = new _.Consequence();
 
-  _.assert( arguments.length === 1 );
+  _.assert( arguments.length === 1, 'expects single argument' );
   _.assert( _.strIs( kind ) );
 
   var descriptor =
@@ -899,7 +899,7 @@ function _eventHandlerDescriptorByKindAndOwner( kind,owner )
   if( !handlers )
   return;
 
-  _.assert( arguments.length === 2 );
+  _.assert( arguments.length === 2, 'expects exactly two argument' );
 
   function eq( a,b ){ return a.kind === b.kind && a.owner === b.owner; };
   var element = { kind : kind, owner : owner };
@@ -928,7 +928,7 @@ function _eventHandlerDescriptorByKindAndHandler( kind,onHandle )
   if( !handlers )
   return;
 
-  _.assert( arguments.length === 2 );
+  _.assert( arguments.length === 2, 'expects exactly two argument' );
 
   function eq( a,b ){ return a.kind === b.kind && a.onHandle === b.onHandle; };
   var element = { kind : kind, onHandle : onHandle };
@@ -950,7 +950,7 @@ function _eventHandlerDescriptorByHandler( onHandle )
   var self = this;
 
   _.assert( _.routineIs( onHandle ) );
-  _.assert( arguments.length === 1 );
+  _.assert( arguments.length === 1, 'expects single argument' );
 
   var handlers = self._eventHandler.descriptors;
   if( !handlers )
@@ -1041,7 +1041,7 @@ function eventProxyTo( dstProto,rename )
 {
   var self = this;
 
-  _.assert( arguments.length === 2 );
+  _.assert( arguments.length === 2, 'expects exactly two argument' );
   _.assert( _.objectIs( dstProto ) || _.arrayIs( dstProto ) );
   _.assert( _.mapIs( rename ) || _.strIs( rename ) );
 
@@ -1101,7 +1101,7 @@ function eventProxyFrom( src,rename )
 {
   var self = this;
 
-  _.assert( arguments.length === 2 );
+  _.assert( arguments.length === 2, 'expects exactly two argument' );
 
   if( _.arrayIs( src ) )
   {

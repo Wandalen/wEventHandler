@@ -748,7 +748,7 @@ function eventHandleUntil( event,value )
 {
   var self = this;
 
-  _.assert( arguments.length === 2, 'expects exactly two argument' );
+  _.assert( arguments.length === 2, 'expects exactly two arguments' );
 
   if( _.strIs( event ) )
   event = { kind : event };
@@ -778,7 +778,7 @@ function _eventGive( event,o )
   var result = o.result = o.result || [];
   var untilFound = 0;
 
-  _.assert( arguments.length === 2, 'expects exactly two argument' );
+  _.assert( arguments.length === 2, 'expects exactly two arguments' );
   _.assert( event.type === undefined || event.kind !== undefined, 'event should have "kind" field, no "type" field' );
   _.assert( self.constructor.prototype.Events || ( !self.constructor.prototype.strictEventHandling && self.constructor.prototype.strictEventHandling !== undefined ), 'expects static Events' );
   _.assert( !self.strictEventHandling || self.Events[ event.kind ], self.constructor.name,'is not aware about event',_.strQuote( event.kind ) );
@@ -899,7 +899,7 @@ function _eventHandlerDescriptorByKindAndOwner( kind,owner )
   if( !handlers )
   return;
 
-  _.assert( arguments.length === 2, 'expects exactly two argument' );
+  _.assert( arguments.length === 2, 'expects exactly two arguments' );
 
   function eq( a,b ){ return a.kind === b.kind && a.owner === b.owner; };
   var element = { kind : kind, owner : owner };
@@ -928,7 +928,7 @@ function _eventHandlerDescriptorByKindAndHandler( kind,onHandle )
   if( !handlers )
   return;
 
-  _.assert( arguments.length === 2, 'expects exactly two argument' );
+  _.assert( arguments.length === 2, 'expects exactly two arguments' );
 
   function eq( a,b ){ return a.kind === b.kind && a.onHandle === b.onHandle; };
   var element = { kind : kind, onHandle : onHandle };
@@ -1041,7 +1041,7 @@ function eventProxyTo( dstProto,rename )
 {
   var self = this;
 
-  _.assert( arguments.length === 2, 'expects exactly two argument' );
+  _.assert( arguments.length === 2, 'expects exactly two arguments' );
   _.assert( _.objectIs( dstProto ) || _.arrayIs( dstProto ) );
   _.assert( _.mapIs( rename ) || _.strIs( rename ) );
 
@@ -1101,7 +1101,7 @@ function eventProxyFrom( src,rename )
 {
   var self = this;
 
-  _.assert( arguments.length === 2, 'expects exactly two argument' );
+  _.assert( arguments.length === 2, 'expects exactly two arguments' );
 
   if( _.arrayIs( src ) )
   {

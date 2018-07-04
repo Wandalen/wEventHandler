@@ -1256,8 +1256,8 @@ var Self =
 
 //
 
-_.assert( _.ClassSubfieldsGroups );
-_.ClassSubfieldsGroups.Events = 'Events';
+_.assert( _.ClassFieldsGroups );
+_.ClassFieldsGroups.Events = 'Events';
 
 // --
 // export

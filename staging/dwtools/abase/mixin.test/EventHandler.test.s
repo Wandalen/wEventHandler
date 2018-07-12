@@ -78,7 +78,7 @@ function basic( test )
 
   /* */
 
-  test.description = 'eventHandlerAppend';
+  test.case = 'eventHandlerAppend';
 
   debugger;
   entity1.on( 'event1',onEvent1 );
@@ -108,7 +108,7 @@ function basic( test )
 
   /* */
 
-  test.description = 'eventHandleUntil';
+  test.case = 'eventHandleUntil';
 
   function onUntil0( e ){ entity1[ e.kind ] = ( entity1[ e.kind ] || 0 ) + 1; return 0; };
   function onUntil1( e ){ entity1[ e.kind ] = ( entity1[ e.kind ] || 0 ) + 1; return 1; };
@@ -131,7 +131,7 @@ function basic( test )
 
   /* */
 
-  test.description = 'eventHandlerRemove';
+  test.case = 'eventHandlerRemove';
 
   entity1.eventHandlerRemove( 'until',onUntil0 );
   test.identical( entity1.eventHandleUntil( 'until',0 ),[ 1,2,3 ] );
@@ -157,7 +157,7 @@ function basic( test )
 
   /* */
 
-  test.description = 'eventProxyTo';
+  test.case = 'eventProxyTo';
 
   var entity1 = new Entity1();
   var entity2 = new Entity2();
@@ -195,7 +195,7 @@ function basic( test )
 
   /* */
 
-  test.description = 'eventHandlerRemoveByKindAndOwner';
+  test.case = 'eventHandlerRemoveByKindAndOwner';
 
   test.identical( entity1.eventGive( 'event1' ),[ 5,6 ] );
   test.identical( entity1[ 'event1' ], 6 );
@@ -225,7 +225,7 @@ function basic( test )
 
   /* */
 
-  test.description = 'once';
+  test.case = 'once';
 
   entity1.once( 'event2',onEvent2 );
   test.identical( entity1.eventGive( 'event2' ),[ 1 ] );
@@ -253,7 +253,7 @@ function eventWaitFor( test )
     event1 : 'event1',
   };
 
-  test.description = 'several calls, returned consequence must give message only once,event given several times'
+  test.case = 'several calls, returned consequence must give message only once,event given several times'
 
   var entity1 = new Entity1();
   var cons = [];

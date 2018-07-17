@@ -1,6 +1,6 @@
 ( function _EventHandler_test_( ) {
 
-'use strict'; /**/
+'use strict';
 
 if( typeof module !== 'undefined' )
 {

@@ -555,7 +555,7 @@ function eventHandlerRemove()
       });
 
     }
-    else if( _.arrayLike( arguments[ 0 ] ) )
+    else if( _.longIs( arguments[ 0 ] ) )
     {
 
       for( var i = 0; i < arguments[ 0 ].length; i++ )
@@ -568,7 +568,7 @@ function eventHandlerRemove()
   else if( arguments.length === 2 )
   {
 
-    if( _.arrayLike( arguments[ 0 ] ) )
+    if( _.longIs( arguments[ 0 ] ) )
     {
 
       for( var i = 0; i < arguments[ 0 ].length; i++ )

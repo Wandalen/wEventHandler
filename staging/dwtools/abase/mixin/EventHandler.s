@@ -69,11 +69,11 @@ function _mixin( cls )
 }
 
 // --
-// Functor
+// Functors
 // --
 
 /**
- * Functor to produce init.
+ * Functors to produce init.
  * @param { routine } original - original method.
  * @method init
  * @memberof wEventHandler#
@@ -100,7 +100,7 @@ function init( original )
 //
 
 /**
- * Functor to produce finit.
+ * Functors to produce finit.
  * @param { routine } original - original method.
  * @method finit
  * @memberof wEventHandler#
@@ -1232,7 +1232,7 @@ var Supplement =
 
 //
 
-var Functor =
+var Functors =
 {
 
   init : init,
@@ -1245,7 +1245,7 @@ var Functor =
 var Self =
 {
 
-  functor : Functor,
+  functors : Functors,
   supplement : Supplement,
 
   _mixin : _mixin,

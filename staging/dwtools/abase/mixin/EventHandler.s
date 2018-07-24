@@ -164,7 +164,7 @@ function _eventHandlerFinit()
       if( h === 'finit' )
       continue;
       var err = 'Finited instance has bound handler(s), but should not' + h + ':\n' + _.toStr( handlers[ h ],{ levels : 2, } );
-      console.error( err.toString() );
+      console.error( err.toString() + '\n' + err.stack );
       console.error( handlers[ h ][ 0 ].onHandle );
       console.error( self.eventReport() );
       debugger;

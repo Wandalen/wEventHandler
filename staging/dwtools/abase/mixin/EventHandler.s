@@ -49,7 +49,7 @@ var _ObjectHasOwnProperty = Object.hasOwnProperty;
  * @memberof wEventHandler#
  */
 
-function onMixin( dstClass )
+function onMixin( mixinDescriptor, dstClass )
 {
   var dstPrototype = dstClass.prototype;
 

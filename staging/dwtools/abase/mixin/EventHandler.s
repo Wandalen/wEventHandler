@@ -30,41 +30,43 @@ if( typeof module !== 'undefined' )
     require( toolsPath );
   }
 
-  var _global = _global_; var _ = _global_.wTools;
+  var _ = _global_.wTools;
 
   _.include( 'wProto' );
 
 }
 
-var _global = _global_; var _ = _global_.wTools;
+var _global = _global_;
+var _ = _global_.wTools;
 var _hasOwnProperty = Object.hasOwnProperty;
 
 //
 
 /**
  * Mixin this methods into prototype of another object.
- * @param {object} dstProto - prototype of another object.
+ * @param {object} dstPrototype - prototype of another object.
  * @method copy
  * @memberof wEventHandler#
  */
 
-function _mixin( cls )
+function onMixin( dstClass )
 {
-  var dstProto = cls.prototype;
+  var dstPrototype = dstClass.prototype;
 
-  _.mixinApply
-  ({
-    dstProto : dstProto,
-    descriptor : Self,
-  });
+  _.mixinApply( this, dstPrototype );
+  // _.mixinApply
+  // ({
+  //   dstPrototype : dstPrototype,
+  //   descriptor : Self,
+  // });
 
-  _.assert( dstProto.Restricts._eventHandler );
-  _.assert( arguments.length === 1, 'expects single argument' );
-  _.assert( _.routineIs( cls ) );
-  _.assert( dstProto.Events );
-  _.assert( dstProto.Events.init );
-  _.assert( dstProto.Events.finit );
-  _.assert( _.accessorForbidOwn( dstProto,'_eventHandlers' ) )
+  _.assert( dstPrototype.Restricts._eventHandler );
+  _.assert( arguments.length === 2, 'expects exactly two arguments' );
+  _.assert( _.routineIs( dstClass ) );
+  _.assert( dstPrototype.Events );
+  _.assert( dstPrototype.Events.init );
+  _.assert( dstPrototype.Events.finit );
+  _.assert( _.accessorForbidOwns( dstPrototype,'_eventHandlers' ) )
 
 }
 
@@ -407,7 +409,7 @@ function _eventHandlerRegister( o )
   /* verification */
 
   _.assert( _.strIs( o.kind ) );
-  _.assert( _.routineIs( o.onHandle ),'expects routine ( onHandle ), but got',_.strTypeOf( o.oHandle ) );
+  _.assert( _.routineIs( o.onHandle ),'expects routine {-onHandle-}, but got',_.strTypeOf( o.oHandle ) );
   _.assertMapHasOnly( o,_eventHandlerRegister.defaults );
   _.assert( arguments.length === 1, 'expects single argument' );
   _.assert( !( o.provisional && o.once ) );
@@ -1037,25 +1039,25 @@ eventHandlerDescriptorsFilter.defaults =
 // proxy
 // --
 
-function eventProxyTo( dstProto,rename )
+function eventProxyTo( dstPrototype,rename )
 {
   var self = this;
 
   _.assert( arguments.length === 2, 'expects exactly two arguments' );
-  _.assert( _.objectIs( dstProto ) || _.arrayIs( dstProto ) );
+  _.assert( _.objectIs( dstPrototype ) || _.arrayIs( dstPrototype ) );
   _.assert( _.mapIs( rename ) || _.strIs( rename ) );
 
-  if( _.arrayIs( dstProto ) )
+  if( _.arrayIs( dstPrototype ) )
   {
-    for( var d = 0 ; d < dstProto.length ; d++ )
-    self.eventProxyTo( dstProto[ d ],rename );
+    for( var d = 0 ; d < dstPrototype.length ; d++ )
+    self.eventProxyTo( dstPrototype[ d ],rename );
     return self;
   }
 
   /* */
 
-  _.assert( _.routineIs( dstProto.eventGive ) );
-  _.assert( _.routineIs( dstProto._eventGive ) );
+  _.assert( _.routineIs( dstPrototype.eventGive ) );
+  _.assert( _.routineIs( dstPrototype._eventGive ) );
 
   if( _.strIs( rename ) )
   {
@@ -1081,9 +1083,9 @@ function eventProxyTo( dstProto,rename )
           event = _.mapExtend( null,event );
           event.kind = rename[ name ];
         }
-        return dstProto._eventGive( event,o );
+        return dstPrototype._eventGive( event,o );
       },
-      owner : dstProto,
+      owner : dstPrototype,
       proxy : 1,
       appending : 1,
     }
@@ -1114,7 +1116,7 @@ function eventProxyFrom( src,rename )
 }
 
 // --
-// relationships
+// relations
 // --
 
 var Composes =
@@ -1220,7 +1222,7 @@ var Supplement =
   eventProxyFrom : eventProxyFrom,
 
 
-  // relationships
+  // relations
 
   Composes : Composes,
   Restricts : Restricts,
@@ -1248,9 +1250,9 @@ var Self =
   functors : Functors,
   supplement : Supplement,
 
-  _mixin : _mixin,
+  onMixin : onMixin,
   name : 'wEventHandler',
-  nameShort : 'EventHandler',
+  shortName : 'EventHandler',
 
 }
 
@@ -1263,7 +1265,7 @@ _.ClassFieldsGroups.Events = 'Events';
 // export
 // --
 
-_global_[ Self.name ] = _[ Self.nameShort ] = _.mixinMake( Self );
+_global_[ Self.name ] = _[ Self.shortName ] = _.mixinMake( Self );
 
 if( typeof module !== 'undefined' )
 if( _global_.WTOOLS_PRIVATE )

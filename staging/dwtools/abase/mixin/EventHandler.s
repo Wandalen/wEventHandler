@@ -60,13 +60,14 @@ function onMixin( mixinDescriptor, dstClass )
   //   descriptor : Self,
   // });
 
-  _.assert( dstPrototype.Restricts._eventHandler );
+  _.assert( _.objectIs( dstPrototype.Restricts._eventHandler ) );
   _.assert( arguments.length === 2, 'expects exactly two arguments' );
   _.assert( _.routineIs( dstClass ) );
-  _.assert( dstPrototype.Events );
-  _.assert( dstPrototype.Events.init );
-  _.assert( dstPrototype.Events.finit );
-  _.assert( _.accessorForbidOwns( dstPrototype,'_eventHandlers' ) )
+  _.assert( _.objectIs( dstPrototype.Events ) );
+  _.assert( _.strIs( dstPrototype.Events.init ) );
+  _.assert( _.strIs( dstPrototype.Events.finit ) );
+
+  _.accessorForbidOwns( dstPrototype, '_eventHandlers' );
 
 }
 
@@ -413,8 +414,8 @@ function _eventHandlerRegister( o )
   _.assertMapHasOnly( o,_eventHandlerRegister.defaults );
   _.assert( arguments.length === 1, 'expects single argument' );
   _.assert( !( o.provisional && o.once ) );
-  _.assert( self.constructor.prototype.Events || ( !self.constructor.prototype.strictEventHandling && self.constructor.prototype.strictEventHandling !== undefined ), 'expects static Events' );
-  _.assert( /*o.forbidden ||*/ !self.strictEventHandling || self.Events[ o.kind ], self.constructor.name,'is not aware about event',_.strQuote( o.kind ) )
+  _.assert( !!self.constructor.prototype.Events || ( !self.constructor.prototype.strictEventHandling && self.constructor.prototype.strictEventHandling !== undefined ), 'expects static Events' );
+  _.assert( !self.strictEventHandling || !!self.Events[ o.kind ], self.constructor.name, 'is not aware about event', _.strQuote( o.kind ) )
 
   // if( o.forbidden )
   // console.debug( 'REMINDER : forbidden event is not implemented!' );
@@ -515,7 +516,6 @@ _eventHandlerRegister.defaults =
   once : 0,
   eclipse : 0,
   provisional : 0,
-  // forbidden : 0,
   appending : 1,
 }
 
@@ -702,7 +702,7 @@ function eventHandlerRemoveByKindAndOwner( kind, owner )
 {
   var self = this;
 
-  _.assert( arguments.length === 2 && owner,'eventHandlerRemove:','expects "kind" and "owner" as arguments' );
+  _.assert( arguments.length === 2 && !!owner, 'eventHandlerRemove:', 'expects "kind" and "owner" as arguments' );
 
   var handlers = self._eventHandler.descriptors;
   if( !handlers )
@@ -736,7 +736,7 @@ function eventGive( event )
   var self = this;
 
   _.assert( arguments.length === 1, 'expects single argument' );
-  _.assert( self._eventGive );
+  _.assert( _.routineIs( self._eventGive ) );
 
   if( _.strIs( event ) )
   event = { kind : event };
@@ -782,9 +782,9 @@ function _eventGive( event,o )
 
   _.assert( arguments.length === 2, 'expects exactly two arguments' );
   _.assert( event.type === undefined || event.kind !== undefined, 'event should have "kind" field, no "type" field' );
-  _.assert( self.constructor.prototype.Events || ( !self.constructor.prototype.strictEventHandling && self.constructor.prototype.strictEventHandling !== undefined ), 'expects static Events' );
-  _.assert( !self.strictEventHandling || self.Events[ event.kind ], self.constructor.name,'is not aware about event',_.strQuote( event.kind ) );
-  _.assert( self._eventHandler );
+  _.assert( !!self.constructor.prototype.Events || ( !self.constructor.prototype.strictEventHandling && self.constructor.prototype.strictEventHandling !== undefined ), 'expects static Events' );
+  _.assert( !self.strictEventHandling || !!self.Events[ event.kind ], () => self.constructor.name + ' is not aware about event ' + _.strQuote( event.kind ) );
+  _.assert( _.objectIs( self._eventHandler ) );
 
   if( self.eventVerbosity )
   logger.log( 'fired event', self.nickName + '.' + event.kind );
@@ -979,7 +979,7 @@ function _eventHandlerDescriptorsByKind( kind )
 {
   var self = this;
 
-  _.assert( self._eventHandler );
+  _.assert( _.objectIs( self._eventHandler ) );
 
   if( !self._eventHandler.descriptors )
   debugger;
@@ -1258,7 +1258,7 @@ var Self =
 
 //
 
-_.assert( _.ClassFieldsGroups );
+_.assert( _.mapIs( _.ClassFieldsGroups ) );
 _.ClassFieldsGroups.Events = 'Events';
 
 // --

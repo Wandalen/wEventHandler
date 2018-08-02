@@ -43,6 +43,22 @@ var _ObjectHasOwnProperty = Object.hasOwnProperty;
 //
 
 /**
+ * @class wEventHandler
+ */
+
+var _global = _global_;
+var _ = _global_.wTools;
+var Parent = null;
+var Self = function wEventHandler( o )
+{
+  return _.instanceConstructor( Self, this, arguments );
+}
+
+Self.shortName = 'EventHandler';
+
+//
+
+/**
  * Mixin this methods into prototype of another object.
  * @param {object} dstPrototype - prototype of another object.
  * @method copy
@@ -54,11 +70,6 @@ function onMixin( mixinDescriptor, dstClass )
   var dstPrototype = dstClass.prototype;
 
   _.mixinApply( this, dstPrototype );
-  // _.mixinApply
-  // ({
-  //   dstPrototype : dstPrototype,
-  //   descriptor : Self,
-  // });
 
   _.assert( _.objectIs( dstPrototype.Restricts._eventHandler ) );
   _.assert( arguments.length === 2, 'expects exactly two arguments' );
@@ -1119,6 +1130,11 @@ function eventProxyFrom( src,rename )
 // relations
 // --
 
+var Groups =
+{
+  Events : 'Events',
+}
+
 var Composes =
 {
 }
@@ -1152,7 +1168,7 @@ var Forbids =
 }
 
 // --
-// proto
+// declaration
 // --
 
 var Supplement =
@@ -1181,7 +1197,6 @@ var Supplement =
 
   _eventHandlerRegister: _eventHandlerRegister,
 
-
   // unregister
 
   removeListener : eventHandlerRemove,
@@ -1191,7 +1206,6 @@ var Supplement =
   _eventHandlerRemove : _eventHandlerRemove,
 
   eventHandlerRemoveByKindAndOwner : eventHandlerRemoveByKindAndOwner,
-
 
   // handle
 
@@ -1205,7 +1219,6 @@ var Supplement =
 
   eventWaitFor : eventWaitFor,
 
-
   // get
 
   _eventHandlerDescriptorByKindAndOwner : _eventHandlerDescriptorByKindAndOwner,
@@ -1215,15 +1228,14 @@ var Supplement =
   _eventHandlerDescriptorsAll : _eventHandlerDescriptorsAll,
   eventHandlerDescriptorsFilter : eventHandlerDescriptorsFilter,
 
-
   // proxy
 
   eventProxyTo : eventProxyTo,
   eventProxyFrom : eventProxyFrom,
 
-
   // relations
 
+  Groups : Groups,
   Composes : Composes,
   Restricts : Restricts,
   Statics : Statics,
@@ -1244,28 +1256,44 @@ var Functors =
 
 //
 
-var Self =
-{
-
-  functors : Functors,
+_.classMake
+({
+  cls : Self,
   supplement : Supplement,
-
   onMixin : onMixin,
-  name : 'wEventHandler',
-  shortName : 'EventHandler',
+  // onMixinEnd : onMixinEnd,
+  functors : Functors,
+  withMixin : true,
+  withClass : true,
+});
 
-}
-
+// //
+//
+// var Self =
+// {
+//
+//   functors : Functors,
+//   supplement : Supplement,
+//
+//   onMixin : onMixin,
+//   name : 'wEventHandler',
+//   shortName : 'EventHandler',
+//
+// }
+//
 //
 
-_.assert( _.mapIs( _.ClassFieldsGroups ) );
-_.ClassFieldsGroups.Events = 'Events';
+_.assert( _.mapIs( _.DefaultFieldsGroups ) );
+// debugger;
+// _.DefaultFieldsGroups.Events = 'Events';
+// debugger;
 
 // --
 // export
 // --
 
-_global_[ Self.name ] = _[ Self.shortName ] = _.mixinMake( Self );
+// _global_[ Self.name ] = _[ Self.shortName ] = _.mixinMake( Self );
+_global_[ Self.name ] = _[ Self.shortName ] = Self;
 
 if( typeof module !== 'undefined' )
 if( _global_.WTOOLS_PRIVATE )

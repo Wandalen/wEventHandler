@@ -1151,7 +1151,7 @@ var Restricts =
 {
 
   eventVerbosity : 0,
-  _eventHandler : Object.create( null ),
+  _eventHandler : _.define.own( {} ),
 
 }
 
@@ -1264,7 +1264,7 @@ var Functors =
 
 //
 
-_.classMake
+_.classDeclare
 ({
   cls : Self,
   supplement : Supplement,
@@ -1300,7 +1300,7 @@ _.assert( _.mapIs( _.DefaultFieldsGroups ) );
 // export
 // --
 
-// _global_[ Self.name ] = _[ Self.shortName ] = _.mixinMake( Self );
+// _global_[ Self.name ] = _[ Self.shortName ] = _.mixinDelcare( Self );
 _global_[ Self.name ] = _[ Self.shortName ] = Self;
 
 if( typeof module !== 'undefined' )

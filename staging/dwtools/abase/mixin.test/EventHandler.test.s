@@ -30,8 +30,8 @@ if( typeof module !== 'undefined' )
   require( '../mixin/EventHandler.s' );
 
 }
-
-var _global = _global_; var _ = _global_.wTools;
+var _global = _global_;
+var _ = _global_.wTools;
 
 // --
 // test

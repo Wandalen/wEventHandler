@@ -280,7 +280,7 @@ function eventWaitFor( test )
 }
 
 // --
-// define class
+// declare
 // --
 
 var Self =

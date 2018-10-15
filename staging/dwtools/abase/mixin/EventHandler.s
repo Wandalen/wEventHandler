@@ -86,7 +86,7 @@ function onMixin( mixinDescriptor, dstClass )
   _.assert( _.strIs( dstPrototype.Events.init ) );
   _.assert( _.strIs( dstPrototype.Events.finit ) );
 
-  _.accessorForbidOwns( dstPrototype, '_eventHandlers' );
+  _.accessor.forbidOwns( dstPrototype, '_eventHandlers' );
 
 }
 

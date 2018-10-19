@@ -64,7 +64,9 @@ var Self = function wEventHandler( o )
 
 Self.shortName = 'EventHandler';
 
+// --
 //
+// --
 
 /**
  * Mixin this methods into prototype of another object.
@@ -1269,38 +1271,17 @@ _.classDeclare
   cls : Self,
   supplement : Supplement,
   onMixin : onMixin,
-  // onMixinEnd : onMixinEnd,
   functors : Functors,
   withMixin : true,
   withClass : true,
 });
 
-// //
-//
-// var Self =
-// {
-//
-//   functors : Functors,
-//   supplement : Supplement,
-//
-//   onMixin : onMixin,
-//   name : 'wEventHandler',
-//   shortName : 'EventHandler',
-//
-// }
-//
-//
-
 _.assert( _.mapIs( _.DefaultFieldsGroups ) );
-// debugger;
-// _.DefaultFieldsGroups.Events = 'Events';
-// debugger;
 
 // --
 // export
 // --
 
-// _global_[ Self.name ] = _[ Self.shortName ] = _.mixinDelcare( Self );
 _global_[ Self.name ] = _[ Self.shortName ] = Self;
 
 if( typeof module !== 'undefined' )

@@ -739,7 +739,7 @@ function eventHandlerRemoveByKindAndOwner( kind, owner )
     var descriptor = self._eventHandlerDescriptorByKindAndOwner( kind,owner );
 
     if( descriptor )
-    _.arrayRemoveOnce( handlers,descriptor );
+    _.arrayRemoveElementOnce( handlers,descriptor );
 
   }
   while( descriptor );

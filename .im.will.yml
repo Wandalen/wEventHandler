@@ -49,6 +49,20 @@ reflector :
       - .default.release
       - .current
 
+  .dependencies.current :
+    reflectMap :
+    - .
+
+  .dependencies.debug :
+    inherit :
+      - .default.debug
+      - .current
+
+  .dependencies.release :
+    inherit :
+      - .default.release
+      - .current
+
   grab.release :
     reflectMap :
       reflector::.release : path::out.release
@@ -56,6 +70,14 @@ reflector :
   grab.debug :
     reflectMap :
       reflector::.debug : path::out.debug
+
+  grab.dependencies.release :
+    reflectMap :
+      reflector::.dependencies.release : path::out.release
+
+  grab.dependencies.debug :
+    reflectMap :
+      reflector::.dependencies.debug : path::out.debug
 
   out.debug :
     srcFilter :
@@ -78,6 +100,13 @@ step :
     inherit : grab
     reflector : reflector::grab.release
 
+  grab.dependencies.debug :
+    inherit : grab
+    reflector : reflector::grab.dependencies.debug
+  grab.dependencies.release :
+    inherit : grab
+    reflector : reflector::grab.dependencies.release
+
 build :
 
   .debug :
@@ -89,6 +118,7 @@ build :
       compiled : 0
     steps :
       - step::grab.debug
+      - step::grab.dependencies
 
   .debug.compiled :
     setting :
@@ -122,4 +152,3 @@ build :
       - concurrent :
         - build::.debug
         - build::.release.compiled
-

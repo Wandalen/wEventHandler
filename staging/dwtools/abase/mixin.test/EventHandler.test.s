@@ -27,7 +27,7 @@ if( typeof module !== 'undefined' )
   _.include( 'wTesting' );
   _.include( 'wConsequence' );
 
-  require( '../mixin/EventHandler.s' );
+  require( '../l7/EventHandler.s' );
 
 }
 var _global = _global_;

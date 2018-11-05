@@ -11,14 +11,14 @@
     }
   ],
   "license": "MIT",
-  "main": "staging/dwtools/abase/mixin/EventHandler.s",
+  "main": "proto/dwtools/abase/mixin/EventHandler.s",
   "files": [
-    "staging/dwtools/abase/mixin",
+    "proto/dwtools/abase/mixin",
     "production"
   ],
   "scripts": {
     "test": "wtest staging",
-    "make_doc": "./doc.sh"
+    "docgen": "wdocgen proto"
   },
   "repository": {
     "type": "git",

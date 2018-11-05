@@ -14,7 +14,7 @@
   "main": "proto/dwtools/abase/mixin/EventHandler.s",
   "files": [
     "proto/dwtools/abase/mixin",
-    "production"
+    "proto/dwtools/Tools.s", "production"
   ],
   "scripts": {
     "test": "wtest staging",

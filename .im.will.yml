@@ -1,9 +1,6 @@
 
-submodule :
 
-  # Tools : git+https:///github.com/Wandalen/wTools.git/#master
-  # Tools : ./module/Tools
-  # PathFundamentals : ./module/PathFundamentals
+submodule :
 
 path :
 
@@ -89,3 +86,4 @@ build :
     steps :
       - build::debug.raw
       - build::release.compiled
+

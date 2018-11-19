@@ -266,11 +266,11 @@ function eventWaitFor( test )
   entity1.eventGive( 'event1' );
   entity1.eventGive( 'event1' );
 
-  var con  = _.Consequence().give();
+  var con  = _.Consequence().give( null );
   con.andThen( cons );
   con.eitherThenSplit( _.timeOutError( 3000 ) );
 
-  con.ifNoErrorThen( () =>
+  con.ifNoErrorThen( ( arg/*aaa*/ ) =>
   {
     for( var i = 0; i < cons.length; i++ )
     test.shouldMessageOnlyOnce( cons[ i ] );

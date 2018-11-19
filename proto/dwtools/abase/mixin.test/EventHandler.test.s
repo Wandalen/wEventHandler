@@ -274,6 +274,7 @@ function eventWaitFor( test )
   {
     for( var i = 0; i < cons.length; i++ )
     test.shouldMessageOnlyOnce( cons[ i ] );
+    return null;
   })
 
   return con;

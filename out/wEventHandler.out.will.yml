@@ -11,7 +11,7 @@ about:
     developer to explicitly declare / bind / unbind all events supported by
     object. Use it to add events dispatching mechanism to your classes and avoid
     accumulation of technical dept and potential errors.
-  version: 0.4.62
+  version: 0.4.63
   enabled: 1
   interpreters:
     - nodejs >= 6.0.0
@@ -91,7 +91,7 @@ path:
 submodule: {}
 reflector:
   reflect.proto.0:
-    reflectMap:
+    filePath:
       ./proto: ./out.release
     srcFilter:
       maskAll:
@@ -115,7 +115,7 @@ reflector:
     inherit:
       - predefined.*
   reflect.proto.1:
-    reflectMap:
+    filePath:
       ./proto: ./out.debug
     srcFilter:
       maskAll:
@@ -161,15 +161,14 @@ reflector:
     inherit:
       - predefined.*
   exported.0:
-    reflectMap:
-      ./proto: true
+    filePath: ./proto
     srcFilter:
       prefixPath: .
     dstFilter:
       prefixPath: .
   exportedFiles.0:
     recursive: 0
-    reflectMap:
+    filePath:
       ./dwtools/Tools.s: true
       ./dwtools/abase/.DS_Store: true
       ./dwtools/abase/mixin/.DS_Store: true
@@ -282,7 +281,7 @@ build:
       - 'step::export.proto'
 exported:
   proto.export:
-    version: 0.4.62
+    version: 0.4.63
     criterion:
       default: 1
       debug: 1

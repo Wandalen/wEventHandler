@@ -415,7 +415,7 @@ function _eventHandlerRegister( o )
   /* verification */
 
   _.assert( _.strIs( o.kind ) );
-  _.assert( _.routineIs( o.onHandle ),'Expects routine {-onHandle-}, but got',_.strTypeOf( o.oHandle ) );
+  _.assert( _.routineIs( o.onHandle ),'Expects routine {-onHandle-}, but got',_.strType( o.oHandle ) );
   _.assertMapHasOnly( o,_eventHandlerRegister.defaults );
   _.assert( arguments.length === 1, 'Expects single argument' );
   _.assert( !( o.provisional && o.once ) );

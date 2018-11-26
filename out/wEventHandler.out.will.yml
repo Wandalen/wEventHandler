@@ -176,7 +176,7 @@ reflector:
       ./dwtools/abase/mixin.test/EventHandler.test.s: true
     srcFilter:
       basePath: ./proto
-      prefixPath: proto
+      prefixPath: .
     dstFilter:
       basePath: .
       prefixPath: .

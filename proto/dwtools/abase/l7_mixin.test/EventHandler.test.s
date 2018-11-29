@@ -10,9 +10,10 @@ if( typeof module !== 'undefined' )
   _.include( 'wTesting' );
   _.include( 'wConsequence' );
 
-  require( '../l7/EventHandler.s' );
+  require( '../l7_mixin/EventHandler.s' );
 
 }
+
 var _global = _global_;
 var _ = _global_.wTools;
 

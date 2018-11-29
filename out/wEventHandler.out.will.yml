@@ -59,12 +59,10 @@ path:
       - ./dwtools
       - ./dwtools/Tools.s
       - ./dwtools/abase
-      - ./dwtools/abase/.DS_Store
-      - ./dwtools/abase/mixin
-      - ./dwtools/abase/mixin/.DS_Store
-      - ./dwtools/abase/mixin/EventHandler.s
-      - ./dwtools/abase/mixin.test
-      - ./dwtools/abase/mixin.test/EventHandler.test.s
+      - ./dwtools/abase/l7_mixin
+      - ./dwtools/abase/l7_mixin/EventHandler.s
+      - ./dwtools/abase/l7_mixin.test
+      - ./dwtools/abase/l7_mixin.test/EventHandler.test.s
       - ./dwtools/amid
       - ./dwtools/atop
     criterion:
@@ -77,10 +75,8 @@ path:
   exportedTerminals.0:
     path:
       - ./dwtools/Tools.s
-      - ./dwtools/abase/.DS_Store
-      - ./dwtools/abase/mixin/.DS_Store
-      - ./dwtools/abase/mixin/EventHandler.s
-      - ./dwtools/abase/mixin.test/EventHandler.test.s
+      - ./dwtools/abase/l7_mixin/EventHandler.s
+      - ./dwtools/abase/l7_mixin.test/EventHandler.test.s
     criterion:
       default: 1
       debug: 1
@@ -170,10 +166,8 @@ reflector:
     recursive: 0
     filePath:
       ./dwtools/Tools.s: true
-      ./dwtools/abase/.DS_Store: true
-      ./dwtools/abase/mixin/.DS_Store: true
-      ./dwtools/abase/mixin/EventHandler.s: true
-      ./dwtools/abase/mixin.test/EventHandler.test.s: true
+      ./dwtools/abase/l7_mixin/EventHandler.s: true
+      ./dwtools/abase/l7_mixin.test/EventHandler.test.s: true
     srcFilter:
       basePath: .
       prefixPath: proto
@@ -296,10 +290,8 @@ exported:
     exportedTerminalsPath:
       path:
         - ./dwtools/Tools.s
-        - ./dwtools/abase/.DS_Store
-        - ./dwtools/abase/mixin/.DS_Store
-        - ./dwtools/abase/mixin/EventHandler.s
-        - ./dwtools/abase/mixin.test/EventHandler.test.s
+        - ./dwtools/abase/l7_mixin/EventHandler.s
+        - ./dwtools/abase/l7_mixin.test/EventHandler.test.s
       criterion:
         default: 1
         debug: 1

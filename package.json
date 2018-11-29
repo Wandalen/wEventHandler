@@ -11,9 +11,9 @@
     }
   ],
   "license": "MIT",
-  "main": "proto/dwtools/abase/mixin/EventHandler.s",
+  "main": "proto/dwtools/abase/l7_mixin/EventHandler.s",
   "files": [
-    "proto/dwtools/abase/mixin",
+    "proto/dwtools/abase/l7_mixin",
     "proto/dwtools/Tools.s",
     "production"
   ],

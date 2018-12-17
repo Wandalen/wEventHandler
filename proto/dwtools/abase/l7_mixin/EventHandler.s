@@ -878,7 +878,7 @@ function eventWaitFor( kind )
     kind : kind,
     onHandle : function( e,o )
     {
-      _.timeOut( 0,() => con.give( e ) );
+      _.timeOut( 0,() => con.take( e ) );
     },
     eclipse : 0,
     once : 1,

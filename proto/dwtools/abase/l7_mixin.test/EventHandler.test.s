@@ -250,9 +250,9 @@ function eventWaitFor( test )
   entity1.eventGive( 'event1' );
   entity1.eventGive( 'event1' );
 
-  var con  = _.Consequence().give( null );
-  con.andThen( cons );
-  con.eitherThenSplit( _.timeOutError( 3000 ) );
+  var con  = _.Consequence().take( null );
+  con.andKeep( cons );
+  con.eitherKeepSplit( _.timeOutError( 3000 ) );
 
   con.ifNoErrorThen( ( arg/*aaa*/ ) =>
   {

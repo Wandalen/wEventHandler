@@ -11,7 +11,7 @@ about:
     developer to explicitly declare / bind / unbind all events supported by
     object. Use it to add events dispatching mechanism to your classes and avoid
     accumulation of technical dept and potential errors.
-  version: 0.4.78
+  version: 0.4.79
   enabled: 1
   interpreters:
     - nodejs >= 6.0.0
@@ -287,7 +287,7 @@ build:
       - 'step::export.proto'
 exported:
   proto.export:
-    version: 0.4.78
+    version: 0.4.79
     criterion:
       default: 1
       debug: 1

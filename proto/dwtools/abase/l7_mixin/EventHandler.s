@@ -36,7 +36,7 @@ var _ObjectHasOwnProperty = Object.hasOwnProperty;
 //
 
 /**
- * @classdesc Extends your class with event dispatching mechanism: bind/unbind, dispatch, handle event once, wait for event, redirect event etc.
+ * @classdesc Mixin adds events dispatching mechanism to your class
  * @class wEventHandler
  */
 

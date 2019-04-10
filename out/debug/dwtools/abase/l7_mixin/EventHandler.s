@@ -8,7 +8,7 @@
 */
 
 /**
- * @file X.s.
+ * @file EventHandler.s
  */
 
 /*
@@ -36,6 +36,7 @@ var _ObjectHasOwnProperty = Object.hasOwnProperty;
 //
 
 /**
+ * @classdesc Mixin adds events dispatching mechanism to your class
  * @class wEventHandler
  */
 

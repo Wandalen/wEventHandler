@@ -38,6 +38,7 @@ var _ObjectHasOwnProperty = Object.hasOwnProperty;
 /**
  * @classdesc Mixin adds events dispatching mechanism to your class
  * @class wEventHandler
+ * @memberof module:Tools/base/EventHandler
  */
 
 var _global = _global_;
@@ -58,7 +59,7 @@ Self.shortName = 'EventHandler';
  * Mixin this methods into prototype of another object.
  * @param {object} dstPrototype - prototype of another object.
  * @method copy
- * @memberof wEventHandler#
+ * @memberof module:Tools/base/EventHandler.wEventHandler#
  */
 
 function onMixin( mixinDescriptor, dstClass )
@@ -86,7 +87,7 @@ function onMixin( mixinDescriptor, dstClass )
  * Functors to produce init.
  * @param { routine } original - original method.
  * @method init
- * @memberof wEventHandler#
+ * @memberof module:Tools/base/EventHandler.wEventHandler#
  */
 
 function init( original )
@@ -113,7 +114,7 @@ function init( original )
  * Functors to produce finit.
  * @param { routine } original - original method.
  * @method finit
- * @memberof wEventHandler#
+ * @memberof module:Tools/base/EventHandler.wEventHandler#
  */
 
 function finit( original )
@@ -245,6 +246,14 @@ function eventHandlerPrepend( kind, onHandle )
 
 //
 
+/**
+ * @summary Registers handler `onHandle` routine for event `kind`.
+ * @param { String } kind - name of event
+ * @param { Function } onHandle - event handler
+ * @method on
+ * @memberof module:Tools/base/EventHandler.wEventHandler#
+ */
+
 function eventHandlerAppend( kind, onHandle )
 {
   var self = this;
@@ -302,6 +311,14 @@ function eventHandlerRegisterProvisional( kind, onHandle )
 }
 
 //
+
+/**
+ * @summary Register handler `onHandle` routine for event `kind`. Handler will be called only once.
+ * @param { String } kind - name of event
+ * @param { Function } onHandle - event handler
+ * @method once
+ * @memberof module:Tools/base/EventHandler.wEventHandler#
+ */
 
 function eventHandlerRegisterOneTime( kind, onHandle )
 {
@@ -529,6 +546,14 @@ _eventHandlerRegister.defaults =
 // --
 // unregister
 // --
+
+/**
+ * @summary Unregisters handler `onHandle` routine for event `kind`.
+ * @param { String } kind - name of event
+ * @param { Function } onHandle - event handler
+ * @method off
+ * @memberof module:Tools/base/EventHandler.wEventHandler#
+ */
 
 function eventHandlerRemove()
 {
@@ -866,6 +891,13 @@ function _eventGive( event,o )
 }
 
 //
+
+/**
+ * @summary Returns `Consequence` instance that gives a message when event fires. Message is given only once.
+ * @param { String } kind - name of event
+ * @method eventWaitFor
+ * @memberof module:Tools/base/EventHandler.wEventHandler#
+ */
 
 function eventWaitFor( kind )
 {

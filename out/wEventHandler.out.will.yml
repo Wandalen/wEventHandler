@@ -34,6 +34,10 @@ path:
     path: out
     criterion:
       predefined: 1
+  module.common:
+    path: out/wEventHandler.out
+    criterion:
+      predefined: 1
   local:
     criterion:
       predefined: 1

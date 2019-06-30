@@ -233,9 +233,9 @@ function eventHandlerPrepend( kind, onHandle )
 
   var descriptor =
   {
-    kind : kind,
-    onHandle : onHandle,
-    owner : owner,
+    /*ttt*/kind,
+    /*ttt*/onHandle,
+    /*ttt*/owner,
     appending : 0,
   }
 
@@ -269,9 +269,9 @@ function eventHandlerAppend( kind, onHandle )
 
   var descriptor =
   {
-    kind : kind,
-    onHandle : onHandle,
-    owner : owner,
+    /*ttt*/kind,
+    /*ttt*/onHandle,
+    /*ttt*/owner,
     appending : 1,
   }
 
@@ -297,9 +297,9 @@ function eventHandlerRegisterProvisional( kind, onHandle )
 
   var descriptor =
   {
-    kind : kind,
-    onHandle : onHandle,
-    owner : owner,
+    /*ttt*/kind,
+    /*ttt*/onHandle,
+    /*ttt*/owner,
     once : 0,
     provisional : 1,
     appending : 0,
@@ -335,9 +335,9 @@ function eventHandlerRegisterOneTime( kind, onHandle )
 
   var descriptor =
   {
-    kind : kind,
-    onHandle : onHandle,
-    owner : owner,
+    /*ttt*/kind,
+    /*ttt*/onHandle,
+    /*ttt*/owner,
     once : 1,
     appending : 0,
   }
@@ -364,9 +364,9 @@ function eventHandlerRegisterEclipse( kind, onHandle )
 
   var descriptor =
   {
-    kind : kind,
-    onHandle : onHandle,
-    owner : owner,
+    /*ttt*/kind,
+    /*ttt*/onHandle,
+    /*ttt*/owner,
     eclipse : 1,
     appending : 0,
   }
@@ -400,8 +400,8 @@ function eventHandlerRegisterEclipse( kind, onHandle )
 //
 //     var descriptor =
 //     {
-//       kind : kind,
-//       onHandle : onHandle,
+//       /*ttt*/kind,
+//       /*ttt*/onHandle,
 //       // forbidden : 1,
 //       appending : 0,
 //     }
@@ -909,7 +909,7 @@ function eventWaitFor( kind )
 
   var descriptor =
   {
-    kind : kind,
+    /*ttt*/kind,
     onHandle : function( e,o )
     {
       _.timeOut( 0,() => con.take( e ) );
@@ -943,7 +943,7 @@ function _eventHandlerDescriptorByKindAndOwner( kind,owner )
   _.assert( arguments.length === 2, 'Expects exactly two arguments' );
 
   function eq( a,b ){ return a.kind === b.kind && a.owner === b.owner; };
-  var element = { kind : kind, owner : owner };
+  var element = { /*ttt*/kind, /*ttt*/owner };
   var index = _.arrayRightIndex( handlers, element, eq );
 
   if( !( index >= 0 ) )
@@ -972,7 +972,7 @@ function _eventHandlerDescriptorByKindAndHandler( kind,onHandle )
   _.assert( arguments.length === 2, 'Expects exactly two arguments' );
 
   function eq( a,b ){ return a.kind === b.kind && a.onHandle === b.onHandle; };
-  var element = { kind : kind, onHandle : onHandle };
+  var element = { /*ttt*/kind, /*ttt*/onHandle };
   var index = _.arrayRightIndex( handlers, element, eq );
 
   if( !( index >= 0 ) )
@@ -1000,7 +1000,7 @@ function _eventHandlerDescriptorByHandler( onHandle )
   for( var h in handlers )
   {
 
-    var index = _.arrayRightIndex( handlers[ h ],{ onHandle : onHandle },( a,b ) => a.onHandle === b.onHandle );
+    var index = _.arrayRightIndex( handlers[ h ],{ /*ttt*/onHandle },( a,b ) => a.onHandle === b.onHandle );
 
     if( index >= 0 )
     {
@@ -1204,23 +1204,23 @@ var Supplement =
 
   // register
 
-  _eventHandlerInit : _eventHandlerInit,
-  _eventHandlerFinit : _eventHandlerFinit,
+  /*ttt*/_eventHandlerInit,
+  /*ttt*/_eventHandlerFinit,
 
-  eventReport : eventReport,
+  /*ttt*/eventReport,
 
-  eventHandlerPrepend : eventHandlerPrepend,
-  eventHandlerAppend : eventHandlerAppend,
+  /*ttt*/eventHandlerPrepend,
+  /*ttt*/eventHandlerAppend,
   addEventListener : eventHandlerAppend,
   on : eventHandlerAppend,
 
-  eventHandlerRegisterProvisional : eventHandlerRegisterProvisional,
+  /*ttt*/eventHandlerRegisterProvisional,
   provisional : eventHandlerRegisterProvisional,
 
-  eventHandlerRegisterOneTime : eventHandlerRegisterOneTime,
+  /*ttt*/eventHandlerRegisterOneTime,
   once : eventHandlerRegisterOneTime,
 
-  eventHandlerRegisterEclipse : eventHandlerRegisterEclipse,
+  /*ttt*/eventHandlerRegisterEclipse,
   eclipse : eventHandlerRegisterEclipse,
 
   _eventHandlerRegister: _eventHandlerRegister,
@@ -1230,45 +1230,45 @@ var Supplement =
   removeListener : eventHandlerRemove,
   removeEventListener : eventHandlerRemove,
   off : eventHandlerRemove,
-  eventHandlerRemove : eventHandlerRemove,
-  _eventHandlerRemove : _eventHandlerRemove,
+  /*ttt*/eventHandlerRemove,
+  /*ttt*/_eventHandlerRemove,
 
-  eventHandlerRemoveByKindAndOwner : eventHandlerRemoveByKindAndOwner,
+  /*ttt*/eventHandlerRemoveByKindAndOwner,
 
   // handle
 
   dispatchEvent : eventGive,
   emit : eventGive,
-  eventGive : eventGive,
-  eventHandleUntil : eventHandleUntil,
-  eventHandleSingle : eventHandleSingle,
+  /*ttt*/eventGive,
+  /*ttt*/eventHandleUntil,
+  /*ttt*/eventHandleSingle,
 
-  _eventGive : _eventGive,
+  /*ttt*/_eventGive,
 
-  eventWaitFor : eventWaitFor,
+  /*ttt*/eventWaitFor,
 
   // get
 
-  _eventHandlerDescriptorByKindAndOwner : _eventHandlerDescriptorByKindAndOwner,
-  _eventHandlerDescriptorByKindAndHandler : _eventHandlerDescriptorByKindAndHandler,
-  _eventHandlerDescriptorByHandler : _eventHandlerDescriptorByHandler,
-  _eventHandlerDescriptorsByKind : _eventHandlerDescriptorsByKind,
-  _eventHandlerDescriptorsAll : _eventHandlerDescriptorsAll,
-  eventHandlerDescriptorsFilter : eventHandlerDescriptorsFilter,
+  /*ttt*/_eventHandlerDescriptorByKindAndOwner,
+  /*ttt*/_eventHandlerDescriptorByKindAndHandler,
+  /*ttt*/_eventHandlerDescriptorByHandler,
+  /*ttt*/_eventHandlerDescriptorsByKind,
+  /*ttt*/_eventHandlerDescriptorsAll,
+  /*ttt*/eventHandlerDescriptorsFilter,
 
   // proxy
 
-  eventProxyTo : eventProxyTo,
-  eventProxyFrom : eventProxyFrom,
+  /*ttt*/eventProxyTo,
+  /*ttt*/eventProxyFrom,
 
   // relations
 
-  Groups : Groups,
-  Composes : Composes,
-  Restricts : Restricts,
-  Statics : Statics,
-  Events : Events,
-  Forbids : Forbids,
+  /*ttt*/Groups,
+  /*ttt*/Composes,
+  /*ttt*/Restricts,
+  /*ttt*/Statics,
+  /*ttt*/Events,
+  /*ttt*/Forbids,
 
 }
 
@@ -1277,8 +1277,8 @@ var Supplement =
 var Functors =
 {
 
-  init : init,
-  finit : finit,
+  /*ttt*/init,
+  /*ttt*/finit,
 
 }
 
@@ -1288,7 +1288,7 @@ _.classDeclare
 ({
   cls : Self,
   supplement : Supplement,
-  onMixin : onMixin,
+  /*ttt*/onMixin,
   functors : Functors,
   withMixin : true,
   withClass : true,

@@ -703,13 +703,13 @@ function _eventHandlerRemove( o )
 
       var handlers = handlers[ o.kind ];
       if( handlers )
-      removed = _.arrayRemovedAll( handlers,o,equalizer );
+      removed = _.arrayRemovedElement( handlers,o,equalizer );
 
     }
     else for( var h in handlers )
     {
 
-      removed += _.arrayRemovedAll( handlers[ h ],o,equalizer );
+      removed += _.arrayRemovedElement( handlers[ h ],o,equalizer );
 
     }
 

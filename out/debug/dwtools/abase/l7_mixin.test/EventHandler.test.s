@@ -277,8 +277,8 @@ var Self =
   tests :
   {
 
-    /*ttt*/basic,
-    /*ttt*/eventWaitFor,
+    basic,
+    eventWaitFor,
 
   },
 

@@ -233,9 +233,9 @@ function eventHandlerPrepend( kind, onHandle )
 
   var descriptor =
   {
-    /*ttt*/kind,
-    /*ttt*/onHandle,
-    /*ttt*/owner,
+    kind,
+    onHandle,
+    owner,
     appending : 0,
   }
 
@@ -269,9 +269,9 @@ function eventHandlerAppend( kind, onHandle )
 
   var descriptor =
   {
-    /*ttt*/kind,
-    /*ttt*/onHandle,
-    /*ttt*/owner,
+    kind,
+    onHandle,
+    owner,
     appending : 1,
   }
 
@@ -297,9 +297,9 @@ function eventHandlerRegisterProvisional( kind, onHandle )
 
   var descriptor =
   {
-    /*ttt*/kind,
-    /*ttt*/onHandle,
-    /*ttt*/owner,
+    kind,
+    onHandle,
+    owner,
     once : 0,
     provisional : 1,
     appending : 0,
@@ -335,9 +335,9 @@ function eventHandlerRegisterOneTime( kind, onHandle )
 
   var descriptor =
   {
-    /*ttt*/kind,
-    /*ttt*/onHandle,
-    /*ttt*/owner,
+    kind,
+    onHandle,
+    owner,
     once : 1,
     appending : 0,
   }
@@ -364,9 +364,9 @@ function eventHandlerRegisterEclipse( kind, onHandle )
 
   var descriptor =
   {
-    /*ttt*/kind,
-    /*ttt*/onHandle,
-    /*ttt*/owner,
+    kind,
+    onHandle,
+    owner,
     eclipse : 1,
     appending : 0,
   }
@@ -400,8 +400,8 @@ function eventHandlerRegisterEclipse( kind, onHandle )
 //
 //     var descriptor =
 //     {
-//       /*ttt*/kind,
-//       /*ttt*/onHandle,
+//       kind,
+//       onHandle,
 //       // forbidden : 1,
 //       appending : 0,
 //     }
@@ -909,7 +909,7 @@ function eventWaitFor( kind )
 
   var descriptor =
   {
-    /*ttt*/kind,
+    kind,
     onHandle : function( e,o )
     {
       _.timeOut( 0,() => con.take( e ) );
@@ -943,7 +943,7 @@ function _eventHandlerDescriptorByKindAndOwner( kind,owner )
   _.assert( arguments.length === 2, 'Expects exactly two arguments' );
 
   function eq( a,b ){ return a.kind === b.kind && a.owner === b.owner; };
-  var element = { /*ttt*/kind, /*ttt*/owner };
+  var element = { kind, owner };
   var index = _.arrayRightIndex( handlers, element, eq );
 
   if( !( index >= 0 ) )
@@ -972,7 +972,7 @@ function _eventHandlerDescriptorByKindAndHandler( kind,onHandle )
   _.assert( arguments.length === 2, 'Expects exactly two arguments' );
 
   function eq( a,b ){ return a.kind === b.kind && a.onHandle === b.onHandle; };
-  var element = { /*ttt*/kind, /*ttt*/onHandle };
+  var element = { kind, onHandle };
   var index = _.arrayRightIndex( handlers, element, eq );
 
   if( !( index >= 0 ) )
@@ -1000,7 +1000,7 @@ function _eventHandlerDescriptorByHandler( onHandle )
   for( var h in handlers )
   {
 
-    var index = _.arrayRightIndex( handlers[ h ],{ /*ttt*/onHandle },( a,b ) => a.onHandle === b.onHandle );
+    var index = _.arrayRightIndex( handlers[ h ],{ onHandle },( a,b ) => a.onHandle === b.onHandle );
 
     if( index >= 0 )
     {
@@ -1204,23 +1204,23 @@ var Supplement =
 
   // register
 
-  /*ttt*/_eventHandlerInit,
-  /*ttt*/_eventHandlerFinit,
+  _eventHandlerInit,
+  _eventHandlerFinit,
 
-  /*ttt*/eventReport,
+  eventReport,
 
-  /*ttt*/eventHandlerPrepend,
-  /*ttt*/eventHandlerAppend,
+  eventHandlerPrepend,
+  eventHandlerAppend,
   addEventListener : eventHandlerAppend,
   on : eventHandlerAppend,
 
-  /*ttt*/eventHandlerRegisterProvisional,
+  eventHandlerRegisterProvisional,
   provisional : eventHandlerRegisterProvisional,
 
-  /*ttt*/eventHandlerRegisterOneTime,
+  eventHandlerRegisterOneTime,
   once : eventHandlerRegisterOneTime,
 
-  /*ttt*/eventHandlerRegisterEclipse,
+  eventHandlerRegisterEclipse,
   eclipse : eventHandlerRegisterEclipse,
 
   _eventHandlerRegister: _eventHandlerRegister,
@@ -1230,45 +1230,45 @@ var Supplement =
   removeListener : eventHandlerRemove,
   removeEventListener : eventHandlerRemove,
   off : eventHandlerRemove,
-  /*ttt*/eventHandlerRemove,
-  /*ttt*/_eventHandlerRemove,
+  eventHandlerRemove,
+  _eventHandlerRemove,
 
-  /*ttt*/eventHandlerRemoveByKindAndOwner,
+  eventHandlerRemoveByKindAndOwner,
 
   // handle
 
   dispatchEvent : eventGive,
   emit : eventGive,
-  /*ttt*/eventGive,
-  /*ttt*/eventHandleUntil,
-  /*ttt*/eventHandleSingle,
+  eventGive,
+  eventHandleUntil,
+  eventHandleSingle,
 
-  /*ttt*/_eventGive,
+  _eventGive,
 
-  /*ttt*/eventWaitFor,
+  eventWaitFor,
 
   // get
 
-  /*ttt*/_eventHandlerDescriptorByKindAndOwner,
-  /*ttt*/_eventHandlerDescriptorByKindAndHandler,
-  /*ttt*/_eventHandlerDescriptorByHandler,
-  /*ttt*/_eventHandlerDescriptorsByKind,
-  /*ttt*/_eventHandlerDescriptorsAll,
-  /*ttt*/eventHandlerDescriptorsFilter,
+  _eventHandlerDescriptorByKindAndOwner,
+  _eventHandlerDescriptorByKindAndHandler,
+  _eventHandlerDescriptorByHandler,
+  _eventHandlerDescriptorsByKind,
+  _eventHandlerDescriptorsAll,
+  eventHandlerDescriptorsFilter,
 
   // proxy
 
-  /*ttt*/eventProxyTo,
-  /*ttt*/eventProxyFrom,
+  eventProxyTo,
+  eventProxyFrom,
 
   // relations
 
-  /*ttt*/Groups,
-  /*ttt*/Composes,
-  /*ttt*/Restricts,
-  /*ttt*/Statics,
-  /*ttt*/Events,
-  /*ttt*/Forbids,
+  Groups,
+  Composes,
+  Restricts,
+  Statics,
+  Events,
+  Forbids,
 
 }
 
@@ -1277,8 +1277,8 @@ var Supplement =
 var Functors =
 {
 
-  /*ttt*/init,
-  /*ttt*/finit,
+  init,
+  finit,
 
 }
 
@@ -1288,7 +1288,7 @@ _.classDeclare
 ({
   cls : Self,
   supplement : Supplement,
-  /*ttt*/onMixin,
+  onMixin,
   functors : Functors,
   withMixin : true,
   withClass : true,
@@ -1301,10 +1301,6 @@ _.assert( _.mapIs( _.DefaultFieldsGroups ) );
 // --
 
 _global_[ Self.name ] = _[ Self.shortName ] = Self;
-
-if( typeof module !== 'undefined' )
-if( _global_.WTOOLS_PRIVATE )
-{ /* delete require.cache[ module.id ]; */ }
 
 if( typeof module !== 'undefined' && module !== null )
 module[ 'exports' ] = Self;

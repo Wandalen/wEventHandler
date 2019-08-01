@@ -46,7 +46,7 @@ var _ = _global_.wTools;
 var Parent = null;
 var Self = function wEventHandler( o )
 {
-  return _.instanceConstructor( Self, this, arguments );
+  return _.workpiece.construct( Self, this, arguments );
 }
 
 Self.shortName = 'EventHandler';
@@ -62,7 +62,7 @@ Self.shortName = 'EventHandler';
  * @memberof module:Tools/base/EventHandler.wEventHandler#
  */
 
-function onMixin( mixinDescriptor, dstClass )
+function onMixinApply( mixinDescriptor, dstClass )
 {
   var dstPrototype = dstClass.prototype;
 
@@ -75,7 +75,7 @@ function onMixin( mixinDescriptor, dstClass )
   _.assert( _.strIs( dstPrototype.Events.init ) );
   _.assert( _.strIs( dstPrototype.Events.finit ) );
 
-  _.accessor.forbidOwns( dstPrototype, '_eventHandlers' );
+  _.accessor.ownForbid( dstPrototype, '_eventHandlers' );
 
 }
 
@@ -1288,7 +1288,7 @@ _.classDeclare
 ({
   cls : Self,
   supplement : Supplement,
-  onMixin,
+  onMixinApply,
   functors : Functors,
   withMixin : true,
   withClass : true,

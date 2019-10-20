@@ -99,7 +99,7 @@ function init( original )
 
     self._eventHandlerInit();
 
-    var result = original ? original.apply( self,arguments ) : undefined;
+    var result = original ? original.apply( self, arguments ) : undefined;
 
     self.eventGive( 'init' );
 
@@ -127,7 +127,7 @@ function finit( original )
     self.eventGive( 'finit' );
 
     if( original )
-    var result = original ? original.apply( self,arguments ) : undefined;
+    var result = original ? original.apply( self, arguments ) : undefined;
 
     self._eventHandlerFinit();
 
@@ -144,7 +144,7 @@ function _eventHandlerInit()
 {
   var self = this;
 
-  _.assert( !self._eventHandler,'EventHandler.init already done for ',self.nickName );
+  _.assert( !self._eventHandler, () => 'EventHandler.init already done for ' + self.qualifiedName );
   _.assert( self instanceof self.constructor );
 
   if( !self._eventHandler )
@@ -174,7 +174,7 @@ function _eventHandlerFinit()
       continue;
       if( h === 'finit' )
       continue;
-      var err = 'Finited instance has bound handler(s), but should not' + h + ':\n' + _.toStr( handlers[ h ],{ levels : 2, } );
+      var err = 'Finited instance has bound handler(s), but should not' + h + ':\n' + _.toStr( handlers[ h ], { levels : 2, } );
       console.error( err.toString() + '\n' + err.stack );
       console.error( handlers[ h ][ 0 ].onHandle );
       console.error( self.eventReport() );
@@ -192,7 +192,7 @@ function _eventHandlerFinit()
 function eventReport()
 {
   var self = this;
-  var result = 'Event Map of ' + ( self.nickName || 'an instance' ) + ':\n';
+  var result = 'Event Map of ' + ( self.qualifiedName || 'an instance' ) + ':\n';
 
   var handlers = self._eventHandler.descriptors || {};
   for( var h in handlers )
@@ -223,7 +223,7 @@ function eventHandlerPrepend( kind, onHandle )
   var self = this;
   var owner;
 
-  _.assert( arguments.length === 2 || arguments.length === 3,'eventHandlerAppend:','Expects "kind" and "onHandle" as arguments' );
+  _.assert( arguments.length === 2 || arguments.length === 3, 'eventHandlerAppend:', 'Expects "kind" and "onHandle" as arguments' );
 
   if( arguments.length === 3 )
   {
@@ -259,7 +259,7 @@ function eventHandlerAppend( kind, onHandle )
   var self = this;
   var owner;
 
-  _.assert( arguments.length === 2 || arguments.length === 3,'eventHandlerAppend:','Expects "kind" and "onHandle" as arguments' );
+  _.assert( arguments.length === 2 || arguments.length === 3, 'eventHandlerAppend:', 'Expects "kind" and "onHandle" as arguments' );
 
   if( arguments.length === 3 )
   {
@@ -287,7 +287,7 @@ function eventHandlerRegisterProvisional( kind, onHandle )
   var self = this;
   var owner;
 
-  _.assert( arguments.length === 2 || arguments.length === 3,'eventHandlerRegisterProvisional:','Expects "kind" and "onHandle" as arguments' );
+  _.assert( arguments.length === 2 || arguments.length === 3, 'eventHandlerRegisterProvisional:', 'Expects "kind" and "onHandle" as arguments' );
 
   if( arguments.length === 3 )
   {
@@ -325,7 +325,7 @@ function eventHandlerRegisterOneTime( kind, onHandle )
   var self = this;
   var owner;
 
-  _.assert( arguments.length === 2 || arguments.length === 3,'eventHandlerRegisterOneTime:','Expects "kind" and "onHandle" as arguments' );
+  _.assert( arguments.length === 2 || arguments.length === 3, 'eventHandlerRegisterOneTime:', 'Expects "kind" and "onHandle" as arguments' );
 
   if( arguments.length === 3 )
   {
@@ -354,7 +354,7 @@ function eventHandlerRegisterEclipse( kind, onHandle )
   var self = this;
   var owner;
 
-  _.assert( arguments.length === 2 || arguments.length === 3,'eventHandlerRegisterEclipse:','Expects "kind" and "onHandle" as arguments' );
+  _.assert( arguments.length === 2 || arguments.length === 3, 'eventHandlerRegisterEclipse:', 'Expects "kind" and "onHandle" as arguments' );
 
   if( arguments.length === 3 )
   {
@@ -390,7 +390,7 @@ function eventHandlerRegisterEclipse( kind, onHandle )
 //
 //   function onHandle()
 //   {
-//     throw _.err( kinds.join( ' ' ),'event is forbidden in',self.nickName );
+//     throw _.err( kinds.join( ' ' ), 'event is forbidden in', self.qualifiedName );
 //   }
 //
 //   for( var k = 0 ; k < kinds.length ; k++ )
@@ -424,7 +424,7 @@ function _eventHandlerRegister( o )
   {
     for( var k = 0 ; k < o.kind.length ; k++ )
     {
-      var d = _.mapExtend( null,o );
+      var d = _.mapExtend( null, o );
       d.kind = o.kind[ k ];
       self._eventHandlerRegister( d );
     }
@@ -434,8 +434,8 @@ function _eventHandlerRegister( o )
   /* verification */
 
   _.assert( _.strIs( o.kind ) );
-  _.assert( _.routineIs( o.onHandle ),'Expects routine {-onHandle-}, but got',_.strType( o.oHandle ) );
-  _.assertMapHasOnly( o,_eventHandlerRegister.defaults );
+  _.assert( _.routineIs( o.onHandle ), 'Expects routine {-onHandle-}, but got', _.strType( o.oHandle ) );
+  _.assertMapHasOnly( o, _eventHandlerRegister.defaults );
   _.assert( arguments.length === 1, 'Expects single argument' );
   _.assert( !( o.provisional && o.once ) );
   _.assert( !!self.constructor.prototype.Events || ( !self.constructor.prototype.strictEventHandling && self.constructor.prototype.strictEventHandling !== undefined ), 'Expects static Events' );
@@ -445,7 +445,7 @@ function _eventHandlerRegister( o )
   // console.debug( 'REMINDER : forbidden event is not implemented!' );
 
   if( self._eventKinds && self._eventKinds.indexOf( kind ) === -1 )
-  throw _.err( 'eventHandlerAppend:','Object does not support such kind of events :',kind,self );
+  throw _.err( 'eventHandlerAppend:', 'Object does not support such kind of events :', kind, self );
 
   /* */
 
@@ -456,7 +456,7 @@ function _eventHandlerRegister( o )
   if( o.eclipse )
   o.onHandleEffective = function handleEclipse()
   {
-    var result = o.onHandle.apply( this,arguments );
+    var result = o.onHandle.apply( this, arguments );
 
     self._eventHandlerRemove
     ({
@@ -471,13 +471,13 @@ function _eventHandlerRegister( o )
   /* once */
 
   if( o.once )
-  if( self._eventHandlerDescriptorByKindAndHandler( o.kind,o.onHandle ) )
+  if( self._eventHandlerDescriptorByKindAndHandler( o.kind, o.onHandle ) )
   return self;
 
   if( o.once )
   o.onHandleEffective = function handleOnce()
   {
-    var result = o.onHandle.apply( this,arguments );
+    var result = o.onHandle.apply( this, arguments );
 
     self._eventHandlerRemove
     ({
@@ -494,7 +494,7 @@ function _eventHandlerRegister( o )
   if( o.provisional )
   o.onHandleEffective = function handleProvisional()
   {
-    var result = o.onHandle.apply( this,arguments );
+    var result = o.onHandle.apply( this, arguments );
 
     debugger;
     if( result === false )
@@ -511,7 +511,7 @@ function _eventHandlerRegister( o )
   /* owner */
 
   if( o.owner !== undefined && o.owner !== null )
-  self.eventHandlerRemoveByKindAndOwner( o.kind,o.owner );
+  self.eventHandlerRemoveByKindAndOwner( o.kind, o.owner );
 
   /* */
 
@@ -524,7 +524,7 @@ function _eventHandlerRegister( o )
 
   if( self._eventKinds )
   {
-    _.arrayAppendOnce( self._eventKinds,kind );
+    _.arrayAppendOnce( self._eventKinds, kind );
     debugger;
   }
 
@@ -640,7 +640,7 @@ function _eventHandlerRemove( o )
   var self = this;
 
   _.assert( arguments.length === 1, 'Expects single argument' );
-  _.assertMapHasOnly( o,_eventHandlerRemove.defaults );
+  _.assertMapHasOnly( o, _eventHandlerRemove.defaults );
   if( Object.keys( o ).length && o.strict === undefined )
   o.strict = 1;
 
@@ -651,16 +651,16 @@ function _eventHandlerRemove( o )
   var length = Object.keys( o ).length;
 
   if( o.kind !== undefined )
-  _.assert( _.strIs( o.kind ),'Expects "kind" as string' );
+  _.assert( _.strIs( o.kind ), 'Expects "kind" as string' );
 
   if( o.onHandle !== undefined )
-  _.assert( _.routineIs( o.onHandle ),'Expects "onHandle" as routine' );
+  _.assert( _.routineIs( o.onHandle ), 'Expects "onHandle" as routine' );
 
   if( length === 0 )
   {
 
     for( var h in handlers )
-    handlers[ h ].splice( 0,handlers[ h ].length );
+    handlers[ h ].splice( 0, handlers[ h ].length );
 
   }
   else if( length === 1 && o.kind )
@@ -670,13 +670,13 @@ function _eventHandlerRemove( o )
     if( !handlers )
     return self;
 
-    handlers.splice( 0,handlers.length );
+    handlers.splice( 0, handlers.length );
 
   }
   else
   {
 
-    function equalizer( a,b )
+    function equalizer( a, b )
     {
 
       if( o.kind !== undefined )
@@ -694,7 +694,7 @@ function _eventHandlerRemove( o )
       return true;
     }
 
-    // console.error( 'REMINDER','fix me' ); debugger; xxx
+    // console.error( 'REMINDER', 'fix me' ); debugger; xxx
     // return;
 
     var removed = 0;
@@ -703,13 +703,13 @@ function _eventHandlerRemove( o )
 
       var handlers = handlers[ o.kind ];
       if( handlers )
-      removed = _.arrayRemovedElement( handlers,o,equalizer );
+      removed = _.arrayRemovedElement( handlers, o, equalizer );
 
     }
     else for( var h in handlers )
     {
 
-      removed += _.arrayRemovedElement( handlers[ h ],o,equalizer );
+      removed += _.arrayRemovedElement( handlers[ h ], o, equalizer );
 
     }
 
@@ -747,10 +747,10 @@ function eventHandlerRemoveByKindAndOwner( kind, owner )
   do
   {
 
-    var descriptor = self._eventHandlerDescriptorByKindAndOwner( kind,owner );
+    var descriptor = self._eventHandlerDescriptorByKindAndOwner( kind, owner );
 
     if( descriptor )
-    _.arrayRemoveElementOnce( handlers,descriptor );
+    _.arrayRemoveElementOnce( handlers, descriptor );
 
   }
   while( descriptor );
@@ -773,12 +773,12 @@ function eventGive( event )
   if( _.strIs( event ) )
   event = { kind : event };
 
-  return self._eventGive( event,Object.create( null ) );
+  return self._eventGive( event, Object.create( null ) );
 }
 
 //
 
-function eventHandleUntil( event,value )
+function eventHandleUntil( event, value )
 {
   var self = this;
 
@@ -787,7 +787,7 @@ function eventHandleUntil( event,value )
   if( _.strIs( event ) )
   event = { kind : event };
 
-  return self._eventGive( event,{ until : value } );
+  return self._eventGive( event, { until : value } );
 }
 
 //
@@ -801,12 +801,12 @@ function eventHandleSingle( event )
   if( _.strIs( event ) )
   event = { kind : event };
 
-  return self._eventGive( event,{ single : 1 } );
+  return self._eventGive( event, { single : 1 } );
 }
 
 //
 
-function _eventGive( event,o )
+function _eventGive( event, o )
 {
   var self = this;
   var result = o.result = o.result || [];
@@ -819,7 +819,7 @@ function _eventGive( event,o )
   _.assert( _.objectIs( self._eventHandler ) );
 
   if( self.eventVerbosity )
-  logger.log( 'fired event', self.nickName + '.' + event.kind );
+  logger.log( 'fired event', self.qualifiedName + '.' + event.kind );
 
   /* pre */
 
@@ -839,7 +839,7 @@ function _eventGive( event,o )
   logger.up();
 
   if( o.single )
-  _.assert( handlerArray.length <= 1,'Expects single handler, but has ' + handlerArray.length );
+  _.assert( handlerArray.length <= 1, 'Expects single handler, but has ' + handlerArray.length );
 
   /* iterate */
 
@@ -849,7 +849,7 @@ function _eventGive( event,o )
     var handler = handlerArray[ i ];
 
     if( self.eventVerbosity )
-    logger.log( event.kind,'caught by',handler.onHandle.name );
+    logger.log( event.kind, 'caught by', handler.onHandle.name );
 
     if( handler.proxy )
     {
@@ -910,9 +910,9 @@ function eventWaitFor( kind )
   var descriptor =
   {
     kind,
-    onHandle : function( e,o )
+    onHandle : function( e, o )
     {
-      _.timeOut( 0,() => con.take( e ) );
+      _.timeOut( 0, () => con.take( e ) );
     },
     eclipse : 0,
     once : 1,
@@ -928,7 +928,7 @@ function eventWaitFor( kind )
 // get
 // --
 
-function _eventHandlerDescriptorByKindAndOwner( kind,owner )
+function _eventHandlerDescriptorByKindAndOwner( kind, owner )
 {
   var self = this;
 
@@ -942,7 +942,7 @@ function _eventHandlerDescriptorByKindAndOwner( kind,owner )
 
   _.assert( arguments.length === 2, 'Expects exactly two arguments' );
 
-  function eq( a,b ){ return a.kind === b.kind && a.owner === b.owner; };
+  function eq( a, b ){ return a.kind === b.kind && a.owner === b.owner; };
   var element = { kind, owner };
   var index = _.arrayRightIndex( handlers, element, eq );
 
@@ -957,7 +957,7 @@ function _eventHandlerDescriptorByKindAndOwner( kind,owner )
 
 //
 
-function _eventHandlerDescriptorByKindAndHandler( kind,onHandle )
+function _eventHandlerDescriptorByKindAndHandler( kind, onHandle )
 {
   var self = this;
 
@@ -971,7 +971,7 @@ function _eventHandlerDescriptorByKindAndHandler( kind,onHandle )
 
   _.assert( arguments.length === 2, 'Expects exactly two arguments' );
 
-  function eq( a,b ){ return a.kind === b.kind && a.onHandle === b.onHandle; };
+  function eq( a, b ){ return a.kind === b.kind && a.onHandle === b.onHandle; };
   var element = { kind, onHandle };
   var index = _.arrayRightIndex( handlers, element, eq );
 
@@ -1000,7 +1000,7 @@ function _eventHandlerDescriptorByHandler( onHandle )
   for( var h in handlers )
   {
 
-    var index = _.arrayRightIndex( handlers[ h ],{ onHandle },( a,b ) => a.onHandle === b.onHandle );
+    var index = _.arrayRightIndex( handlers[ h ], { onHandle }, ( a, b ) => a.onHandle === b.onHandle );
 
     if( index >= 0 )
     {
@@ -1058,7 +1058,7 @@ function eventHandlerDescriptorsFilter( filter )
   var handlers = filter.kind ? self._eventHandlerDescriptorsByKind( filter.kind ) : self._eventHandlerDescriptorsAll( filter.kind );
 
   if( _.objectIs( filter ) )
-  _.assertMapHasOnly( filter,eventHandlerDescriptorsFilter.defaults );
+  _.assertMapHasOnly( filter, eventHandlerDescriptorsFilter.defaults );
 
   debugger;
 
@@ -1078,7 +1078,7 @@ eventHandlerDescriptorsFilter.defaults =
 // proxy
 // --
 
-function eventProxyTo( dstPrototype,rename )
+function eventProxyTo( dstPrototype, rename )
 {
   var self = this;
 
@@ -1089,7 +1089,7 @@ function eventProxyTo( dstPrototype,rename )
   if( _.arrayIs( dstPrototype ) )
   {
     for( var d = 0 ; d < dstPrototype.length ; d++ )
-    self.eventProxyTo( dstPrototype[ d ],rename );
+    self.eventProxyTo( dstPrototype[ d ], rename );
     return self;
   }
 
@@ -1110,19 +1110,19 @@ function eventProxyTo( dstPrototype,rename )
   for( var r in rename ) ( function()
   {
     var name = r;
-    _.assert( rename[ r ] && _.strIs( rename[ r ] ),'eventProxyTo :','Expects name as string' );
+    _.assert( rename[ r ] && _.strIs( rename[ r ] ), 'eventProxyTo :', 'Expects name as string' );
 
     var descriptor =
     {
       kind : r,
-      onHandle : function( event,o )
+      onHandle : function( event, o )
       {
         if( name !== rename[ name ] )
         {
-          event = _.mapExtend( null,event );
+          event = _.mapExtend( null, event );
           event.kind = rename[ name ];
         }
-        return dstPrototype._eventGive( event,o );
+        return dstPrototype._eventGive( event, o );
       },
       owner : dstPrototype,
       proxy : 1,
@@ -1138,7 +1138,7 @@ function eventProxyTo( dstPrototype,rename )
 
 //
 
-function eventProxyFrom( src,rename )
+function eventProxyFrom( src, rename )
 {
   var self = this;
 
@@ -1147,11 +1147,11 @@ function eventProxyFrom( src,rename )
   if( _.arrayIs( src ) )
   {
     for( var s = 0 ; s < src.length ; s++ )
-    self.eventProxyFrom( src[ s ],rename );
+    self.eventProxyFrom( src[ s ], rename );
     return self;
   }
 
-  return src.eventProxyTo( self,rename );
+  return src.eventProxyTo( self, rename );
 }
 
 // --

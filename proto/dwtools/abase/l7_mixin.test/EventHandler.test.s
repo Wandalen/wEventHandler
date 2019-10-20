@@ -257,7 +257,7 @@ function eventWaitFor( test )
   con.ifNoErrorThen( ( arg/*aaa*/ ) =>
   {
     for( var i = 0; i < cons.length; i++ )
-    test.shouldMessageOnlyOnce( cons[ i ] );
+    test.returnsSingleResource( cons[ i ] );
     return null;
   })
 
@@ -271,7 +271,7 @@ function eventWaitFor( test )
 var Self =
 {
 
-  name : 'Tools/base/EventHandlerMixin',
+  name : 'Tools.base.EventHandlerMixin',
   silencing : 1,
 
   tests :

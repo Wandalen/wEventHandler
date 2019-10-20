@@ -15,7 +15,7 @@
   "files": [
     "proto/dwtools/abase/l7_mixin",
     "proto/dwtools/Tools.s",
-    "production"
+    "out"
   ],
   "scripts": {
     "test": "wtest .run proto/**",

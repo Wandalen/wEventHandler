@@ -3,18 +3,19 @@ root:
   - wEventHandler.out
 consistency:
   wEventHandler.out.will.yml: &ref_0
-    hash: 1284f988cd9ff96f01b152dc166d76fd
-    size: 39540
+    hash: cc1354f68b269c7f033ff0e334abcffd
+    size: 39569
   ../.ex.will.yml: &ref_1
     hash: 3fdee088c56e279fe1ba68f4153df99d
     size: 2306
   ../.im.will.yml: &ref_2
-    hash: 50d4123fabf278abe0653616846e618a
-    size: 4950
+    hash: 8d341b5f3fed291b90dba51c0c0bad26
+    size: 5024
 module:
   wEventHandler.out:
     about:
       name: wEventHandler
+      org: noorg
       description: >-
         Mixin adds events dispatching mechanism to your class. EventHandler
         provides methods to bind/unbind handler of an event, to handle a
@@ -71,9 +72,6 @@ module:
       download:
         criterion:
           predefined: 1
-      remote:
-        criterion:
-          predefined: 1
       repository:
         path: 'git+https:///github.com/Wandalen/wTools.git'
       origins:
@@ -83,15 +81,15 @@ module:
       bugtracker:
         path: 'https:///github.com/Wandalen/wTools/issues'
       in:
-        criterion:
-          predefined: 0
         path: .
       out:
-        criterion:
-          predefined: 0
         path: .
       temp:
-        path: 'path::out'
+        path:
+          - 'path::out'
+          - ../package-lock.json
+          - ../package.json
+          - ../node_modules
       proto:
         path: ../proto
       export:
@@ -156,11 +154,13 @@ module:
         path: '{path::out.*=}/source/Index.s'
       exported.dir.proto.export:
         criterion:
+          generated: 1
           content: proto
           export: 1
         path: ../proto
       exported.files.proto.export:
         criterion:
+          generated: 1
           content: proto
           export: 1
         path:
@@ -343,6 +343,7 @@ module:
           prefixPath: ../proto
         mandatory: 1
         criterion:
+          generated: 1
           content: proto
           export: 1
       exported.files.proto.export:
@@ -355,6 +356,7 @@ module:
         recursive: 0
         mandatory: 1
         criterion:
+          generated: 1
           content: proto
           export: 1
     step:
@@ -712,6 +714,7 @@ module:
         opts:
           reflector: 'reflector::exported.proto.export*'
         criterion:
+          generated: 1
           content: proto
           export: 1
         inherit:
@@ -720,6 +723,7 @@ module:
         opts:
           reflector: 'reflector::exported.files.proto.export*'
         criterion:
+          generated: 1
           content: proto
           export: 1
         inherit:
@@ -818,6 +822,7 @@ module:
   ../:
     about:
       name: wEventHandler
+      org: noorg
       description: >-
         Mixin adds events dispatching mechanism to your class. EventHandler
         provides methods to bind/unbind handler of an event, to handle a
@@ -874,9 +879,6 @@ module:
       download:
         criterion:
           predefined: 1
-      remote:
-        criterion:
-          predefined: 1
       repository:
         path: 'git+https:///github.com/Wandalen/wTools.git'
       origins:
@@ -886,21 +888,21 @@ module:
       bugtracker:
         path: 'https:///github.com/Wandalen/wTools/issues'
       in:
-        criterion:
-          predefined: 0
         path: .
       out:
-        criterion:
-          predefined: 0
         path: out
       temp:
-        path: 'path::out'
+        path:
+          - 'path::out'
+          - package-lock.json
+          - package.json
+          - node_modules
       proto:
-        path: ./proto
+        path: proto
       export:
         path: '{path::proto}/**'
       doc:
-        path: ./doc
+        path: doc
       out.raw.debug:
         criterion:
           debug: debug
@@ -1522,6 +1524,6 @@ module:
         hash: 3fdee088c56e279fe1ba68f4153df99d
         size: 2306
       ../.im.will.yml:
-        hash: 50d4123fabf278abe0653616846e618a
-        size: 4950
+        hash: 8d341b5f3fed291b90dba51c0c0bad26
+        size: 5024
       wEventHandler.out.will.yml: *ref_0

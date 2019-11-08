@@ -944,7 +944,7 @@ function _eventHandlerDescriptorByKindAndOwner( kind, owner )
 
   function eq( a, b ){ return a.kind === b.kind && a.owner === b.owner; };
   var element = { kind, owner };
-  var index = _.arrayRightIndex( handlers, element, eq );
+  var index = _.longRightIndex( handlers, element, eq );
 
   if( !( index >= 0 ) )
   return;
@@ -973,7 +973,7 @@ function _eventHandlerDescriptorByKindAndHandler( kind, onHandle )
 
   function eq( a, b ){ return a.kind === b.kind && a.onHandle === b.onHandle; };
   var element = { kind, onHandle };
-  var index = _.arrayRightIndex( handlers, element, eq );
+  var index = _.longRightIndex( handlers, element, eq );
 
   if( !( index >= 0 ) )
   return;
@@ -1000,7 +1000,7 @@ function _eventHandlerDescriptorByHandler( onHandle )
   for( var h in handlers )
   {
 
-    var index = _.arrayRightIndex( handlers[ h ], { onHandle }, ( a, b ) => a.onHandle === b.onHandle );
+    var index = _.longRightIndex( handlers[ h ], { onHandle }, ( a, b ) => a.onHandle === b.onHandle );
 
     if( index >= 0 )
     {

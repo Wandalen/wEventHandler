@@ -21,7 +21,7 @@
   {
     "url" : "https://github.com/Wandalen/wEventHandler/issues"
   }, 
-  "dependencies" : { "wTools" : "", "wProto" : "" }, 
-  "devDependencies" : { "wTesting" : "" }, 
+  "dependencies" : { "wTools" : "alpha", "wProto" : "alpha" }, 
+  "devDependencies" : { "wTesting" : "alpha" }, 
   "keywords" : [ "wTools", "Events" ]
 }

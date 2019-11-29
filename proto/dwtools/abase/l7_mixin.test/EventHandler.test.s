@@ -252,7 +252,7 @@ function eventWaitFor( test )
 
   var con  = _.Consequence().take( null );
   con.andKeep( cons );
-  con.orKeepingSplit( _.timeOutError( 3000 ) );
+  con.orKeepingSplit( _.time.outError( 3000 ) );
 
   con.ifNoErrorThen( ( arg/*aaa*/ ) =>
   {

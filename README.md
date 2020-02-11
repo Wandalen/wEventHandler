@@ -5,7 +5,7 @@ Mixin adds events dispatching mechanism to your class. EventHandler provides met
 ### Try out
 ```
 npm install
-node sample/Sample.s
+node sample/Sample.js
 ```
 
 

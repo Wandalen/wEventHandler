@@ -912,7 +912,7 @@ function eventWaitFor( kind )
     kind,
     onHandle : function( e, o )
     {
-      _.time.out( 0, () => con.take( e ) );
+      _.time.begin( 0, () => con.take( e ) );
     },
     eclipse : 0,
     once : 1,

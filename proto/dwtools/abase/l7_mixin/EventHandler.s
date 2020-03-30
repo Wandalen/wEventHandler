@@ -418,7 +418,15 @@ function eventHandlerRegisterEclipse( kind, onHandle )
 function _eventHandlerRegister( o )
 {
   var self = this;
-  var handlers = self._eventHandlerDescriptorsByKind( o.kind );
+
+  if( o.kind === _.anything )
+  {
+    o.kind = [];
+    for( let k in self.Events )
+    {
+      o.kind.push( k );
+    }
+  }
 
   if( _.arrayIs( o.kind ) )
   {
@@ -443,6 +451,8 @@ function _eventHandlerRegister( o )
 
   // if( o.forbidden )
   // console.debug( 'REMINDER : forbidden event is not implemented!' );
+
+  var handlers = self._eventHandlerDescriptorsByKind( o.kind );
 
   if( self._eventKinds && self._eventKinds.indexOf( kind ) === -1 )
   throw _.err( 'eventHandlerAppend:', 'Object does not support such kind of events :', kind, self );

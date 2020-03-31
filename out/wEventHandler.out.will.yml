@@ -1526,6 +1526,4 @@ module:
       ../.im.will.yml:
         hash: 8d341b5f3fed291b90dba51c0c0bad26
         size: 5024
-      wEventHandler.out.will.yml:
-        hash: cc1354f68b269c7f033ff0e334abcffd
-        size: 39569
+      wEventHandler.out.will.yml: *ref_0

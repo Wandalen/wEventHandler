@@ -38,7 +38,8 @@ var _ObjectHasOwnProperty = Object.hasOwnProperty;
 /**
  * @classdesc Mixin adds events dispatching mechanism to your class
  * @class wEventHandler
- * @memberof module:Tools/base/EventHandler
+ * @namespace Tools
+ * @module Tools/base/EventHandler
  */
 
 var _global = _global_;
@@ -59,7 +60,9 @@ Self.shortName = 'EventHandler';
  * Mixin this methods into prototype of another object.
  * @param {object} dstPrototype - prototype of another object.
  * @method copy
- * @memberof module:Tools/base/EventHandler.wEventHandler#
+ * @module Tools/base/EventHandler
+ * @namespace Tools
+ * @class wEventHandler
  */
 
 function onMixinApply( mixinDescriptor, dstClass )
@@ -87,7 +90,9 @@ function onMixinApply( mixinDescriptor, dstClass )
  * Functors to produce init.
  * @param { routine } original - original method.
  * @method init
- * @memberof module:Tools/base/EventHandler.wEventHandler#
+ * @module Tools/base/EventHandler
+ * @namespace Tools
+ * @class wEventHandler
  */
 
 function init( original )
@@ -114,7 +119,9 @@ function init( original )
  * Functors to produce finit.
  * @param { routine } original - original method.
  * @method finit
- * @memberof module:Tools/base/EventHandler.wEventHandler#
+ * @module Tools/base/EventHandler
+ * @namespace Tools
+ * @class wEventHandler
  */
 
 function finit( original )
@@ -251,7 +258,9 @@ function eventHandlerPrepend( kind, onHandle )
  * @param { String } kind - name of event
  * @param { Function } onHandle - event handler
  * @method on
- * @memberof module:Tools/base/EventHandler.wEventHandler#
+ * @module Tools/base/EventHandler
+ * @namespace Tools
+ * @class wEventHandler
  */
 
 function eventHandlerAppend( kind, onHandle )
@@ -317,7 +326,9 @@ function eventHandlerRegisterProvisional( kind, onHandle )
  * @param { String } kind - name of event
  * @param { Function } onHandle - event handler
  * @method once
- * @memberof module:Tools/base/EventHandler.wEventHandler#
+ * @module Tools/base/EventHandler
+ * @namespace Tools
+ * @class wEventHandler
  */
 
 function eventHandlerRegisterOneTime( kind, onHandle )
@@ -562,7 +573,9 @@ _eventHandlerRegister.defaults =
  * @param { String } kind - name of event
  * @param { Function } onHandle - event handler
  * @method off
- * @memberof module:Tools/base/EventHandler.wEventHandler#
+ * @module Tools/base/EventHandler
+ * @namespace Tools
+ * @class wEventHandler
  */
 
 function eventHandlerRemove()
@@ -906,7 +919,9 @@ function _eventGive( event, o )
  * @summary Returns `Consequence` instance that gives a message when event fires. Message is given only once.
  * @param { String } kind - name of event
  * @method eventWaitFor
- * @memberof module:Tools/base/EventHandler.wEventHandler#
+ * @module Tools/base/EventHandler
+ * @namespace Tools
+ * @class wEventHandler
  */
 
 function eventWaitFor( kind )

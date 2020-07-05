@@ -165,6 +165,7 @@ module:
           export: 1
         path:
           - ../proto
+          - ../proto/Integration.test.s
           - ../proto/dwtools
           - ../proto/dwtools/Tools.s
           - ../proto/dwtools/abase
@@ -1509,6 +1510,4 @@ module:
       ../.im.will.yml:
         hash: 8d341b5f3fed291b90dba51c0c0bad26
         size: 5024
-      wEventHandler.out.will.yml:
-        hash: 3eee52096610fadf8814afceb3aa384e
-        size: 39222
+      wEventHandler.out.will.yml: *ref_0

@@ -123,7 +123,7 @@ module:
       entry.proto.no.tests:
         criterion:
           tests: no.tests
-        path: ../proto/dwtools/abase/l7_mixin/EventHandler.s
+        path: ../proto/wtools/abase/l7_mixin/EventHandler.s
       entry.proto.only.tests:
         criterion:
           tests: only.tests
@@ -133,13 +133,13 @@ module:
           debug: debug
           raw: raw
           content: prime
-        path: '{path::out.*=1}/source/dwtools/abase/l7_mixin/EventHandler.s'
+        path: '{path::out.*=1}/source/wtools/abase/l7_mixin/EventHandler.s'
       entry.out.raw.debug.release:
         criterion:
           debug: release
           raw: raw
           content: prime
-        path: '{path::out.*=1}/source/dwtools/abase/l7_mixin/EventHandler.s'
+        path: '{path::out.*=1}/source/wtools/abase/l7_mixin/EventHandler.s'
       entry.out.compiled.debug.debug:
         criterion:
           debug: debug
@@ -166,15 +166,15 @@ module:
         path:
           - ../proto
           - ../proto/Integration.test.s
-          - ../proto/dwtools
-          - ../proto/dwtools/Tools.s
-          - ../proto/dwtools/abase
-          - ../proto/dwtools/abase/l7_mixin
-          - ../proto/dwtools/abase/l7_mixin/EventHandler.s
-          - ../proto/dwtools/abase/l7_mixin.test
-          - ../proto/dwtools/abase/l7_mixin.test/EventHandler.test.s
-          - ../proto/dwtools/amid
-          - ../proto/dwtools/atop
+          - ../proto/wtools
+          - ../proto/wtools/Tools.s
+          - ../proto/wtools/abase
+          - ../proto/wtools/abase/l7_mixin
+          - ../proto/wtools/abase/l7_mixin/EventHandler.s
+          - ../proto/wtools/abase/l7_mixin.test
+          - ../proto/wtools/abase/l7_mixin.test/EventHandler.test.s
+          - ../proto/wtools/amid
+          - ../proto/wtools/atop
     submodule:
       wTools:
         path: 'npm:///wTools'
@@ -923,7 +923,7 @@ module:
       entry.proto.no.tests:
         criterion:
           tests: no.tests
-        path: proto/dwtools/abase/l7_mixin/EventHandler.s
+        path: proto/wtools/abase/l7_mixin/EventHandler.s
       entry.proto.only.tests:
         criterion:
           tests: only.tests
@@ -933,13 +933,13 @@ module:
           debug: debug
           raw: raw
           content: prime
-        path: '{path::out.*=1}/source/dwtools/abase/l7_mixin/EventHandler.s'
+        path: '{path::out.*=1}/source/wtools/abase/l7_mixin/EventHandler.s'
       entry.out.raw.debug.release:
         criterion:
           debug: release
           raw: raw
           content: prime
-        path: '{path::out.*=1}/source/dwtools/abase/l7_mixin/EventHandler.s'
+        path: '{path::out.*=1}/source/wtools/abase/l7_mixin/EventHandler.s'
       entry.out.compiled.debug.debug:
         criterion:
           debug: debug

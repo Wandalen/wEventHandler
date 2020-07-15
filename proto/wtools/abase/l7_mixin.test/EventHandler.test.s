@@ -252,9 +252,11 @@ function eventWaitFor( test )
 
   var con  = _.Consequence().take( null );
   con.andKeep( cons );
-  con.orKeepingSplit( _.time.outError( 3000 ) );
-
-  con.ifNoErrorThen( ( arg/*aaa*/ ) =>
+  con.orKeepingSplit( _.time.outError( 3000 ).catch( ( err ) =>
+  {
+    throw _.errAttend( err );
+  }));
+  con.ifNoErrorThen( ( arg ) =>
   {
     for( var i = 0; i < cons.length; i++ )
     test.returnsSingleResource( cons[ i ] );

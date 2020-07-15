@@ -56,11 +56,9 @@ var Events =
 var Proto =
 {
 
-  init : init,
-  event1 : event1,
-
-  Events : Events,
-  constructor : Self,
+  init,
+  event1,
+  Events,
 
 };
 
@@ -80,29 +78,17 @@ var sample = new Self;
 
 sample.on( 'event1',function( e )
 {
-  console.log( e );
-/*
-{ kind: 'event1',
-  target: Sample { _eventHandler: { descriptors: [Object] } } }
-*/
+  console.log( 'event1' );
 });
 
 sample.on( 'event2',function( e )
 {
-  console.log( e );
-/*
-{ kind: 'event2',
-  target: Sample { _eventHandler: { descriptors: [Object] } } }
-*/
+  console.log( 'event2' );
 });
 
 sample.on( 'finit',function( e )
 {
-  console.log( e );
-/*
-{ kind: 'finit',
-  target: Sample { _eventHandler: { descriptors: [Object] } } }
-*/
+  console.log( 'finit' );
 });
 
 sample.event1();

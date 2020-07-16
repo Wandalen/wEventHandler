@@ -1,4 +1,5 @@
-( function _Sample_s_( ) {
+( function _Sample_s_( )
+{
 
 'use strict';
 
@@ -11,7 +12,8 @@ require( 'wEventHandler' );
 
 var _ = wTools;
 var Parent = null;
-var Self = function Sample( o )
+var Self = Sample;
+function Sample( o )
 {
   return _.workpiece.construct( Self, this, arguments );
 }
@@ -71,17 +73,17 @@ _global_.Sample = Self;
 
 var sample = new Self;
 
-sample.on( 'event1',function( e )
+sample.on( 'event1', function( e )
 {
   console.log( 'event1' );
 });
 
-sample.on( 'event2',function( e )
+sample.on( 'event2', function( e )
 {
   console.log( 'event2' );
 });
 
-sample.on( 'finit',function( e )
+sample.on( 'finit', function( e )
 {
   console.log( 'finit' );
 });

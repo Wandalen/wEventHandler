@@ -702,23 +702,6 @@ function _eventHandlerRemove( o )
   else
   {
 
-    function equalizer( a, b )
-    {
-      if( o.kind !== undefined )
-      if( a.kind !== b.kind )
-      return false;
-
-      if( o.onHandle !== undefined )
-      if( a.onHandle !== b.onHandle )
-      return false;
-
-      if( o.owner !== undefined )
-      if( a.owner !== b.owner )
-      return false;
-
-      return true;
-    }
-
     // console.error( 'REMINDER', 'fix me' ); debugger; xxx
     // return;
     let handlers;
@@ -740,6 +723,23 @@ function _eventHandlerRemove( o )
 
     _.assert( removed || !o.onHandle || !o.strict, 'handler was not registered to unregister it' );
 
+  }
+
+  function equalizer( a, b )
+  {
+    if( o.kind !== undefined )
+    if( a.kind !== b.kind )
+    return false;
+
+    if( o.onHandle !== undefined )
+    if( a.onHandle !== b.onHandle )
+    return false;
+
+    if( o.owner !== undefined )
+    if( a.owner !== b.owner )
+    return false;
+
+    return true;
   }
 
   return self;

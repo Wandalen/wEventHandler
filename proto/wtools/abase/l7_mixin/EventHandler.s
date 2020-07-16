@@ -721,7 +721,6 @@ function _eventHandlerRemove( o )
 
     // console.error( 'REMINDER', 'fix me' ); debugger; xxx
     // return;
-
     var removed = 0;
     if( o.kind )
     {

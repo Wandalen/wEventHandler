@@ -7,10 +7,6 @@
   @module Tools/base/EventHandler
 */
 
-/**
- * @file EventHandler.s
- */
-
 /*
 
 + implement tracking of event kinds !!!
@@ -29,10 +25,6 @@ if( typeof module !== 'undefined' )
 
 }
 
-var _global = _global_;
-var _ = _global_.wTools;
-var _ObjectHasOwnProperty = Object.hasOwnProperty;
-
 //
 
 /**
@@ -42,10 +34,11 @@ var _ObjectHasOwnProperty = Object.hasOwnProperty;
  * @module Tools/base/EventHandler
  */
 
-var _global = _global_;
-var _ = _global_.wTools;
-var Parent = null;
-var Self = function wEventHandler( o )
+let _global = _global_;
+let _ = _global_.wTools;
+var _ObjectHasOwnProperty = Object.hasOwnProperty;
+let Parent = null;
+let Self = function wEventHandler( o )
 {
   return _.workpiece.construct( Self, this, arguments );
 }

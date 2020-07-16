@@ -9,9 +9,9 @@ require( 'wEventHandler' );
 
 // constructor
 
-var _ = wTools;
-var Parent = null;
-var Self = function Sample( o )
+let _ = wTools;
+let Parent = null;
+let Self = function Sample( o )
 {
   return _.workpiece.construct( Self, this, arguments );
 }

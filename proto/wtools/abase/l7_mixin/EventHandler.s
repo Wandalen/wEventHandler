@@ -685,7 +685,7 @@ function _eventHandlerRemove( o )
   if( length === 0 )
   {
 
-    for( var h in handlers )
+    for( let h in handlers )
     handlers[ h ].splice( 0, handlers[ h ].length );
 
   }
@@ -721,11 +721,12 @@ function _eventHandlerRemove( o )
 
     // console.error( 'REMINDER', 'fix me' ); debugger; xxx
     // return;
+    let handlers;
     var removed = 0;
     if( o.kind )
     {
 
-      var handlers = handlers[ o.kind ];
+      handlers = handlers[ o.kind ];
       if( handlers )
       removed = _.arrayRemovedElement( handlers, o, equalizer );
 
@@ -771,7 +772,7 @@ function eventHandlerRemoveByKindAndOwner( kind, owner )
   do
   {
 
-    var descriptor = self._eventHandlerDescriptorByKindAndOwner( kind, owner );
+    let descriptor = self._eventHandlerDescriptorByKindAndOwner( kind, owner );
 
     if( descriptor )
     _.arrayRemoveElementOnce( handlers, descriptor );
@@ -1081,7 +1082,10 @@ function _eventHandlerDescriptorsAll()
 function eventHandlerDescriptorsFilter( filter )
 {
   var self = this;
-  var handlers = filter.kind ? self._eventHandlerDescriptorsByKind( filter.kind ) : self._eventHandlerDescriptorsAll( filter.kind );
+  var handlers =
+  (
+    filter.kind ? self._eventHandlerDescriptorsByKind( filter.kind ) : self._eventHandlerDescriptorsAll( filter.kind )
+  );
 
   if( _.objectIs( filter ) )
   _.assertMapHasOnly( filter, eventHandlerDescriptorsFilter.defaults );
@@ -1249,7 +1253,7 @@ var Supplement =
   eventHandlerRegisterEclipse,
   eclipse : eventHandlerRegisterEclipse,
 
-  _eventHandlerRegister: _eventHandlerRegister,
+  _eventHandlerRegister,
 
   // unregister
 

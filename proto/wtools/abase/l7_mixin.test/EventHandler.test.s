@@ -273,7 +273,7 @@ function eventWaitFor( test )
 let Self =
 {
 
-  name : 'Tools.base.EventHandlerMixin',
+  name : 'Tools.EventHandlerMixin',
   silencing : 1,
 
   tests :

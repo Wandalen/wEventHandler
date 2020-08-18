@@ -1,4 +1,5 @@
-( function _EventHandler_s_() {
+( function _EventHandler_s_()
+{
 
 'use strict';
 
@@ -38,7 +39,8 @@ let _global = _global_;
 let _ = _global_.wTools;
 var _ObjectHasOwnProperty = Object.hasOwnProperty;
 let Parent = null;
-let Self = function wEventHandler( o )
+let Self = wEventHandler;
+function wEventHandler( o )
 {
   return _.workpiece.construct( Self, this, arguments );
 }
@@ -174,7 +176,7 @@ function _eventHandlerFinit()
       continue;
       if( h === 'finit' )
       continue;
-      var err = 'Finited instance has bound handler(s), but should not' + h + ':\n' + _.toStr( handlers[ h ], { levels : 2, } );
+      var err = 'Finited instance has bound handler(s), but should not' + h + ':\n' + _.toStr( handlers[ h ], { levels : 2 } );
       console.error( err.toString() + '\n' + err.stack );
       console.error( handlers[ h ][ 0 ].onHandle );
       console.error( self.eventReport() );
@@ -193,11 +195,12 @@ function eventReport()
 {
   var self = this;
   var result = 'Event Map of ' + ( self.qualifiedName || 'an instance' ) + ':\n';
+  var handlerArray;
 
   var handlers = self._eventHandler.descriptors || {};
-  for( var h in handlers )
+  for( let h in handlers )
   {
-    var handlerArray = handlers[ h ];
+    handlerArray = handlers[ h ];
     if( !handlerArray || handlerArray.length === 0 )
     continue;
     var onHandle = handlerArray.map( ( e ) => _.toStr( e.onHandle ) );
@@ -206,7 +209,7 @@ function eventReport()
 
   for( var h in self.Events )
   {
-    var handlerArray = handlers[ h ];
+    handlerArray = handlers[ h ];
     if( !handlerArray || handlerArray.length === 0 )
     {
       result += h + ' : ' + '-' + '\n';
@@ -608,7 +611,7 @@ function eventHandlerRemove()
     else if( _.longIs( arguments[ 0 ] ) )
     {
 
-      for( var i = 0; i < arguments[ 0 ].length; i++ )
+      for( let i = 0; i < arguments[ 0 ].length; i++ )
       self.eventHandlerRemove( arguments[ 0 ][ i ] );
 
     }
@@ -621,7 +624,7 @@ function eventHandlerRemove()
     if( _.longIs( arguments[ 0 ] ) )
     {
 
-      for( var i = 0; i < arguments[ 0 ].length; i++ )
+      for( let i = 0; i < arguments[ 0 ].length; i++ )
       self.eventHandlerRemove( arguments[ 0 ][ i ], arguments[ 1 ] );
 
     }
@@ -660,7 +663,7 @@ function _eventHandlerRemove( o )
   if( Object.keys( o ).length && o.strict === undefined )
   o.strict = 1;
 
-  var handlers = self._eventHandler.descriptors;
+  let handlers = self._eventHandler.descriptors;
   if( !handlers )
   return self;
 
@@ -675,14 +678,14 @@ function _eventHandlerRemove( o )
   if( length === 0 )
   {
 
-    for( var h in handlers )
+    for( let h in handlers )
     handlers[ h ].splice( 0, handlers[ h ].length );
 
   }
   else if( length === 1 && o.kind )
   {
 
-    var handlers = handlers[ o.kind ];
+    let handlers = handlers[ o.kind ];
     if( !handlers )
     return self;
 
@@ -692,32 +695,14 @@ function _eventHandlerRemove( o )
   else
   {
 
-    function equalizer( a, b )
-    {
-
-      if( o.kind !== undefined )
-      if( a.kind !== b.kind )
-      return false;
-
-      if( o.onHandle !== undefined )
-      if( a.onHandle !== b.onHandle )
-      return false;
-
-      if( o.owner !== undefined )
-      if( a.owner !== b.owner )
-      return false;
-
-      return true;
-    }
-
     // console.error( 'REMINDER', 'fix me' ); debugger; xxx
     // return;
-
+    let handlers;
     var removed = 0;
     if( o.kind )
     {
 
-      var handlers = handlers[ o.kind ];
+      handlers = handlers[ o.kind ];
       if( handlers )
       removed = _.arrayRemovedElement( handlers, o, equalizer );
 
@@ -731,6 +716,23 @@ function _eventHandlerRemove( o )
 
     _.assert( removed || !o.onHandle || !o.strict, 'handler was not registered to unregister it' );
 
+  }
+
+  function equalizer( a, b )
+  {
+    if( o.kind !== undefined )
+    if( a.kind !== b.kind )
+    return false;
+
+    if( o.onHandle !== undefined )
+    if( a.onHandle !== b.onHandle )
+    return false;
+
+    if( o.owner !== undefined )
+    if( a.owner !== b.owner )
+    return false;
+
+    return true;
   }
 
   return self;
@@ -763,7 +765,7 @@ function eventHandlerRemoveByKindAndOwner( kind, owner )
   do
   {
 
-    var descriptor = self._eventHandlerDescriptorByKindAndOwner( kind, owner );
+    let descriptor = self._eventHandlerDescriptorByKindAndOwner( kind, owner );
 
     if( descriptor )
     _.arrayRemoveElementOnce( handlers, descriptor );
@@ -1073,7 +1075,10 @@ function _eventHandlerDescriptorsAll()
 function eventHandlerDescriptorsFilter( filter )
 {
   var self = this;
-  var handlers = filter.kind ? self._eventHandlerDescriptorsByKind( filter.kind ) : self._eventHandlerDescriptorsAll( filter.kind );
+  var handlers =
+  (
+    filter.kind ? self._eventHandlerDescriptorsByKind( filter.kind ) : self._eventHandlerDescriptorsAll( filter.kind )
+  );
 
   if( _.objectIs( filter ) )
   _.assertMapHasOnly( filter, eventHandlerDescriptorsFilter.defaults );
@@ -1118,7 +1123,7 @@ function eventProxyTo( dstPrototype, rename )
 
   if( _.strIs( rename ) )
   {
-    var r = Object.create( null );
+    let r = Object.create( null );
     r[ rename ] = rename;
     rename = r;
   }
@@ -1241,7 +1246,7 @@ var Supplement =
   eventHandlerRegisterEclipse,
   eclipse : eventHandlerRegisterEclipse,
 
-  _eventHandlerRegister: _eventHandlerRegister,
+  _eventHandlerRegister,
 
   // unregister
 

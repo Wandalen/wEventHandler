@@ -697,7 +697,7 @@ function _eventHandlerRemove( o )
 
     // console.error( 'REMINDER', 'fix me' ); debugger; xxx
     // return;
-    let handlers;
+    // let handlers;  // !!!
     var removed = 0;
     if( o.kind )
     {
@@ -762,10 +762,11 @@ function eventHandlerRemoveByKindAndOwner( kind, owner )
   if( !handlers )
   return self;
 
+  let descriptor; // !!!
   do
   {
 
-    let descriptor = self._eventHandlerDescriptorByKindAndOwner( kind, owner );
+    descriptor = self._eventHandlerDescriptorByKindAndOwner( kind, owner );
 
     if( descriptor )
     _.arrayRemoveElementOnce( handlers, descriptor );

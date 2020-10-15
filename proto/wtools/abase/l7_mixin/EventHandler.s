@@ -841,7 +841,7 @@ function _eventGive( event, o )
   if( self.eventVerbosity )
   logger.log( 'fired event', self.qualifiedName + '.' + event.kind );
 
-  /* pre */
+  /* head */
 
   let handlers = self._eventHandler.descriptors;
   if( handlers === undefined )

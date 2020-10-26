@@ -253,10 +253,20 @@ function eventWaitFor( test )
 
   var con  = _.Consequence().take( null );
   con.andKeep( cons );
-  con.orKeepingSplit( _.time.outError( 3000 ).catch( ( err ) =>
+
+  let timeOut = _.time.outError( 3000 ).catch( ( err ) =>
   {
     throw _.errAttend( err );
-  }));
+  });
+
+  // con.orKeepingSplit( _.time.outError( 3000 ).catch( ( err ) =>
+  // .catch( ( err ) =>
+  // {
+  //   throw _.errAttend( err );
+  // }));
+
+  con = _.Consequence.Or( con, timeOut )
+
   con.ifNoErrorThen( ( arg ) =>
   {
     for( var i = 0; i < cons.length; i++ )

@@ -207,23 +207,172 @@ function basic( test )
   test.identical( entity1[ 'event33' ], 6 );
   test.identical( entity1.eventGive( 'event1' ), [] );
   test.identical( entity1[ 'event1' ], 9 );
+}
+
+//
+
+function once( test )
+{
+  var self = this;
+
+  /* prepare objects */
+
+  function Entity1()
+  {
+    this.init()
+  }
+  _.EventHandler.mixin( Entity1 );
+  Entity1.prototype.Events =
+  {
+    init : 'init',
+    event : 'event',
+    event2 : 'event2',
+  };
+
+  function Entity2()
+  {
+    this.init()
+  }
+  _.EventHandler.mixin( Entity2 );
+  Entity2.prototype.Events =
+  {
+    init : 'init',
+    event : 'event',
+    event2 : 'event2',
+  };
+
+  /* test */
+
+  test.open( 'without owner' );
+
+  test.case = 'no events handlers in entity';
+  var entity1 = new Entity1();
+  var result = [];
+  var onEvent = () => result.push( result.length )
+  var onEvent2 = () => result.push( -1 * result.length )
+  entity1.eventGive( 'event' );
+  test.identical( result, [] );
+  entity1.eventGive( 'event2' );
+  test.identical( result, [] );
 
   /* */
 
-  test.case = 'once';
+  test.case = 'single events handler in entity';
+  var entity1 = new Entity1();
+  var result = [];
+  var onEvent = () => result.push( result.length )
+  var onEvent2 = () => result.push( -1 * result.length )
+  entity1.once( 'event', onEvent );
+  entity1.eventGive( 'event' );
+  test.identical( result, [ 0 ] );
+  entity1.eventGive( 'event2' );
+  test.identical( result, [ 0 ] );
 
-  entity1.once( 'event2', onEvent2 );
-  test.identical( entity1.eventGive( 'event2' ), [ 1 ] );
-  test.identical( entity1.eventGive( 'event2' ), [] );
-  test.identical( entity1[ 'event2' ], 1 );
+  /* */
 
-  entity1.once( 'event2', onEvent2 );
-  entity1.once( 'event2', onEvent2 );
-  entity1.once( 'event2', onEvent3 );
-  test.identical( entity1.eventGive( 'event2' ), [ 2, 3 ] );
-  test.identical( entity1.eventGive( 'event2' ), [] );
-  test.identical( entity1[ 'event2' ], 3 );
+  test.case = 'single events handler in entity, a few events';
+  var entity1 = new Entity1();
+  var result = [];
+  var onEvent = () => result.push( result.length )
+  var onEvent2 = () => result.push( -1 * result.length )
+  entity1.once( 'event', onEvent );
+  entity1.eventGive( 'event' );
+  entity1.eventGive( 'event' );
+  test.identical( result, [ 0 ] );
+  entity1.eventGive( 'event2' );
+  test.identical( result, [ 0 ] );
 
+  /* */
+
+  test.case = 'several entities, the second gives events';
+  var entity1 = new Entity1();
+  var entity2 = new Entity2();
+  var result = [];
+  var onEvent = () => result.push( result.length )
+  var onEvent2 = () => result.push( -1 * result.length )
+  entity1.once( 'event', onEvent );
+  entity1.once( 'event2', onEvent2 );
+  entity2.eventGive( 'event' );
+  entity2.eventGive( 'event' );
+  test.identical( result, [] );
+  entity2.eventGive( 'event2' );
+  entity2.eventGive( 'event2' );
+  test.identical( result, [] );
+
+  test.close( 'without owner' );
+
+  /* - */
+
+  test.open( 'with owner' );
+
+  test.case = 'single events handler in entity';
+  var entity1 = new Entity1();
+  var result = [];
+  var onEvent = () => result.push( result.length )
+  var onEvent2 = () => result.push( -1 * result.length )
+  entity1.once( 'event', 'owner', onEvent );
+
+  var descriptor = entity1._eventHandlerDescriptorsByKind( 'event' )[ 0 ];
+  test.identical( descriptor.owner, 'owner' );
+  test.identical( descriptor.onHandle, onEvent );
+  entity1.eventGive( 'event' );
+  test.identical( result, [ 0 ] );
+  entity1.eventGive( 'event2' );
+  test.identical( result, [ 0 ] );
+
+  /* */
+
+  test.case = 'single events handler in entity, a few events';
+  var entity1 = new Entity1();
+  var result = [];
+  var onEvent = () => result.push( result.length )
+  var onEvent2 = () => result.push( -1 * result.length )
+  entity1.once( 'event', 'owner', onEvent );
+
+  var descriptor = entity1._eventHandlerDescriptorsByKind( 'event' )[ 0 ];
+  test.identical( descriptor.owner, 'owner' );
+  test.identical( descriptor.onHandle, onEvent );
+  entity1.eventGive( 'event' );
+  entity1.eventGive( 'event' );
+  test.identical( result, [ 0 ] );
+  entity1.eventGive( 'event2' );
+  test.identical( result, [ 0 ] );
+
+  /* */
+
+  test.case = 'several entities, the second gives events';
+  var entity1 = new Entity1();
+  var entity2 = new Entity2();
+  var result = [];
+  var onEvent = () => result.push( result.length )
+  var onEvent2 = () => result.push( -1 * result.length )
+  entity1.once( 'event', 'owner', onEvent );
+  entity1.once( 'event2', 'owner', onEvent2 );
+  entity2.once( 'event', () => {} );
+
+  var descriptor = entity1._eventHandlerDescriptorsByKind( 'event' )[ 0 ];
+  test.identical( descriptor.owner, 'owner' );
+  test.identical( descriptor.onHandle, onEvent );
+  var descriptor = entity2._eventHandlerDescriptorsByKind( 'event' )[ 0 ];
+  test.identical( descriptor.owner, undefined );
+  test.is( _.routineIs( descriptor.onHandle ) );
+  entity2.eventGive( 'event' );
+  entity2.eventGive( 'event' );
+  test.identical( result, [] );
+  entity2.eventGive( 'event2' );
+  entity2.eventGive( 'event2' );
+  test.identical( result, [] );
+
+  test.close( 'with owner' );
+
+  /* - */
+
+  if( !Config.debug )
+  return;
+
+  test.case = 'give not known event';
+  var entity1 = new Entity1();
+  test.shouldThrowErrorSync( () => entity1.eventGive( 'notKnown' ) );
 }
 
 //
@@ -291,6 +440,7 @@ let Self =
   {
 
     basic,
+    once,
     eventWaitFor,
 
   },

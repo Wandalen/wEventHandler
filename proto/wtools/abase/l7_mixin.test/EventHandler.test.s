@@ -355,7 +355,7 @@ function once( test )
   test.identical( descriptor.onHandle, onEvent );
   var descriptor = entity2._eventHandlerDescriptorsByKind( 'event' )[ 0 ];
   test.identical( descriptor.owner, undefined );
-  test.is( _.routineIs( descriptor.onHandle ) );
+  test.true( _.routineIs( descriptor.onHandle ) );
   entity2.eventGive( 'event' );
   entity2.eventGive( 'event' );
   test.identical( result, [] );

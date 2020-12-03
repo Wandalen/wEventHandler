@@ -1087,7 +1087,7 @@ function eventHandlerDescriptorsFilter( filter )
 
   debugger;
 
-  let result = _.entityFilter( handlers, filter );
+  let result = _.filter_( null, handlers, filter );
 
   debugger;
 }

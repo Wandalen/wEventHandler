@@ -1,27 +1,43 @@
 {
-  "name" : "wEventHandler",
-  "version" : "0.4.264",
-  "engine" : "node >= 10.0.0",
-  "description" : "Mixin adds events dispatching mechanism to your class. EventHandler provides methods to bind/unbind handler of an event, to handle a specific event only once, to associate an event with a namespace what later make possible to unbind handler of event with help of namespace. EventHandler allows redirecting events to/from another instance. Unlike alternative implementation of the concept, EventHandler is strict by default and force developer to explicitly declare / bind / unbind all events supported by object. Use it to add events dispatching mechanism to your classes and avoid accumulation of technical dept and potential errors.",
-  "author" : "Kostiantyn Wandalen <wanalen@01.school>",
-  "contributors" :
-  [
-    { "name" : "Kostiantyn Wandalen", "email" : "wanalen@01.school" }
+  "name": "wEventHandler",
+  "version": "0.4.265",
+  "engine": "node >= 10.0.0",
+  "description": "Mixin adds events dispatching mechanism to your class. EventHandler provides methods to bind/unbind handler of an event, to handle a specific event only once, to associate an event with a namespace what later make possible to unbind handler of event with help of namespace. EventHandler allows redirecting events to/from another instance. Unlike alternative implementation of the concept, EventHandler is strict by default and force developer to explicitly declare / bind / unbind all events supported by object. Use it to add events dispatching mechanism to your classes and avoid accumulation of technical dept and potential errors.",
+  "author": "Kostiantyn Wandalen <wanalen@01.school>",
+  "contributors": [
+    {
+      "name": "Kostiantyn Wandalen",
+      "email": "wanalen@01.school"
+    }
   ],
-  "license" : "MIT",
-  "main" : "proto/wtools/abase/l7_mixin/EventHandler.s",
-  "files" : [ "proto/wtools/abase/l7_mixin", "proto/wtools/Tools.s", "out" ],
-  "scripts" : { "test" : "wtest .run 'proto/**' rapidity:-3", "docgen" : "wdocgen proto" },
-  "repository" :
-  {
-    "type" : "git",
-    "url" : "https://github.com/Wandalen/wEventHandler.git"
+  "license": "MIT",
+  "main": "proto/wtools/abase/l7_mixin/EventHandler.s",
+  "files": [
+    "proto/wtools/abase/l7_mixin",
+    "proto/wtools/Tools.s",
+    "out"
+  ],
+  "scripts": {
+    "test": "wtest .run 'proto/**' rapidity:-3",
+    "docgen": "wdocgen proto"
   },
-  "bugs" :
-  {
-    "url" : "https://github.com/Wandalen/wEventHandler/issues"
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Wandalen/wEventHandler.git"
   },
-  "dependencies" : { "wTools" : "alpha", "wProto" : "alpha" },
-  "devDependencies" : { "eslint" : "7.1.0", "wTesting" : "alpha" },
-  "keywords" : [ "wTools", "Events" ]
+  "bugs": {
+    "url": "https://github.com/Wandalen/wEventHandler/issues"
+  },
+  "dependencies": {
+    "wTools": "alpha",
+    "wProto": "alpha"
+  },
+  "devDependencies": {
+    "eslint": "7.1.0",
+    "wTesting": "alpha"
+  },
+  "keywords": [
+    "wTools",
+    "Events"
+  ]
 }

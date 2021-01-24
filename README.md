@@ -7,7 +7,7 @@ Mixin adds events dispatching mechanism to your class. EventHandler provides met
 git clone https://github.com/Wandalen/wEventHandler
 cd wEventHandler
 npm install
-node sample/Sample.s
+node sample/trivial/Sample.s
 ```
 
 ## To add to your project

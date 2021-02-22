@@ -177,7 +177,7 @@ function _eventHandlerFinit()
       continue;
       if( h === 'finit' )
       continue;
-      let err = 'Finited instance has bound handler(s), but should not' + h + ':\n' + _.toStr( handlers[ h ], { levels : 2 } );
+      let err = 'Finited instance has bound handler(s), but should not' + h + ':\n' + _.entity.exportString( handlers[ h ], { levels : 2 } );
       console.error( err.toString() + '\n' + err.stack );
       console.error( handlers[ h ][ 0 ].onHandle );
       console.error( self.eventReport() );
@@ -204,7 +204,7 @@ function eventReport()
     handlerArray = handlers[ h ];
     if( !handlerArray || handlerArray.length === 0 )
     continue;
-    let onHandle = handlerArray.map( ( e ) => _.toStr( e.onHandle ) );
+    let onHandle = handlerArray.map( ( e ) => _.entity.exportString( e.onHandle ) );
     result += h + ' : ' + onHandle.join( ', ' ) + '\n';
   }
 
@@ -450,7 +450,7 @@ function _eventHandlerRegister( o )
   /* verification */
 
   _.assert( _.strIs( o.kind ) );
-  _.assert( _.routineIs( o.onHandle ), 'Expects routine {-onHandle-}, but got', _.strType( o.oHandle ) );
+  _.assert( _.routineIs( o.onHandle ), 'Expects routine {-onHandle-}, but got', _.entity.strType( o.oHandle ) );
   _.assertMapHasOnly( o, _eventHandlerRegister.defaults );
   _.assert( arguments.length === 1, 'Expects single argument' );
   _.assert( !( o.provisional && o.once ) );

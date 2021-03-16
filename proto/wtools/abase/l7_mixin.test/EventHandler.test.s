@@ -65,9 +65,7 @@ function basic( test )
 
   test.case = 'eventHandlerAppend';
 
-  debugger;
   entity1.on( 'event1', onEvent1 );
-  debugger;
   entity1.eventHandlerAppend( 'event2', onEvent2 );
   entity1.on( 'event3', 'owner', onEvent3 );
 

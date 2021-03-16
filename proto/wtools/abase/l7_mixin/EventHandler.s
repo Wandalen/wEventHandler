@@ -181,7 +181,6 @@ function _eventHandlerFinit()
       console.error( err.toString() + '\n' + err.stack );
       console.error( handlers[ h ][ 0 ].onHandle );
       console.error( self.eventReport() );
-      debugger;
       throw _.err( err );
     }
 
@@ -514,7 +513,6 @@ function _eventHandlerRegister( o )
   {
     let result = o.onHandle.apply( this, arguments );
 
-    debugger;
     if( result === false )
     self._eventHandlerRemove
     ({
@@ -543,7 +541,6 @@ function _eventHandlerRegister( o )
   if( self._eventKinds )
   {
     _.arrayAppendOnce( self._eventKinds, kind );
-    debugger;
   }
 
   return self;
@@ -1042,8 +1039,8 @@ function _eventHandlerDescriptorsByKind( kind )
 
   _.assert( _.objectIs( self._eventHandler ) );
 
-  if( !self._eventHandler.descriptors )
-  debugger;
+  // if( !self._eventHandler.descriptors )
+  // debugger;
 
   let handlers = self._eventHandler.descriptors;
   handlers = handlers[ kind ] = handlers[ kind ] || [];
@@ -1058,13 +1055,10 @@ function _eventHandlerDescriptorsAll()
   let self = this;
   let result = [];
 
-  debugger;
-
   for( let d in self._eventHandler.descriptors )
   {
     let descriptor = self._eventHandler.descriptors[ d ];
 
-    debugger;
     result.push( descriptor );
 
   }
@@ -1085,11 +1079,8 @@ function eventHandlerDescriptorsFilter( filter )
   if( _.objectIs( filter ) )
   _.assertMapHasOnly( filter, eventHandlerDescriptorsFilter.defaults );
 
-  debugger;
-
   let result = _.filter_( null, handlers, filter );
 
-  debugger;
 }
 
 eventHandlerDescriptorsFilter.defaults =

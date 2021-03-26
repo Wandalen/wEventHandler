@@ -38,7 +38,7 @@ if( typeof module !== 'undefined' )
 const _global = _global_;
 const _ = _global_.wTools;
 const _ObjectHasOwnProperty = Object.hasOwnProperty;
-let Parent = null;
+const Parent = null;
 const Self = wEventHandler;
 function wEventHandler( o )
 {

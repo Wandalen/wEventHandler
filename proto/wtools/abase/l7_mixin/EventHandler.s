@@ -35,11 +35,11 @@ if( typeof module !== 'undefined' )
  * @module Tools/base/EventHandler
  */
 
-let _global = _global_;
-let _ = _global_.wTools;
-let _ObjectHasOwnProperty = Object.hasOwnProperty;
+const _global = _global_;
+const _ = _global_.wTools;
+const _ObjectHasOwnProperty = Object.hasOwnProperty;
 let Parent = null;
-let Self = wEventHandler;
+const Self = wEventHandler;
 function wEventHandler( o )
 {
   return _.workpiece.construct( Self, this, arguments );
@@ -450,7 +450,7 @@ function _eventHandlerRegister( o )
 
   _.assert( _.strIs( o.kind ) );
   _.assert( _.routineIs( o.onHandle ), 'Expects routine {-onHandle-}, but got', _.entity.strType( o.oHandle ) );
-  _.assertMapHasOnly( o, _eventHandlerRegister.defaults );
+  _.map.assertHasOnly( o, _eventHandlerRegister.defaults );
   _.assert( arguments.length === 1, 'Expects single argument' );
   _.assert( !( o.provisional && o.once ) );
   _.assert( !!self.constructor.prototype.Events || ( !self.constructor.prototype.strictEventHandling && self.constructor.prototype.strictEventHandling !== undefined ), 'Expects static Events' );
@@ -657,7 +657,7 @@ function _eventHandlerRemove( o )
   let self = this;
 
   _.assert( arguments.length === 1, 'Expects single argument' );
-  _.assertMapHasOnly( o, _eventHandlerRemove.defaults );
+  _.map.assertHasOnly( o, _eventHandlerRemove.defaults );
   if( Object.keys( o ).length && o.strict === undefined )
   o.strict = 1;
 
@@ -1077,7 +1077,7 @@ function eventHandlerDescriptorsFilter( filter )
   );
 
   if( _.objectIs( filter ) )
-  _.assertMapHasOnly( filter, eventHandlerDescriptorsFilter.defaults );
+  _.map.assertHasOnly( filter, eventHandlerDescriptorsFilter.defaults );
 
   let result = _.filter_( null, handlers, filter );
 

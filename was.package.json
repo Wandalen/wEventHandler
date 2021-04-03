@@ -9,7 +9,7 @@
     { "name" : "Kostiantyn Wandalen", "email" : "wanalen@01.school" }
   ],
   "license" : "MIT",
-  "main" : "/pro/module/wEventHandler/proto/node_modules/wEventHandler",
+  "main" : "proto/node_modules/wEventHandler",
   "files" : [ "proto/wtools/abase/l7_mixin", "proto/wtools/Tools.s", "out", "proto/node_modules" ],
   "scripts" : { "test" : "wtest .run 'proto/**' rapidity:-3", "docgen" : "wdocgen proto" },
   "repository" :

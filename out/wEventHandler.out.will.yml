@@ -2,15 +2,12 @@ format: outwillfile-2.0
 root:
   - wEventHandler.out
 consistency:
-  wEventHandler.out.will.yml: &ref_0
-    hash: 6f72585193eca62c07e6d4390c9d6848
-    size: 39422
-  ../.ex.will.yml: &ref_1
+  ../.ex.will.yml: &ref_0
     hash: 8f50f0cefb537d25f316924d25fccf33
     size: 2321
-  ../.im.will.yml: &ref_2
-    hash: 899fa906a846eb10c52a50f30e5839ee
-    size: 5021
+  ../.im.will.yml: &ref_1
+    hash: 60752db88b8fa7c2b75a56e9ee1fec86
+    size: 5018
 module:
   wEventHandler.out:
     about:
@@ -29,19 +26,19 @@ module:
         errors.
       enabled: 1
       version: 0.5.0
-      interpreters:
+      interpreters: &ref_2
         - njs >= 10.0.0
         - chrome >= 60.0.0
         - firefox >= 60.0.0
-      keywords:
+      keywords: &ref_3
         - wTools
         - Events
       license: MIT
       author: Kostiantyn Wandalen <wanalen@01.school>
-      contributors:
+      contributors: &ref_4
         - Kostiantyn Wandalen <wanalen@01.school>
       npm.name: wEventHandler
-      npm.scripts:
+      npm.scripts: &ref_5
         test: wtest .run proto/**
         docgen: wdocgen .build proto
     path:
@@ -72,7 +69,7 @@ module:
       download:
         criterion:
           predefined: 1
-        path: ../
+        path: ..
       repository:
         path: 'git+https:///github.com/Wandalen/wEventHandler.git'
       origins:
@@ -153,6 +150,10 @@ module:
           raw: compiled
           content: prime
         path: '{path::out.*=}/source/Index.s'
+      npm.proto.entry:
+        path:
+          - ../proto/wtools/abase/l7_mixin/EventHandler.s
+          - ../proto/node_modules/wEventHandler
       exported.dir.proto.export:
         criterion:
           generated: 1
@@ -706,24 +707,6 @@ module:
           content: prime
         inherit:
           - files.transpile
-      exported.proto.export:
-        opts:
-          filePath: 'reflector::exported.proto.export'
-        criterion:
-          generated: 1
-          content: proto
-          export: 1
-        inherit:
-          - files.reflect
-      exported.files.proto.export:
-        opts:
-          filePath: 'reflector::exported.files.proto.export'
-        criterion:
-          generated: 1
-          content: proto
-          export: 1
-        inherit:
-          - files.reflect
     build:
       proto.export:
         steps:
@@ -812,9 +795,8 @@ module:
           content: proto
           export: 1
     consistency:
-      wEventHandler.out.will.yml: *ref_0
-      ../.ex.will.yml: *ref_1
-      ../.im.will.yml: *ref_2
+      ../.ex.will.yml: *ref_0
+      ../.im.will.yml: *ref_1
   ../:
     about:
       name: wEventHandler
@@ -832,21 +814,13 @@ module:
         errors.
       enabled: 1
       version: 0.5.0
-      interpreters:
-        - njs >= 10.0.0
-        - chrome >= 60.0.0
-        - firefox >= 60.0.0
-      keywords:
-        - wTools
-        - Events
+      interpreters: *ref_2
+      keywords: *ref_3
       license: MIT
       author: Kostiantyn Wandalen <wanalen@01.school>
-      contributors:
-        - Kostiantyn Wandalen <wanalen@01.school>
+      contributors: *ref_4
       npm.name: wEventHandler
-      npm.scripts:
-        test: wtest .run proto/**
-        docgen: wdocgen .build proto
+      npm.scripts: *ref_5
     path:
       module.willfiles:
         criterion:
@@ -875,7 +849,7 @@ module:
       download:
         criterion:
           predefined: 1
-        path: ./
+        path: .
       repository:
         path: 'git+https:///github.com/Wandalen/wEventHandler.git'
       origins:
@@ -956,6 +930,10 @@ module:
           raw: compiled
           content: prime
         path: '{path::out.*=}/source/Index.s'
+      npm.proto.entry:
+        path:
+          - proto/wtools/abase/l7_mixin/EventHandler.s
+          - proto/node_modules/wEventHandler
     submodule:
       wTools:
         path: 'npm:///wTools'
@@ -1512,6 +1490,5 @@ module:
         hash: 8f50f0cefb537d25f316924d25fccf33
         size: 2321
       ../.im.will.yml:
-        hash: 899fa906a846eb10c52a50f30e5839ee
-        size: 5021
-      wEventHandler.out.will.yml: *ref_0
+        hash: 60752db88b8fa7c2b75a56e9ee1fec86
+        size: 5018

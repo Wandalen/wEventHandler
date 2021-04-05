@@ -75,8 +75,8 @@ path:
       raw: compiled
       content: prime
   npm.proto.entry:
-    - /pro/module/wEventHandler/proto/wtools/abase/l7_mixin/EventHandler.s
-    - /pro/module/wEventHandler/proto/node_modules/wEventHandler
+    - proto/wtools/abase/l7_mixin/EventHandler.s
+    - proto/node_modules/wEventHandler
 reflector:
   reflect.proto:
     inherit: predefined.*

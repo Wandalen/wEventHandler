@@ -2,10 +2,13 @@ format: outwillfile-2.0
 root:
   - wEventHandler.out
 consistency:
-  ../.ex.will.yml: &ref_0
+  wEventHandler.out.will.yml: &ref_0
+    hash: a5718c4712ebfe53d29eca822569ecf2
+    size: 39817
+  ../.ex.will.yml: &ref_1
     hash: 8f50f0cefb537d25f316924d25fccf33
     size: 2321
-  ../.im.will.yml: &ref_1
+  ../.im.will.yml: &ref_2
     hash: 2ab31897728ab6f7dc7f4248d4555b2d
     size: 4966
 module:
@@ -26,19 +29,19 @@ module:
         errors.
       enabled: 1
       version: 0.5.0
-      interpreters: &ref_2
+      interpreters:
         - njs >= 10.0.0
         - chrome >= 60.0.0
         - firefox >= 60.0.0
-      keywords: &ref_3
+      keywords:
         - wTools
         - Events
       license: MIT
       author: Kostiantyn Wandalen <wanalen@01.school>
-      contributors: &ref_4
+      contributors:
         - Kostiantyn Wandalen <wanalen@01.school>
       npm.name: wEventHandler
-      npm.scripts: &ref_5
+      npm.scripts:
         test: wtest .run proto/**
         docgen: wdocgen .build proto
     path:
@@ -169,9 +172,9 @@ module:
           - ../proto
           - ../proto/Integration.test.ss
           - ../proto/node_modules
+          - ../proto/node_modules/Tools
           - ../proto/node_modules/wEventHandler
           - ../proto/wtools
-          - ../proto/wtools/Tools.s
           - ../proto/wtools/abase
           - ../proto/wtools/abase/l7_mixin
           - ../proto/wtools/abase/l7_mixin/EventHandler.s
@@ -707,6 +710,24 @@ module:
           content: prime
         inherit:
           - files.transpile
+      exported.proto.export:
+        opts:
+          filePath: 'reflector::exported.proto.export'
+        criterion:
+          generated: 1
+          content: proto
+          export: 1
+        inherit:
+          - files.reflect
+      exported.files.proto.export:
+        opts:
+          filePath: 'reflector::exported.files.proto.export'
+        criterion:
+          generated: 1
+          content: proto
+          export: 1
+        inherit:
+          - files.reflect
     build:
       proto.export:
         steps:
@@ -795,8 +816,9 @@ module:
           content: proto
           export: 1
     consistency:
-      ../.ex.will.yml: *ref_0
-      ../.im.will.yml: *ref_1
+      wEventHandler.out.will.yml: *ref_0
+      ../.ex.will.yml: *ref_1
+      ../.im.will.yml: *ref_2
   ../:
     about:
       name: wEventHandler
@@ -814,13 +836,21 @@ module:
         errors.
       enabled: 1
       version: 0.5.0
-      interpreters: *ref_2
-      keywords: *ref_3
+      interpreters:
+        - njs >= 10.0.0
+        - chrome >= 60.0.0
+        - firefox >= 60.0.0
+      keywords:
+        - wTools
+        - Events
       license: MIT
       author: Kostiantyn Wandalen <wanalen@01.school>
-      contributors: *ref_4
+      contributors:
+        - Kostiantyn Wandalen <wanalen@01.school>
       npm.name: wEventHandler
-      npm.scripts: *ref_5
+      npm.scripts:
+        test: wtest .run proto/**
+        docgen: wdocgen .build proto
     path:
       module.willfiles:
         criterion:
@@ -1492,3 +1522,6 @@ module:
       ../.im.will.yml:
         hash: 2ab31897728ab6f7dc7f4248d4555b2d
         size: 4966
+      wEventHandler.out.will.yml:
+        hash: a5718c4712ebfe53d29eca822569ecf2
+        size: 39817

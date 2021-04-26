@@ -439,7 +439,7 @@ function _eventHandlerRegister( o )
   {
     for( let k = 0 ; k < o.kind.length ; k++ )
     {
-      let d = _.mapExtend( null, o );
+      let d = _.props.extend( null, o );
       d.kind = o.kind[ k ];
       self._eventHandlerRegister( d );
     }
@@ -1135,7 +1135,7 @@ function eventProxyTo( dstPrototype, rename )
       {
         if( name !== rename[ name ] )
         {
-          event = _.mapExtend( null, event );
+          event = _.props.extend( null, event );
           event.kind = rename[ name ];
         }
         return dstPrototype._eventGive( event, o );

@@ -66,10 +66,10 @@ function onMixinApply( mixinDescriptor, dstClass )
 
   _.mixinApply( this, dstPrototype );
 
-  _.assert( _.objectIs( dstPrototype.Restricts._eventHandler ) );
+  _.assert( _.object.isBasic( dstPrototype.Restricts._eventHandler ) );
   _.assert( arguments.length === 2, 'Expects exactly two arguments' );
   _.assert( _.routineIs( dstClass ) );
-  _.assert( _.objectIs( dstPrototype.Events ) );
+  _.assert( _.object.isBasic( dstPrototype.Events ) );
   _.assert( _.strIs( dstPrototype.Events.init ) );
   _.assert( _.strIs( dstPrototype.Events.finit ) );
 
@@ -833,7 +833,7 @@ function _eventGive( event, o )
   _.assert( event.type === undefined || event.kind !== undefined, 'event should have "kind" field, no "type" field' );
   _.assert( !!self.constructor.prototype.Events || ( !self.constructor.prototype.strictEventHandling && self.constructor.prototype.strictEventHandling !== undefined ), 'Expects static Events' );
   _.assert( !self.strictEventHandling || !!self.Events[ event.kind ], () => self.constructor.name + ' is not aware about event ' + _.strQuote( event.kind ) );
-  _.assert( _.objectIs( self._eventHandler ) );
+  _.assert( _.object.isBasic( self._eventHandler ) );
 
   if( self.eventVerbosity )
   logger.log( 'fired event', self.qualifiedName + '.' + event.kind );
@@ -1037,7 +1037,7 @@ function _eventHandlerDescriptorsByKind( kind )
 {
   let self = this;
 
-  _.assert( _.objectIs( self._eventHandler ) );
+  _.assert( _.object.isBasic( self._eventHandler ) );
 
   // if( !self._eventHandler.descriptors )
   // debugger;
@@ -1076,7 +1076,7 @@ function eventHandlerDescriptorsFilter( filter )
     filter.kind ? self._eventHandlerDescriptorsByKind( filter.kind ) : self._eventHandlerDescriptorsAll( filter.kind )
   );
 
-  if( _.objectIs( filter ) )
+  if( _.object.isBasic( filter ) )
   _.map.assertHasOnly( filter, eventHandlerDescriptorsFilter.defaults );
 
   let result = _.filter_( null, handlers, filter );
@@ -1099,7 +1099,7 @@ function eventProxyTo( dstPrototype, rename )
   let self = this;
 
   _.assert( arguments.length === 2, 'Expects exactly two arguments' );
-  _.assert( _.objectIs( dstPrototype ) || _.arrayIs( dstPrototype ) );
+  _.assert( _.object.isBasic( dstPrototype ) || _.arrayIs( dstPrototype ) );
   _.assert( _.mapIs( rename ) || _.strIs( rename ) );
 
   if( _.arrayIs( dstPrototype ) )

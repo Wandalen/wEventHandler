@@ -393,7 +393,7 @@ function eventHandlerRegisterEclipse( kind, onHandle )
 //   _.assert( arguments.length === 1, 'Expects single argument' );
 //   _.assert( _.strIs( kinds ) || _.arrayIs( kinds ) );
 //
-//   var kinds = _.arrayAs( kinds );
+//   var kinds = _.array.as( kinds );
 //
 //   function onHandle()
 //   {

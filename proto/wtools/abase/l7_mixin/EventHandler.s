@@ -712,7 +712,7 @@ function _eventHandlerRemove( o )
 
     }
 
-    _.assert( removed || !o.onHandle || !o.strict, 'handler was not registered to unregister it' );
+    _.assert( removed > 0 || !o.onHandle || !o.strict, 'The handler was not registered to unregister it' );
 
   }
 

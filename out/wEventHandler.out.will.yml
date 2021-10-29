@@ -3,8 +3,8 @@ root:
   - wEventHandler.out
 consistency:
   ../will.yml: &ref_0
-    hash: c3d67beb602b07c4c8afbe6472cca0b7
-    size: 7081
+    hash: 372c5b8423f77609b7f5075e51353e8b
+    size: 6940
 module:
   wEventHandler.out:
     about:
@@ -374,9 +374,6 @@ module:
           content: npm
         inherit:
           - module.export
-      npm.publish:
-        opts:
-          shell: npm publish
       npm.generate.debug.raw:
         opts:
           entryPath: 'path::entry.out.*=1'
@@ -712,12 +709,6 @@ module:
           - 'step::doc.export'
         criterion:
           content: doc
-          export: 1
-      npm.export:
-        steps:
-          - 'step::npm.publish'
-        criterion:
-          content: npm
           export: 1
       export:
         steps:
@@ -1073,9 +1064,6 @@ module:
           content: npm
         inherit:
           - module.export
-      npm.publish:
-        opts:
-          shell: npm publish
       npm.generate.debug.raw:
         opts:
           entryPath: 'path::entry.out.*=1'
@@ -1412,12 +1400,6 @@ module:
         criterion:
           content: doc
           export: 1
-      npm.export:
-        steps:
-          - 'step::npm.publish'
-        criterion:
-          content: npm
-          export: 1
       export:
         steps:
           - 'build::proto.export'
@@ -1475,5 +1457,5 @@ module:
           - 'build::npm'
     consistency:
       ../will.yml:
-        hash: c3d67beb602b07c4c8afbe6472cca0b7
-        size: 7081
+        hash: 372c5b8423f77609b7f5075e51353e8b
+        size: 6940

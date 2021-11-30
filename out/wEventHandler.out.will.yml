@@ -3,8 +3,8 @@ root:
   - wEventHandler.out
 consistency:
   ../will.yml: &ref_0
-    hash: 372c5b8423f77609b7f5075e51353e8b
-    size: 6940
+    hash: 9d37ce9e4cb21a1ed5acb7d3246eb8a2
+    size: 6948
 module:
   wEventHandler.out:
     about:
@@ -1457,5 +1457,5 @@ module:
           - 'build::npm'
     consistency:
       ../will.yml:
-        hash: 372c5b8423f77609b7f5075e51353e8b
-        size: 6940
+        hash: 9d37ce9e4cb21a1ed5acb7d3246eb8a2
+        size: 6948
